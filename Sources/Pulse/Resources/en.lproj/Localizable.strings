@@ -750,3 +750,6 @@
 "From bob.ibm.com. Stored encrypted on this Mac." = "From bob.ibm.com. Stored encrypted on this Mac.";
 /* Synthetic */
 "From synthetic.new. Stored encrypted on this Mac." = "From synthetic.new. Stored encrypted on this Mac.";
+
+/* ElevenLabs */
+"From elevenlabs.io, with the user_read permission. Stored encrypted on this Mac." = "From elevenlabs.io, with the user_read permission. Stored encrypted on this Mac.";

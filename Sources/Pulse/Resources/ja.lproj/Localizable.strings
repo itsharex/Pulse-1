@@ -750,3 +750,6 @@
 "From bob.ibm.com. Stored encrypted on this Mac." = "bob.ibm.com で取得します。この Mac に暗号化して保存されます。";
 /* Synthetic */
 "From synthetic.new. Stored encrypted on this Mac." = "synthetic.new で取得します。この Mac に暗号化して保存されます。";
+
+/* ElevenLabs */
+"From elevenlabs.io, with the user_read permission. Stored encrypted on this Mac." = "elevenlabs.io で user_read 権限を付けて取得します。この Mac に暗号化して保存されます。";
