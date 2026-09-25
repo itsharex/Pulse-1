@@ -25,6 +25,10 @@ enum BotMarkTint {
     /// certainty than the others; they are one line each to correct. Kimi's
     /// blue, Z.ai having no colour of its own, and MiniMax's red are what the
     /// person maintaining this app says they are.
+    private static func profile(of provider: Provider) -> Color? {
+        provider.profile?.brandColor.map(BotMarkPalette.rgb)
+    }
+
     static func brand(for provider: Provider) -> Color? {
         switch provider {
         case .claudeCode: BotMarkPalette.rgb(0xD97757)
@@ -56,6 +60,18 @@ enum BotMarkTint {
              .copilot, .grok, .grokBot, .commandCode, .devin, .newAPI, .v2ex,
              .pulseExtension:
             nil
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+             .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+             .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+             .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+             .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+             .moonshot, .hyper, .atlasCloud, .poe, .venice,
+             .openAIPlatform, .amp, .zed, .sakana, .mistral,
+             .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+             .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+             .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+             .replicate, .typeSafe, .vercelAIGateway:
+            profile(of: provider)
         }
     }
 

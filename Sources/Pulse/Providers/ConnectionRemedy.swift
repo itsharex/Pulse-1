@@ -49,6 +49,8 @@ enum ConnectionRemedy: Equatable {
         // Its login is the program's own, so the page that says how an
         // extension works is the nearest thing to a remedy Pulse has.
         case .extensionMissing, .extensionSignedOut: return .help
+        case .sessionMissing, .sessionExpired: return .readBrowser
+        case .localLoginMissing, .localLoginExpired, .localAppMissing, .noPlan: return .help
         case .codexNotInstalled, .kiroNotInstalled, .kiroVersionUnsupported,
              .volcengineCLIMissing, .noLimitsReported,
              .grokBotNotIncluded, .zaiNoCodingPlan, .xiaomiNoCodingPlan, .qoderNoCredits,
@@ -107,6 +109,18 @@ enum ConnectionRemedy: Equatable {
         case .stepFun: "stepfun"
         // Answered above.
         case .pulseExtension: "extensions"
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+             .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+             .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+             .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+             .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+             .moonshot, .hyper, .atlasCloud, .poe, .venice,
+             .openAIPlatform, .amp, .zed, .sakana, .mistral,
+             .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+             .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+             .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+             .replicate, .typeSafe, .vercelAIGateway:
+            provider.profile?.setupSlug ?? provider.rawValue
         }
         return URL(string: "https://github.com/qunqin24/Pulse/blob/main/Docs/setup/\(page).md")!
     }

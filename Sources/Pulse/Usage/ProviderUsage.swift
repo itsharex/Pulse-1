@@ -629,6 +629,20 @@ struct ProviderUsage: Identifiable, Equatable, Sendable {
         /// An extension says its own login has expired. Its own, not one Pulse
         /// holds, so the remedy is wherever that program keeps it.
         case extensionSignedOut
+        // Shared by every profiled provider, so none of them may name one.
+        /// No browser session has been read for it yet.
+        case sessionMissing
+        /// The session that was read has been refused.
+        case sessionExpired
+        /// It reads a login its own app or CLI saves, and there isn't one.
+        case localLoginMissing
+        /// That login is there and has been refused.
+        case localLoginExpired
+        /// It reads what its own app keeps on this Mac, and nothing is there.
+        case localAppMissing
+        /// The service answered: this account has no plan with limits. An
+        /// answer, not an outage.
+        case noPlan
 
         var message: String {
             switch self {
@@ -686,6 +700,12 @@ struct ProviderUsage: Identifiable, Equatable, Sendable {
             case .extensionTimedOut: .localized("The extension didn't answer in time.")
             case .extensionFailed: .localized("The extension stopped with an error.")
             case .extensionSignedOut: .localized("The extension says its login has expired.")
+            case .sessionMissing: .localized("Read a browser session in Settings.")
+            case .sessionExpired: .localized("The browser session expired. Sign in on the website, then read it again in Settings.")
+            case .localLoginMissing: .localized("Sign in with this service's own app or command-line tool first.")
+            case .localLoginExpired: .localized("The saved login has expired. Sign in again with the service's own app or tool.")
+            case .localAppMissing: .localized("Nothing saved on this Mac yet. Open the service's app once, then retry.")
+            case .noPlan: .localized("This account has no plan with usage limits.")
             }
         }
     }
@@ -754,7 +774,7 @@ struct ProviderUsage: Identifiable, Equatable, Sendable {
     var requiresScopeMatch: Bool {
         switch account.provider {
         case .devin, .sub2api, .newAPI, .qoder, .stepFun: true
-        default: false
+        default: account.provider.profile?.requiresScopeMatch ?? false
         }
     }
 

@@ -124,6 +124,12 @@ final class UsageStore {
         // And the remedy differs: a sign-in is not a key to paste.
         let reason: ProviderUsage.Unavailability = if account.provider == .copilot {
             .notSignedIn
+        } else if account.provider.profile?.credential == .apiKey(optional: true) {
+            // The field is a second way in; the first is a login this Mac may
+            // already have, which only a fetch can find.
+            .loading
+        } else if account.provider.profile != nil, account.provider.usesSessionCookie {
+            .sessionMissing
         } else if account.provider.usesSessionCookie {
             .ollamaSessionMissing
         } else {
@@ -155,7 +161,7 @@ final class UsageStore {
         for provider in Provider.builtIn where provider.keepsOwnCredential {
             let account = AccountKey(provider)
             guard case .unavailable(let reason) = usage[account.id]?.state,
-                  [.loading, .apiKeyMissing, .ollamaSessionMissing, .apiKeyRefused,
+                  [.loading, .apiKeyMissing, .ollamaSessionMissing, .sessionMissing, .apiKeyRefused,
                    .signedOut, .notSignedIn]
                     .contains(reason)
             else { continue }
@@ -455,6 +461,13 @@ final class UsageStore {
             now: now
         )
         for provider in wanted { askedAt[AccountKey(provider).id] = now }
+        // Profiled providers are asked side by side in one group rather than
+        // each getting its own `async let` below: there are dozens of them,
+        // and nothing about one depends on another.
+        let profiled = wanted.compactMap { provider -> (ProviderProfile, ProfileContext)? in
+            guard let profile = provider.profile else { return nil }
+            return (profile, profileContext(for: provider))
+        }
         // Added accounts stay on the loop's own cadence: every one of them is
         // an agent whose transcripts this Mac can see, so the signals are not
         // blind to any of them.
@@ -555,6 +568,14 @@ final class UsageStore {
             let (rawDeepSeek, rawDevin) = await (deepSeekUsage, devinUsage)
             let (rawSub2API, rawNewAPI, rawV2EX) = await (sub2apiUsage, newAPIUsage, v2exUsage)
             let (rawXiaomi, rawQoder, rawStepFun) = await (xiaomiUsage, qoderUsage, stepFunUsage)
+            let rawProfiled = await withTaskGroup(of: (Provider, ProviderUsage).self) { group in
+                for (profile, context) in profiled {
+                    group.addTask { (context.provider, await profile.fetch(context)) }
+                }
+                var readings: [(Provider, ProviderUsage)] = []
+                for await reading in group { readings.append(reading) }
+                return readings
+            }
 
             // **The disowning is checked before anything is written, not just
             // before the readings are handed to the panel.** `reconciled`
@@ -601,7 +622,7 @@ final class UsageStore {
                 (.v2ex, rawV2EX),
                 (.qoder, rawQoder),
                 (.stepFun, rawStepFun),
-            ] where wanted.contains(provider) {
+            ] + rawProfiled where wanted.contains(provider) {
                 results.append(BatchResult(
                     provider: provider,
                     raw: raw,
@@ -735,6 +756,7 @@ final class UsageStore {
         )
         let v2ex = V2EXUsageService(enteredKey: key)
         let extensionService = settings.pulseExtension(for: account).map(ExtensionUsageService.init(pulseExtension:))
+        let profiled = provider.profile.map { ($0, profileContext(for: provider, key: key)) }
 
         Task { [codex, claudeCode, antigravity, cursor, grok, grokBot] in
             let raw: ProviderUsage
@@ -796,6 +818,22 @@ final class UsageStore {
             // Every extension is a slot of its own, answered above.
             case .pulseExtension:
                 raw = .unavailable(account, reason: .extensionMissing)
+            case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+                 .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+                 .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+                 .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+                 .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+                 .moonshot, .hyper, .atlasCloud, .poe, .venice,
+                 .openAIPlatform, .amp, .zed, .sakana, .mistral,
+                 .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+                 .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+                 .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+                 .replicate, .typeSafe, .vercelAIGateway:
+                raw = if let (profile, context) = profiled {
+                    await profile.fetch(context)
+                } else {
+                    .unavailable(account, reason: .loading)
+                }
             }
             }
 
@@ -825,6 +863,20 @@ final class UsageStore {
             self.scheduleNext()
             self.runQueued()
         }
+    }
+
+    /// What a profiled provider's fetch is handed: the credential Pulse holds
+    /// for it and the address it is to be sent to, read here on the main
+    /// actor so the fetch itself touches no settings.
+    ///
+    /// `key` is for the per-account refresh, which reads the store directly
+    /// because a pane reachable while switched off has nothing in `apiKeys`.
+    private func profileContext(for provider: Provider, key: String? = nil) -> ProfileContext {
+        ProfileContext(
+            provider: provider,
+            credential: key ?? apiKeys[provider],
+            serverAddress: provider.usesServerAddress ? settings.serverAddress(for: AccountKey(provider)) : nil
+        )
     }
 
     /// An account Pulse signed in to itself.
@@ -869,7 +921,18 @@ final class UsageStore {
         case .kiro, .antigravity, .cursor, .openCodeGo, .kimiCode, .ollamaCloud,
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .volcengine,
              .commandCode, .deepSeek, .devin, .xiaomiMiMo, .sub2api, .newAPI,
-             .v2ex, .qoder, .stepFun, .pulseExtension:
+             .v2ex, .qoder, .stepFun, .pulseExtension,
+             .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+             .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+             .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+             .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+             .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+             .moonshot, .hyper, .atlasCloud, .poe, .venice,
+             .openAIPlatform, .amp, .zed, .sakana, .mistral,
+             .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+             .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+             .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+             .replicate, .typeSafe, .vercelAIGateway:
             .unavailable(account, reason: .loading)
         }
     }

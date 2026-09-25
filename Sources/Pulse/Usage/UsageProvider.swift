@@ -31,6 +31,61 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     case v2ex
     case qoder
     case stepFun
+    // Providers described by a `ProviderProfile`, each in its own file under
+    // `Providers/Profiled/`. Every switch below hands them to that profile.
+    case clinePass
+    case alibabaCodingPlan
+    case alibabaTokenPlan
+    case qwenCloud
+    case factory
+    case gemini
+    case kiloCode
+    case augment
+    case jetBrainsAI
+    case t3Chat
+    case synthetic
+    case elevenLabs
+    case warp
+    case windsurf
+    case bifrost
+    case chutes
+    case longCat
+    case zoomMate
+    case notionAI
+    case ibmBob
+    case nousPortal
+    case raycastAI
+    case gitKraken
+    case xKiro
+    case abacus
+    case moonshot
+    case hyper
+    case atlasCloud
+    case poe
+    case venice
+    case openAIPlatform
+    case amp
+    case zed
+    case sakana
+    case mistral
+    case codebuff
+    case llmProxy
+    case liteLLM
+    case aixy
+    case neuralwatt
+    case helmcode
+    case clawRouter
+    case zenMux
+    case v0
+    case devPass
+    case perplexity
+    case manus
+    case huggingFace
+    case deepInfra
+    case xaiAPI
+    case replicate
+    case typeSafe
+    case vercelAIGateway
     /// **Not one provider: every program in the extensions folder.** Each
     /// extension is an account of this one — `AccountKey(.pulseExtension,
     /// slot: <the extension's id>)` — so the rail, the cache, the settings
@@ -133,6 +188,18 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         // What the type is called. Each extension's own name is its
         // account's label, from its manifest; see `AppSettings.label(for:)`.
         case .pulseExtension: "Extension"
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+        .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+        .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+        .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+        .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+        .moonshot, .hyper, .atlasCloud, .poe, .venice,
+        .openAIPlatform, .amp, .zed, .sakana, .mistral,
+        .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+        .replicate, .typeSafe, .vercelAIGateway:
+            profile?.displayName ?? rawValue
         }
     }
 
@@ -192,6 +259,18 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         // capability; until then the ring says "a program of yours", not
         // which brand, and its name says the rest.
         case .pulseExtension: "extension"
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+        .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+        .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+        .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+        .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+        .moonshot, .hyper, .atlasCloud, .poe, .venice,
+        .openAIPlatform, .amp, .zed, .sakana, .mistral,
+        .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+        .replicate, .typeSafe, .vercelAIGateway:
+            profile?.iconResource ?? "extension"
         }
     }
 
@@ -213,6 +292,19 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .grok, .grokBot,
              .volcengine, .commandCode, .deepSeek, .devin, .xiaomiMiMo, .sub2api,
              .newAPI, .v2ex, .qoder, .stepFun, .pulseExtension: false
+        // None of the profiled providers leaves transcripts Pulse reads.
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+        .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+        .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+        .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+        .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+        .moonshot, .hyper, .atlasCloud, .poe, .venice,
+        .openAIPlatform, .amp, .zed, .sakana, .mistral,
+        .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+        .replicate, .typeSafe, .vercelAIGateway:
+            false
         }
     }
 
@@ -227,6 +319,18 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
              .minimax, .minimaxCN, .copilot, .grok, .grokBot, .volcengine,
              .commandCode, .deepSeek, .devin, .xiaomiMiMo,
              .sub2api, .newAPI, .v2ex, .qoder, .stepFun, .pulseExtension: false
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+        .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+        .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+        .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+        .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+        .moonshot, .hyper, .atlasCloud, .poe, .venice,
+        .openAIPlatform, .amp, .zed, .sakana, .mistral,
+        .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+        .replicate, .typeSafe, .vercelAIGateway:
+            false
         }
     }
 
@@ -275,6 +379,18 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .grok, .grokBot,
              .commandCode, .deepSeek, .xiaomiMiMo, .sub2api, .newAPI, .v2ex, .qoder, .stepFun,
              .pulseExtension: false
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+        .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+        .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+        .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+        .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+        .moonshot, .hyper, .atlasCloud, .poe, .venice,
+        .openAIPlatform, .amp, .zed, .sakana, .mistral,
+        .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+        .replicate, .typeSafe, .vercelAIGateway:
+            false
         }
     }
 
@@ -318,6 +434,20 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         // Stated on its own pane, which names the program instead.
         case .pulseExtension:
             nil
+        // Only a provider reading a login its own tool saved has a route to
+        // state; its profile names it.
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+        .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+        .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+        .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+        .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+        .moonshot, .hyper, .atlasCloud, .poe, .venice,
+        .openAIPlatform, .amp, .zed, .sakana, .mistral,
+        .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+        .replicate, .typeSafe, .vercelAIGateway:
+            profile?.soleRoute?()
         }
     }
 
@@ -327,7 +457,8 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     /// and that is the route taken first — but a key can also be pasted in for
     /// anyone on the plan who doesn't run the CLI on this Mac.
     var usesAPIKey: Bool {
-        [.openCodeGo, .kimiCode, .ollamaCloud, .zai, .glmCoding, .minimax, .minimaxCN, .volcengine,
+        if let profile { return profile.credential != .localLogin }
+        return [.openCodeGo, .kimiCode, .ollamaCloud, .zai, .glmCoding, .minimax, .minimaxCN, .volcengine,
          .commandCode, .deepSeek, .devin, .xiaomiMiMo, .sub2api, .newAPI,
          .v2ex, .qoder, .stepFun].contains(self)
     }
@@ -340,6 +471,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     /// drains, so `AdaptiveRefresh`'s signals are blind to it and it would sit
     /// on the ceiling for ever. See `AdaptiveRefresh.unwatchedCeiling`.
     var spendingIsWatchedLocally: Bool {
+        if let profile { return profile.spendingIsWatchedLocally && !profile.reportsSpendableBalance }
         // Money spent through an API on somebody else's servers: the shape
         // this rule was written for.
         if reportsSpendableBalance { return false }
@@ -367,7 +499,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     /// wallet, and this asks about the provider rather than about one
     /// reading — a group with no balance simply never hands one over.
     var reportsSpendableBalance: Bool {
-        [.deepSeek, .commandCode, .sub2api, .newAPI].contains(self)
+        profile?.reportsSpendableBalance ?? [.deepSeek, .commandCode, .sub2api, .newAPI].contains(self)
     }
 
     /// Whether this provider is somebody's own deployment, so Pulse has to be
@@ -378,7 +510,10 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     /// on the internet with a credential attached. What Settings draws an
     /// address field for, and what `AppSettings.serverAddress(for:)` is keyed
     /// by.
-    var usesServerAddress: Bool { [.sub2api, .newAPI].contains(self) }
+    var usesServerAddress: Bool {
+        if let profile { return profile.credential == .keyAndAddress }
+        return [.sub2api, .newAPI].contains(self)
+    }
 
     /// Whether the pasted credential is a **pair** rather than one token.
     ///
@@ -401,7 +536,10 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     /// page reads its credits with the signed-in session.
     /// StepFun is the fourth: its API keys buy inference, and the Step Plan's
     /// allowance is only on the console, behind the signed-in session.
-    var usesSessionCookie: Bool { [.ollamaCloud, .xiaomiMiMo, .qoder, .stepFun].contains(self) }
+    var usesSessionCookie: Bool {
+        if case .sessionCookie = profile?.credential { return true }
+        return [.ollamaCloud, .xiaomiMiMo, .qoder, .stepFun].contains(self)
+    }
 
     /// Whether this provider's credential is read out of a browser rather than
     /// out of another tool's files.

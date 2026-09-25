@@ -702,3 +702,12 @@
 "Time limit" = "制限時間";
 "Written for extension schema %@, which this version of Pulse doesn't read." = "拡張機能スキーマ %@ 向けに書かれていますが、このバージョンの Pulse は読み込めません。";
 "pulse-extension.json isn't valid JSON, or is missing a field." = "pulse-extension.json が正しい JSON ではないか、必要な項目が欠けています。";
+
+/* Profiled providers: shared wording */
+"No session found. Sign in at %@ first." = "セッションが見つかりません。先に %@ でサインインしてください。";
+"Nothing saved on this Mac yet. Open the service's app once, then retry." = "この Mac にはまだ何も保存されていません。そのサービスのアプリを一度開いてから、再試行してください。";
+"Read a browser session in Settings." = "設定でブラウザのセッションを読み込んでください。";
+"Sign in with this service's own app or command-line tool first." = "先にそのサービス自身のアプリかコマンドラインツールでサインインしてください。";
+"The browser session expired. Sign in on the website, then read it again in Settings." = "ブラウザのセッションの有効期限が切れました。Web サイトでサインインしてから、設定でもう一度読み込んでください。";
+"The saved login has expired. Sign in again with the service's own app or tool." = "保存されているログインの有効期限が切れました。そのサービス自身のアプリかツールでサインインし直してください。";
+"This account has no plan with usage limits." = "このアカウントには使用量の上限があるプランがありません。";

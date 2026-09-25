@@ -702,3 +702,12 @@
 "Time limit" = "時間限制";
 "Written for extension schema %@, which this version of Pulse doesn't read." = "它依擴充功能格式第 %@ 版撰寫，這個版本的 Pulse 讀不了。";
 "pulse-extension.json isn't valid JSON, or is missing a field." = "pulse-extension.json 不是有效的 JSON，或者缺少必填欄位。";
+
+/* Profiled providers: shared wording */
+"No session found. Sign in at %@ first." = "沒有找到登入資訊。請先在 %@ 登入。";
+"Nothing saved on this Mac yet. Open the service's app once, then retry." = "這台 Mac 上還沒有儲存任何資料。先開啟一次這個服務的 App，再重試。";
+"Read a browser session in Settings." = "請在設定中從瀏覽器讀取登入資訊。";
+"Sign in with this service's own app or command-line tool first." = "請先用這個服務自己的 App 或命令列工具登入。";
+"The browser session expired. Sign in on the website, then read it again in Settings." = "瀏覽器登入資訊已過期。請先在網站上登入，再到設定裡重新讀取。";
+"The saved login has expired. Sign in again with the service's own app or tool." = "儲存的登入已過期。請用這個服務自己的 App 或工具重新登入。";
+"This account has no plan with usage limits." = "這個帳號沒有附用量額度的方案。";

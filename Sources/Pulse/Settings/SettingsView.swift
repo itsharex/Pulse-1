@@ -1361,6 +1361,22 @@ struct SettingsView: View {
                 // Not session-based: `readSession` sends those to
                 // `readBrowserStorage` before it gets here.
                 return
+            // The profile names the host and the cookies worth keeping.
+            case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+                 .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+                 .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+                 .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+                 .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+                 .moonshot, .hyper, .atlasCloud, .poe, .venice,
+                 .openAIPlatform, .amp, .zed, .sakana, .mistral,
+                 .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+                 .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+                 .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+                 .replicate, .typeSafe, .vercelAIGateway:
+                guard case .sessionCookie(let profileHost, let cookies) = account.provider.profile?.credential
+                else { return }
+                host = profileHost
+                keep = { ProviderProfile.keep($0, cookies: cookies) }
             }
 
             let found = await Task.detached(priority: .userInitiated) {
@@ -1391,6 +1407,8 @@ struct SettingsView: View {
                     String.localized("No Qoder session found. Sign in at \(settings.qoderSite.host) first.")
                 case .stepFun:
                     String.localized("No StepFun session found. Sign in at \(settings.stepFunSite.host) first.")
+                case _ where account.provider.profile != nil:
+                    String.localized("No session found. Sign in at \(host) first.")
                 default:
                     String.localized("No Ollama session found. Sign in at ollama.com first.")
                 }
@@ -2309,6 +2327,8 @@ struct SettingsView: View {
 
     private static func keySubtitle(for provider: Provider) -> String {
         switch provider {
+        case _ where provider.profile?.keySubtitle != nil:
+            provider.profile?.keySubtitle?() ?? ""
         case _ where provider.usesSessionCookie:
             .localized("Copied from your browser. Stored encrypted on this Mac.")
         case .zai:

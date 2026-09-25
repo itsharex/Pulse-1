@@ -221,7 +221,18 @@ enum AgentActivity {
             case .antigravity, .cursor, .openCodeGo, .kimiCode, .ollamaCloud,
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .grok, .grokBot,
              .volcengine, .commandCode, .deepSeek, .devin, .xiaomiMiMo,
-             .sub2api, .newAPI, .v2ex, .qoder, .stepFun, .pulseExtension:
+             .sub2api, .newAPI, .v2ex, .qoder, .stepFun, .pulseExtension,
+             .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+             .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+             .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+             .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+             .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+             .moonshot, .hyper, .atlasCloud, .poe, .venice,
+             .openAIPlatform, .amp, .zed, .sakana, .mistral,
+             .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+             .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+             .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+             .replicate, .typeSafe, .vercelAIGateway:
                 // None of these leaves transcripts Pulse reads, so nothing
                 // ever gets this far.
                 return .finished
@@ -415,6 +426,18 @@ enum AgentActivity {
              .minimax, .minimaxCN, .copilot, .grok, .grokBot,
              .volcengine, .commandCode, .deepSeek, .devin, .xiaomiMiMo,
              .sub2api, .newAPI, .v2ex, .qoder, .stepFun, .pulseExtension: nil
+        case .clinePass, .alibabaCodingPlan, .alibabaTokenPlan, .qwenCloud, .factory,
+             .gemini, .kiloCode, .augment, .jetBrainsAI, .t3Chat,
+             .synthetic, .elevenLabs, .warp, .windsurf, .bifrost,
+             .chutes, .longCat, .zoomMate, .notionAI, .ibmBob,
+             .nousPortal, .raycastAI, .gitKraken, .xKiro, .abacus,
+             .moonshot, .hyper, .atlasCloud, .poe, .venice,
+             .openAIPlatform, .amp, .zed, .sakana, .mistral,
+             .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
+             .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+             .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
+             .replicate, .typeSafe, .vercelAIGateway:
+            nil
         }
     }
 
