@@ -831,3 +831,4 @@
 /* Billing groups */
 "Subscriptions" = "サブスクリプション";
 "API and pay-as-you-go" = "API・従量課金";
+"Enabled" = "有効";

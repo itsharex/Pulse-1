@@ -154,11 +154,27 @@ struct SettingsView: View {
                     }
                 }
 
-                // Subscriptions and API accounts apart, each in rail order:
-                // a sidebar that disagreed with the thing it configures is its
-                // own small confusion. See `Provider.Billing`.
+                // What is switched on, first and together: with seventy-odd
+                // providers, the handful somebody actually uses were a scroll
+                // through the alphabet away. Rail order, both kinds.
+                let enabled = matchingProviderAccounts.filter(settings.isEnabled)
+                if !enabled.isEmpty {
+                    Section(String.localized("Enabled")) {
+                        ForEach(enabled) { account in
+                            row(.account(account))
+                        }
+                    }
+                }
+
+                // The rest, subscriptions and API accounts apart, each in rail
+                // order: a sidebar that disagreed with the thing it configures
+                // is its own small confusion. An enabled account is not listed
+                // again — two rows with one selection tag highlight together.
+                // See `Provider.Billing`.
                 ForEach(Provider.Billing.allCases, id: \.self) { billing in
-                    let accounts = matchingProviderAccounts.filter { $0.provider.billing == billing }
+                    let accounts = matchingProviderAccounts.filter {
+                        $0.provider.billing == billing && !settings.isEnabled($0)
+                    }
                     if !accounts.isEmpty {
                         Section(billing.sectionTitle) {
                             ForEach(accounts) { account in
@@ -218,12 +234,17 @@ struct SettingsView: View {
             // characters. So this number does not move with the language — it
             // moves when a provider with a longer name is added, which is how
             // `GLM Coding Plan` quietly became the longest.
-            .frame(minWidth: 200)
+            //
+            // And moved to 220 when `Alibaba Coding Plan` did: 121.4pt of text
+            // at the sidebar's 13pt against `Xiaomi Coding Plan`'s 117.3, and
+            // with the scroller showing — which it always is now, with
+            // seventy-odd rows — 200 cut it to "Alibaba Coding Pl…".
+            .frame(minWidth: 220)
             // Still worth setting: these bound what dragging the divider may
             // do. `ideal` matches the frame so first layout and every rebuild
             // land on the same width; `max` keeps a stretched sidebar from
             // eating the pane.
-            .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
+            .navigationSplitViewColumnWidth(min: 220, ideal: 240, max: 320)
             // `.sidebar`, not `.automatic`: this window has no `NSToolbar` —
             // see `SettingsWindowController` on why the title bar is left to
             // AppKit — and automatic placement has nowhere to put the field.

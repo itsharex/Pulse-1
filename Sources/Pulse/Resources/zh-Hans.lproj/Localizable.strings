@@ -831,3 +831,4 @@
 /* Billing groups */
 "Subscriptions" = "订阅";
 "API and pay-as-you-go" = "API 与按量付费";
+"Enabled" = "已启用";
