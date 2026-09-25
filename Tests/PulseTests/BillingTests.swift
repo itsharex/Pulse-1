@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 @testable import Pulse
 
@@ -53,5 +54,40 @@ struct ShownOrderTests {
         settings.move(AccountKey(.kiro), by: 1)
         settings.move(AccountKey(.kiro), onto: AccountKey(.codex))
         #expect(settings.shownAccounts.map(\.id) == ["deepSeek", "codex", "claudeCode"])
+    }
+}
+
+/// Codex's limit reset credits, as the card shows them: the count Codex
+/// reported, or that it reported none.
+@Suite("Codex reset credits")
+@MainActor
+struct CodexResetCreditsTests {
+    @Test("The stated count is read, with the soonest expiry among the available ones")
+    func count() {
+        let limits: [String: Any] = ["rateLimitResetCredits": [
+            "availableCount": 2,
+            "credits": [
+                ["title": "a", "status": "available", "expiresAt": 1_900_000_000],
+                ["title": "b", "status": "available", "expiresAt": 1_800_000_000],
+                ["title": "c", "status": "used", "expiresAt": 1_700_000_000],
+            ],
+        ]]
+        #expect(CodexAccountUsageService.resetCredits(in: limits)
+                == .available(count: 2, nextExpiry: Date(timeIntervalSince1970: 1_800_000_000)))
+    }
+
+    @Test("Without a stated count, the available credits listed are the count")
+    func counted() {
+        let limits: [String: Any] = ["rateLimitResetCredits": ["credits": [["status": "available"], ["status": "used"]]]]
+        #expect(CodexAccountUsageService.resetCredits(in: limits) == .available(count: 1, nextExpiry: nil))
+        let none: [String: Any] = ["rateLimitResetCredits": ["credits": [[String: Any]]()]]
+        #expect(CodexAccountUsageService.resetCredits(in: none) == .available(count: 0, nextExpiry: nil))
+    }
+
+    @Test("No reset-credit block is not zero: it is not reported")
+    func unreported() {
+        #expect(CodexAccountUsageService.resetCredits(in: [:]) == .unreported)
+        #expect(CodexAccountUsageService.resetCredits(in: ["rateLimitResetCredits": [String: Any]()]) == .unreported)
+        #expect(UsageDetailCard.resetCreditsText(.unreported) == String.localized("Not available"))
     }
 }

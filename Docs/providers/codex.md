@@ -24,6 +24,14 @@ Never assume a fixed pair. `primary` / `secondary` are not tied to particular du
 
 Codex reports `limit_reached` / `allowed` per group plus top-level `rate_limit_reached_type` and `spend_control.reached`. Those flags describe a whole group, which may hold both a 5-hour and a weekly window, so spent is pinned to the fullest window rather than smeared across both.
 
+## Limit reset credits
+
+How many one-off credits that clear a rate limit early the account holds. Only `codex app-server` reports them, under `rateLimitResetCredits` in `account/rateLimits/read` (`availableCount`, and `credits[]` with a `status` and `expiresAt`).
+
+- **Settings, always:** the Usage history card leads with the count and the soonest expiry, fetched when that pane opens (`CodexAccountUsageService.fetch`).
+- **The panel's card, opt-in:** **Reset credits on the card** in Codex's pane (`AppSettings.showsCodexResetCredits`, off by default; issue #67). While it is on, every Codex refresh — the full pass or a click on the ring — also asks the app server for `account/rateLimits/read` (`UsageStore.refreshCodexResetCredits`), beside the ring's own fetch rather than inside it, so a slow app server never holds the ring up. Off by default because it starts or asks that process, which somebody reading Codex from its usage endpoint alone would otherwise never run. First account only: the app server reads the login the CLI saved.
+- **Never a number Pulse worked out.** A reply without the reset-credit block, or no app server to ask, is `CodexResetCredits.unreported`, which the card says as "Not available". A block with no `availableCount` counts the `available` entries it lists. The card shows the count alone; the expiry stays in Settings.
+
 ## Plan name
 
 The plan comes back as an internal tier name, not the name on the plan — `prolite` is the 5× Pro tier. `CodexUsageService.planName` maps the ones we know and passes anything else through verbatim rather than blanking it.

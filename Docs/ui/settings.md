@@ -96,6 +96,8 @@ A provider with one route has that route **named**, and the name belongs to the 
 
 Each pane has its own refresh, with last-reading time. Rail click is not the only way.
 
+Codex's first account also has **Reset credits on the card** in its Panel group: off by default, and while on, its hover card says how many limit reset credits Codex reports, or "Not available" ([../providers/codex.md](../providers/codex.md#limit-reset-credits)).
+
 Per-account rows live here rather than on the Panel pane, because they are choices about *one ring*: ring colour, the animated mark, and that mark's personality, colour and shape ([rings-and-surface.md](rings-and-surface.md)). All four are stored keyed by account id, and all four store "off" / "automatic" / "round" as an absent key rather than as a value. The personality and shape rows appear only while that account's mark is on — controls over something invisible otherwise, the same rule the colour well follows.
 
 Each account also has a **Connection diagnostics** group immediately after Connection: latest check, check time, last successful reading, actual source of displayed figures, explicit cache use, and expandable route checks. A failed check stays visible even when the card displays cached figures. Retry asks only that account; diagnostic copy contains allowlisted metadata ([../refresh-and-data.md](../refresh-and-data.md)). The contextual next step focuses the credential field, reconnects the status line, starts the existing sign-in, reads the chosen browser, opens the relevant app, copies a login command, or opens setup help. Provider-specific action mappings live in [../providers/README.md](../providers/README.md).

@@ -70,7 +70,9 @@ enum DetailCardLayout {
     /// not like a card that didn't fit. Providers report a variable number of
     /// limits (Codex adds one group per model with its own limits), so this
     /// budgets for more than are on screen today.
-    static var maximumHeight: CGFloat { height(forWindows: 5, footnote: true) }
+    /// One row more than the limits for Codex's reset-credit line, which is
+    /// shorter than a limit's row and so fits inside the budget of one.
+    static var maximumHeight: CGFloat { height(forWindows: 6, footnote: true) }
 
     static func height(forWindows count: Int, footnote: Bool = false) -> CGFloat {
         padding * 2
@@ -99,6 +101,9 @@ struct UsageDetailCard: View {
     var showsRemaining: Bool = false
     /// Say whether each limit will last its window.
     var showsForecast: Bool = false
+    /// Codex's limit reset credits, when its switch is on and it has been
+    /// asked. Nil draws no row at all.
+    var resetCredits: CodexResetCredits?
     /// Where the pointer's tip should sit along the side facing the rail,
     /// measured from the card's own top or leading edge. The card gets pushed
     /// around by the panel's own edges (see
@@ -140,6 +145,12 @@ struct UsageDetailCard: View {
             // and the message below covered it. DeepSeek on "balance only"
             // reports money and no limits *by design*, and the money is then
             // the whole reading — so it is what the card says.
+            // The count Codex reported, or that it reported none — never one
+            // Pulse worked out. One line: the expiry lives in Settings.
+            if let resetCredits {
+                ValueRow(title: String.localized("Limit reset credits"), value: Self.resetCreditsText(resetCredits))
+            }
+
             if usage.windows.isEmpty, let balance = usage.creditBalance {
                 ValueRow(title: String.localized("Credit balance"), value: balance)
             }
@@ -185,6 +196,15 @@ struct UsageDetailCard: View {
         .background(PanelSurface(shape: bubble, usesGlass: usesGlass))
         .accessibilityElement(children: .contain)
         .accessibilityLabel(String.localized("\(title ?? usage.provider.displayName) usage details"))
+    }
+
+    static func resetCreditsText(_ credits: CodexResetCredits) -> String {
+        switch credits {
+        case .available(let count, _):
+            count == 1 ? .localized("1 available") : .localized("\("\(count)") available")
+        case .unreported:
+            .localized("Not available")
+        }
     }
 
     /// A limit the next card has and this one did not waits for the card to

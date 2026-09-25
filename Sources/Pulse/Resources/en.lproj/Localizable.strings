@@ -832,3 +832,8 @@
 "API and pay-as-you-go" = "API and pay-as-you-go";
 "Enabled" = "Enabled";
 "The money left, with no ring. There is no allowance to measure against." = "The money left, with no ring. There is no allowance to measure against.";
+
+/* Codex reset credits */
+"Reset credits on the card" = "Reset credits on the card";
+"How many limit reset credits are left. Asks Codex's app server on every refresh." = "How many limit reset credits are left. Asks Codex's app server on every refresh.";
+"Not available" = "Not available";

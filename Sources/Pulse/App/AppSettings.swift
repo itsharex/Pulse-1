@@ -167,6 +167,20 @@ final class AppSettings {
         }
     }
 
+    /// Whether Codex's card shows how many limit reset credits are left.
+    ///
+    /// **Off by default**, because it is not free: the count is only in
+    /// Codex's app server, so while this is on every Codex refresh starts or
+    /// asks that process — which somebody reading Codex from its usage
+    /// endpoint alone would otherwise never run.
+    var showsCodexResetCredits = false {
+        didSet {
+            guard showsCodexResetCredits != oldValue else { return }
+            UserDefaults.standard.set(showsCodexResetCredits, forKey: Key.showsCodexResetCredits)
+            onChange?()
+        }
+    }
+
     /// Where each API account's ring gets its denominator, keyed by account.
     /// DeepSeek's own lives in `deepSeekBasis`, from before there were others;
     /// `balanceBasis(for:)` reads either. A missing entry is the default.
@@ -1505,6 +1519,7 @@ final class AppSettings {
             alertsOnReset: defaults.object(forKey: Key.alertsOnReset) as? Bool ?? false,
             alertsOnFailure: defaults.object(forKey: Key.alertsOnFailure) as? Bool ?? false
         )
+        settings.showsCodexResetCredits = defaults.bool(forKey: Key.showsCodexResetCredits)
         settings.balanceBases = defaults.dictionary(forKey: Key.balanceBases) as? [String: String] ?? [:]
         settings.balanceBudgets = (defaults.dictionary(forKey: Key.balanceBudgets) as? [String: Double] ?? [:])
             .filter { $0.value.isFinite && $0.value > 0 }
@@ -1599,6 +1614,7 @@ final class AppSettings {
         static let serverAddresses = "settings.serverAddresses"
         static let lowBalanceAlerts = "settings.lowBalanceAlerts"
         static let balanceBases = "settings.balanceBases"
+        static let showsCodexResetCredits = "settings.showsCodexResetCredits"
         static let balanceBudgets = "settings.balanceBudgets"
         static let language = "settings.language"
         static let pinnedWindows = "settings.pinnedWindows"

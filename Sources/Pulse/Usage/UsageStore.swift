@@ -138,6 +138,24 @@ final class UsageStore {
         return .unavailable(account, reason: reason)
     }
 
+    /// How many limit reset credits Codex's first account has, for its card —
+    /// nil while the switch is off or before the first answer. Asked beside
+    /// every Codex refresh rather than inside it: it is a second call to a
+    /// different route, and a slow app server must not hold the ring up.
+    private(set) var codexResetCredits: CodexResetCredits?
+
+    private func refreshCodexResetCredits() {
+        guard settings.showsCodexResetCredits, settings.isEnabled(AccountKey(.codex)) else {
+            codexResetCredits = nil
+            return
+        }
+        Task { [weak self, appServer] in
+            let credits = await CodexAccountUsageService(server: appServer).resetCredits()
+            guard let self, self.settings.showsCodexResetCredits else { return }
+            self.codexResetCredits = credits
+        }
+    }
+
     /// Codex's reset credits and account totals, which only its app server
     /// reports. Fetched when the settings pane asks rather than on the refresh
     /// loop: nothing on the rail shows them, and the call starts a process.
@@ -689,6 +707,7 @@ final class UsageStore {
                 self.signals.lastChange = Date()
             }
 
+            if wanted.contains(.codex) { self.refreshCodexResetCredits() }
             self.scheduleNext()
         }
     }
@@ -862,6 +881,7 @@ final class UsageStore {
             self.isRefreshing = false
             self.refreshStartedAt = nil
             self.refreshingAccount = nil
+            if account == AccountKey(.codex) { self.refreshCodexResetCredits() }
             self.scheduleNext()
             self.runQueued()
         }

@@ -832,3 +832,8 @@
 "API and pay-as-you-go" = "API 與按量計費";
 "Enabled" = "已啟用";
 "The money left, with no ring. There is no allowance to measure against." = "只顯示餘額，不畫圓環：沒有可以對照的額度。";
+
+/* Codex reset credits */
+"Reset credits on the card" = "在卡片上顯示額度重設券";
+"How many limit reset credits are left. Asks Codex's app server on every refresh." = "還剩幾張額度重設券。每次更新都會詢問 Codex 的 app server。";
+"Not available" = "無法取得";

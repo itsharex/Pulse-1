@@ -832,3 +832,8 @@
 "API and pay-as-you-go" = "API·종량제";
 "Enabled" = "사용 중";
 "The money left, with no ring. There is no allowance to measure against." = "남은 금액만 표시하고 링은 그리지 않습니다. 비교할 한도가 없기 때문입니다.";
+
+/* Codex reset credits */
+"Reset credits on the card" = "카드에 한도 초기화 쿠폰 표시";
+"How many limit reset credits are left. Asks Codex's app server on every refresh." = "남은 한도 초기화 쿠폰 수. 새로 고칠 때마다 Codex app server에 묻습니다.";
+"Not available" = "제공되지 않음";

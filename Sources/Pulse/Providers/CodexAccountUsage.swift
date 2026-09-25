@@ -44,6 +44,16 @@ struct CodexAccountUsage: Equatable, Sendable {
     func recent(_ count: Int) -> [Day] { Array(days.suffix(count)) }
 }
 
+/// The reset credits alone, as the card shows them.
+///
+/// **What Codex said, or that it said nothing.** `unreported` is a reply with
+/// no reset-credit block in it, or no app server to ask; it is shown as "Not
+/// available" rather than a count Pulse worked out.
+enum CodexResetCredits: Equatable, Sendable {
+    case available(count: Int, nextExpiry: Date?)
+    case unreported
+}
+
 /// Reads `account/usage/read` and the reset credits from `codex app-server`.
 ///
 /// Only the app server offers these — the usage endpoint the panel normally
@@ -65,6 +75,28 @@ struct CodexAccountUsageService: Sendable {
             .flatMap { try? JSONSerialization.jsonObject(with: $0) as? [String: Any] } ?? [:]
 
         return parse(usage: usageRoot, limits: limitsRoot)
+    }
+
+    /// Only the reset credits, from `account/rateLimits/read` — what the card
+    /// asks for on every Codex refresh while its switch is on. One call, not
+    /// the history's two.
+    func resetCredits() async -> CodexResetCredits {
+        guard let data = try? await server.rateLimits(),
+              let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
+        else { return .unreported }
+        return Self.resetCredits(in: root)
+    }
+
+    /// Internal and static so the parsing is testable without a server.
+    static func resetCredits(in limits: [String: Any]) -> CodexResetCredits {
+        guard let credits = limits["rateLimitResetCredits"] as? [String: Any] else { return .unreported }
+        let available = (credits["credits"] as? [[String: Any]] ?? [])
+            .filter { ($0["status"] as? String) == "available" }
+        guard let count = number(credits["availableCount"]).map(Int.init)
+                ?? (credits["credits"] != nil ? available.count : nil)
+        else { return .unreported }
+        let soonest = available.compactMap { number($0["expiresAt"]).map { Date(timeIntervalSince1970: $0) } }.min()
+        return .available(count: count, nextExpiry: soonest)
     }
 
     private func parse(usage: [String: Any], limits: [String: Any]) -> CodexAccountUsage {

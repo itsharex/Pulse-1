@@ -1558,6 +1558,25 @@ struct SettingsView: View {
                     splitRow(for: account)
                 }
 
+                // Codex's first account only: the count comes from the app
+                // server, which reads the login the CLI saved — not an
+                // account Pulse signed in to itself.
+                if account == AccountKey(.codex) {
+                    SettingsRowDivider()
+
+                    SettingsRow(
+                        String.localized("Reset credits on the card"),
+                        subtitle: String.localized("How many limit reset credits are left. Asks Codex's app server on every refresh.")
+                    ) {
+                        Toggle("", isOn: Binding(
+                            get: { settings.showsCodexResetCredits },
+                            set: { settings.showsCodexResetCredits = $0 }
+                        ))
+                        .labelsHidden()
+                        .toggleStyle(.switch)
+                    }
+                }
+
                 SettingsRowDivider()
 
                 SettingsRow(
