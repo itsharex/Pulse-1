@@ -792,3 +792,6 @@
 
 /* DeepInfra */
 "From deepinfra.com. Stored encrypted on this Mac." = "deepinfra.com で取得します。この Mac に暗号化して保存されます。";
+
+/* Vercel AI Gateway */
+"An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "vercel.com で発行した AI Gateway の API キーです。この Mac に暗号化して保存されます。";

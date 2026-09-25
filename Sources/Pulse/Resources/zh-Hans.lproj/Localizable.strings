@@ -792,3 +792,6 @@
 
 /* DeepInfra */
 "From deepinfra.com. Stored encrypted on this Mac." = "在 deepinfra.com 获取。加密保存在本机。";
+
+/* Vercel AI Gateway */
+"An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "在 vercel.com 生成的 AI Gateway API key。加密保存在本机。";

@@ -792,3 +792,6 @@
 
 /* DeepInfra */
 "From deepinfra.com. Stored encrypted on this Mac." = "deepinfra.com에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* Vercel AI Gateway */
+"An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "vercel.com에서 발급한 AI Gateway API 키입니다. 이 Mac에 암호화되어 저장됩니다.";

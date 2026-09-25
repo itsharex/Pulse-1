@@ -792,3 +792,6 @@
 
 /* DeepInfra */
 "From deepinfra.com. Stored encrypted on this Mac." = "From deepinfra.com. Stored encrypted on this Mac.";
+
+/* Vercel AI Gateway */
+"An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "An AI Gateway API key from vercel.com. Stored encrypted on this Mac.";
