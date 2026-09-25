@@ -99,8 +99,14 @@ extension ProviderProfile {
     /// carries a suffix of its own — Mistral's is `ory_session_` and then the
     /// deployment's id. The prefix has to be followed by something; `*` alone
     /// would keep every cookie the browser holds for the host.
+    ///
+    /// Names joined with `|` are alternatives, for a service whose session can
+    /// sit under any one of several names. In the first entry that means any
+    /// one of them is enough; every one of them is kept.
     static func keep(_ header: String, cookies names: [String]) -> String? {
-        guard let required = names.first else { return nil }
+        guard let first = names.first else { return nil }
+        let required = first.split(separator: "|").map(String.init)
+        let patterns = names.flatMap { $0.split(separator: "|").map(String.init) }
         func matches(_ name: String, _ pattern: String) -> Bool {
             guard pattern.hasSuffix("*") else { return name == pattern }
             let prefix = String(pattern.dropLast())
@@ -111,9 +117,9 @@ extension ProviderProfile {
             guard let equals = trimmed.firstIndex(of: "=") else { return nil }
             let name = String(trimmed[..<equals])
             let value = String(trimmed[trimmed.index(after: equals)...])
-            return names.contains(where: { matches(name, $0) }) && !value.isEmpty ? (name, value) : nil
+            return patterns.contains(where: { matches(name, $0) }) && !value.isEmpty ? (name, value) : nil
         }
-        guard pairs.contains(where: { matches($0.0, required) }) else { return nil }
+        guard pairs.contains(where: { pair in required.contains { matches(pair.0, $0) } }) else { return nil }
         var seen: Set<String> = []
         return pairs.filter { seen.insert($0.0).inserted }
             .map { "\($0.0)=\($0.1)" }

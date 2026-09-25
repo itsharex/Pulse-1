@@ -30,9 +30,10 @@ extension ProviderProfile {
 }
 
 enum AbacusUsageService {
-    /// The session cookie first, which has to be there; the others Abacus
-    /// may set beside it are kept when present.
-    static let cookies = ["sessionid", "session_id", "session_token", "auth_token", "access_token"]
+    /// Abacus's session sits under any one of these names; CodexBar accepts
+    /// each of them and names none as the one. Any one is enough, and every
+    /// one present is kept.
+    static let cookies = ["sessionid|session_id|session_token|auth_token|access_token"]
     static let pointsURL = URL(string: "https://apps.abacus.ai/api/_getOrganizationComputePoints")!
     static let billingURL = URL(string: "https://apps.abacus.ai/api/_getBillingInfo")!
 

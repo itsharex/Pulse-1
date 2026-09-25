@@ -2,7 +2,7 @@
 
 Profiled provider: [`Sources/Pulse/Providers/Profiled/AbacusUsageService.swift`](../../Sources/Pulse/Providers/Profiled/AbacusUsageService.swift). User setup: [../setup/abacus.md](../setup/abacus.md).
 
-- **Credential:** a browser session read for host `abacus.ai` (covers `apps.abacus.ai`), kept to `sessionid` (required), `session_id`, `session_token`, `auth_token`, `access_token`. The fetch applies the same filter again. **The names are unverified:** they are CodexBar's list of names "known to carry Abacus session state", but CodexBar accepts any of them (or any name containing `session`/`auth`/`sid`/`jwt`) and then sends the browser's whole jar. Pulse's cookie filter can only require the first name, so a browser whose session is under another name reads as "No session found".
+- **Credential:** a browser session read for host `abacus.ai` (covers `apps.abacus.ai`), kept to `sessionid`, `session_id`, `session_token`, `auth_token`, `access_token` — any one of them is enough (`|` alternatives in `ProviderProfile.keep`). The fetch applies the same filter again. **The names are unverified:** they are CodexBar's list of names "known to carry Abacus session state", but CodexBar accepts any of them (or any name containing `session`/`auth`/`sid`/`jwt`) and then sends the browser's whole jar. Pulse keeps only these five, so a session under any other name reads as "No session found".
 - **Route:** both on `https://apps.abacus.ai`, sent concurrently, with `Cookie` and `Accept`. Redirects are refused; a 3xx, 401 or 403 is an expired session.
   - `GET /api/_getOrganizationComputePoints` — required.
   - `POST /api/_getBillingInfo`, body `{}` — optional. Its failure costs only the reset and the plan.

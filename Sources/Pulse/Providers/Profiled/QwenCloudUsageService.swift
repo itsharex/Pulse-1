@@ -31,12 +31,12 @@ extension ProviderProfile {
 
 enum QwenCloudUsageService {
     static let cookieHost = "qwencloud.com"
-    /// The sign-in ticket first, which has to be there; then the other
-    /// tickets, the account markers, the CSRF token the console checks, the
+    /// A sign-in ticket first, any one of the three, which has to be there;
+    /// then the account markers, the CSRF token the console checks, the
     /// browser id it echoes back, and its security token when kept as a
     /// cookie. Nothing else leaves the browser.
     static let cookies = [
-        "login_qwencloud_ticket", "login_aliyunid_ticket", "qwen_sso_ticket",
+        "login_qwencloud_ticket|login_aliyunid_ticket|qwen_sso_ticket",
         "login_current_pk", "login_aliyunid_pk", "login_aliyunid_csrf", "csrf", "cna", "sec_token",
     ]
 

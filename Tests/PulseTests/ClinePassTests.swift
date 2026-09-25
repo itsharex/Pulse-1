@@ -86,4 +86,11 @@ struct ProfileCookieTests {
         #expect(ProviderProfile.keep("csrftoken=c", cookies: ["ory_session_*", "csrftoken"]) == nil)
         #expect(ProviderProfile.keep("a=1; b=2", cookies: ["*"]) == nil)
     }
+
+    @Test("Alternatives in the first entry: any one is enough, all are kept")
+    func alternatives() {
+        #expect(ProviderProfile.keep("b=2; x=9", cookies: ["a|b", "c"]) == "b=2")
+        #expect(ProviderProfile.keep("a=1; b=2; c=3", cookies: ["a|b", "c"]) == "a=1; b=2; c=3")
+        #expect(ProviderProfile.keep("c=3", cookies: ["a|b", "c"]) == nil)
+    }
 }
