@@ -104,3 +104,104 @@ extension ProviderProfile {
             .joined(separator: "; ")
     }
 }
+
+/// So a request can fail with the reason itself: `Result<Data, Unavailability>`.
+extension ProviderUsage.Unavailability: Error {}
+
+/// One request, and what its status means, for the profiled providers.
+///
+/// Every one of them asks an HTTP endpoint and every one of them has to turn
+/// the same handful of failures into the same handful of reasons. Written once
+/// so that a refused key reads as a refused key everywhere — and so a provider
+/// cannot quietly treat a 500 as "no limits".
+enum ProfileHTTP {
+    struct Reply: Sendable {
+        let data: Data
+        let status: Int
+    }
+
+    /// Sends `request` and returns the body of a 2xx reply, or the reason there
+    /// is none. `refused` is what a 401 or 403 means for this credential: a
+    /// pasted key, a browser session, or a saved login.
+    static func data(
+        for request: URLRequest,
+        refused: ProviderUsage.Unavailability = .apiKeyRefused,
+        session: URLSession? = nil
+    ) async -> Result<Data, ProviderUsage.Unavailability> {
+        switch await reply(for: request, session: session) {
+        case .failure(let reason): return .failure(reason)
+        case .success(let reply): return classify(reply, refused: refused)
+        }
+    }
+
+    /// What a status means, apart from the request. Separate so a provider's
+    /// tests can pin its mapping without a network.
+    static func classify(_ reply: Reply, refused: ProviderUsage.Unavailability = .apiKeyRefused)
+        -> Result<Data, ProviderUsage.Unavailability> {
+        switch reply.status {
+        case 200..<300: .success(reply.data)
+        case 401, 403: .failure(refused)
+        case 429: .failure(.rateLimited)
+        default: .failure(.serverError)
+        }
+    }
+
+    /// The reply whatever its status, for a provider whose failures carry
+    /// meaning in the body. Only a request that never got an answer fails.
+    static func reply(
+        for request: URLRequest,
+        session: URLSession? = nil
+    ) async -> Result<Reply, ProviderUsage.Unavailability> {
+        guard let (data, response) = try? await (session ?? NetworkSession.shared).data(for: request),
+              let http = response as? HTTPURLResponse
+        else { return .failure(.unreachable) }
+        return .success(Reply(data: data, status: http.statusCode))
+    }
+
+    /// A GET with a bearer token, which is most of them.
+    static func bearer(_ url: URL, token: String) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.timeoutInterval = 15
+        return request
+    }
+
+    /// ISO 8601 with or without fractional seconds, the two shapes every
+    /// service here uses.
+    static func date(_ text: String?) -> Date? {
+        guard let text, !text.isEmpty else { return nil }
+        let plain = ISO8601DateFormatter()
+        if let date = plain.date(from: text) { return date }
+        let fractional = ISO8601DateFormatter()
+        fractional.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return fractional.date(from: text)
+    }
+}
+
+extension ProfileContext {
+    /// The credential, trimmed, or nil when there is nothing usable.
+    var trimmedCredential: String? {
+        credential.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.flatMap { $0.isEmpty ? nil : $0 }
+    }
+
+    /// A live reading of this provider, from what it reported.
+    func reading(
+        _ windows: [UsageWindow],
+        plan: String? = nil,
+        creditBalance: String? = nil,
+        creditRemaining: ProviderUsage.CreditAmount? = nil,
+        at now: Date = Date()
+    ) -> ProviderUsage {
+        var usage = ProviderUsage(
+            account: account,
+            windows: windows,
+            observedAt: now,
+            state: .live,
+            plan: plan,
+            creditBalance: creditBalance
+        )
+        usage.creditRemaining = creditRemaining
+        return usage
+    }
+}

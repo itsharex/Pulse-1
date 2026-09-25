@@ -711,3 +711,6 @@
 "The browser session expired. Sign in on the website, then read it again in Settings." = "The browser session expired. Sign in on the website, then read it again in Settings.";
 "The saved login has expired. Sign in again with the service's own app or tool." = "The saved login has expired. Sign in again with the service's own app or tool.";
 "This account has no plan with usage limits." = "This account has no plan with usage limits.";
+
+/* ClinePass */
+"From app.cline.bot. Stored encrypted on this Mac." = "From app.cline.bot. Stored encrypted on this Mac.";

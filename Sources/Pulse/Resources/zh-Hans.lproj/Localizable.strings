@@ -711,3 +711,6 @@
 "The browser session expired. Sign in on the website, then read it again in Settings." = "浏览器登录信息已过期。请先在网站上登录，再到设置里重新读取。";
 "The saved login has expired. Sign in again with the service's own app or tool." = "保存的登录已过期。请用这个服务自己的应用或工具重新登录。";
 "This account has no plan with usage limits." = "这个账号没有带用量额度的套餐。";
+
+/* ClinePass */
+"From app.cline.bot. Stored encrypted on this Mac." = "在 app.cline.bot 获取。加密保存在本机。";

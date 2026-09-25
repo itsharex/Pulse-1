@@ -711,3 +711,6 @@
 "The browser session expired. Sign in on the website, then read it again in Settings." = "브라우저 세션이 만료되었습니다. 웹사이트에서 로그인한 뒤 설정에서 다시 읽어 오십시오.";
 "The saved login has expired. Sign in again with the service's own app or tool." = "저장된 로그인이 만료되었습니다. 해당 서비스의 앱이나 도구로 다시 로그인하십시오.";
 "This account has no plan with usage limits." = "이 계정에는 사용량 한도가 있는 플랜이 없습니다.";
+
+/* ClinePass */
+"From app.cline.bot. Stored encrypted on this Mac." = "app.cline.bot에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
