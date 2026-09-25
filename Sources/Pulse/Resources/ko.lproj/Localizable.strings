@@ -753,3 +753,6 @@
 
 /* ElevenLabs */
 "From elevenlabs.io, with the user_read permission. Stored encrypted on this Mac." = "elevenlabs.io에서 user_read 권한을 켜고 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* Chutes */
+"From chutes.ai. Stored encrypted on this Mac." = "chutes.ai에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";

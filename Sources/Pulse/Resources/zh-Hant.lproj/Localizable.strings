@@ -753,3 +753,6 @@
 
 /* ElevenLabs */
 "From elevenlabs.io, with the user_read permission. Stored encrypted on this Mac." = "在 elevenlabs.io 取得，需開啟 user_read 權限。加密儲存在本機。";
+
+/* Chutes */
+"From chutes.ai. Stored encrypted on this Mac." = "在 chutes.ai 取得。加密儲存在本機。";

@@ -753,3 +753,6 @@
 
 /* ElevenLabs */
 "From elevenlabs.io, with the user_read permission. Stored encrypted on this Mac." = "elevenlabs.io で user_read 権限を付けて取得します。この Mac に暗号化して保存されます。";
+
+/* Chutes */
+"From chutes.ai. Stored encrypted on this Mac." = "chutes.ai で取得します。この Mac に暗号化して保存されます。";
