@@ -729,3 +729,7 @@
 /* Mistral */
 /* Factory */
 "From app.factory.ai. Stored encrypted on this Mac." = "在 app.factory.ai 获取。加密保存在本机。";
+
+/* Windsurf */
+"Uses only the session you paste in Settings. No Keychain prompt." = "只使用你在设置里粘贴的登录会话。不弹钥匙串。";
+"The session copied from windsurf.com, as one line of JSON. Stored encrypted on this Mac." = "从 windsurf.com 复制的登录会话，一行 JSON。加密保存在本机。";

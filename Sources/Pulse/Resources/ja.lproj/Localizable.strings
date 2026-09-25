@@ -729,3 +729,7 @@
 /* Mistral */
 /* Factory */
 "From app.factory.ai. Stored encrypted on this Mac." = "app.factory.ai で取得します。この Mac に暗号化して保存されます。";
+
+/* Windsurf */
+"Uses only the session you paste in Settings. No Keychain prompt." = "設定に貼り付けたログインセッションだけを使います。キーチェーンの確認はありません。";
+"The session copied from windsurf.com, as one line of JSON. Stored encrypted on this Mac." = "windsurf.com からコピーした、1 行の JSON 形式のログインセッションです。この Mac に暗号化して保存されます。";
