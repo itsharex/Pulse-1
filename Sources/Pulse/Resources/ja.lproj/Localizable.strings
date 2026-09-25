@@ -795,3 +795,5 @@
 
 /* Vercel AI Gateway */
 "An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "vercel.com で発行した AI Gateway の API キーです。この Mac に暗号化して保存されます。";
+/* Alibaba Coding Plan */
+"From the Coding Plan page in Model Studio. Stored encrypted on this Mac." = "Model Studio の Coding Plan ページで取得します。この Mac に暗号化して保存されます。";

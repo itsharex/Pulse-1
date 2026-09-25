@@ -795,3 +795,5 @@
 
 /* Vercel AI Gateway */
 "An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "在 vercel.com 生成的 AI Gateway API key。加密保存在本机。";
+/* Alibaba Coding Plan */
+"From the Coding Plan page in Model Studio. Stored encrypted on this Mac." = "在百炼（Model Studio）的 Coding Plan 页面获取。加密保存在本机。";
