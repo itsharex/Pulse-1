@@ -69,3 +69,21 @@ struct ClinePassTests {
         #expect(result == .failure(reason))
     }
 }
+
+@Suite("Profiled session cookies")
+struct ProfileCookieTests {
+    @Test("Only the named cookies are kept, and the first has to be there")
+    func exactNames() {
+        #expect(ProviderProfile.keep("a=1; b=2; tracking=x", cookies: ["a", "b"]) == "a=1; b=2")
+        #expect(ProviderProfile.keep("b=2; tracking=x", cookies: ["a", "b"]) == nil)
+        #expect(ProviderProfile.keep("a=; b=2", cookies: ["a", "b"]) == nil)
+    }
+
+    @Test("A trailing star is a prefix that must be followed by something")
+    func prefixes() {
+        let header = "ory_session_abc123=s; csrftoken=c; ory_session_=empty; other=x"
+        #expect(ProviderProfile.keep(header, cookies: ["ory_session_*", "csrftoken"]) == "ory_session_abc123=s; csrftoken=c")
+        #expect(ProviderProfile.keep("csrftoken=c", cookies: ["ory_session_*", "csrftoken"]) == nil)
+        #expect(ProviderProfile.keep("a=1; b=2", cookies: ["*"]) == nil)
+    }
+}

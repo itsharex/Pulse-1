@@ -17,10 +17,9 @@ import Foundation
 ///
 /// **The session cookie's name is not fixed.** Mistral signs in with Ory,
 /// whose session cookie is `ory_session_` followed by the deployment's own
-/// suffix. The shared browser import keeps cookies by exact name, so it cannot
-/// find this one yet; the name below says what it should keep, and until then
-/// the session is pasted. Whichever way it arrives, only the `ory_session_…`
-/// and `csrftoken` cookies are ever sent.
+/// suffix, so the name below is a prefix (`ProviderProfile.keep`). Read from
+/// the browser or pasted, only the `ory_session_…` and `csrftoken` cookies are
+/// ever sent.
 extension ProviderProfile {
     static let mistral = ProviderProfile(
         displayName: "Mistral",
@@ -28,9 +27,6 @@ extension ProviderProfile {
         credential: .sessionCookie(host: "mistral.ai", cookies: ["ory_session_*", "csrftoken"]),
         accessDescription: {
             .localized("Uses a browser session you import in Settings. Importing may ask for browser Keychain access.")
-        },
-        keySubtitle: {
-            .localized("Paste the Cookie header of a request to admin.mistral.ai. Stored encrypted on this Mac.")
         },
         reportsSpendableBalance: true,
         spendingIsWatchedLocally: false,

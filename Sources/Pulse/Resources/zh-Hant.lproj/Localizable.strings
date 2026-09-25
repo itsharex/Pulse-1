@@ -727,4 +727,3 @@
 "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "在 app.kilo.ai 取得。可以不填——Pulse 能用 Kilo CLI 已存下的登入。加密儲存在本機。";
 
 /* Mistral */
-"Paste the Cookie header of a request to admin.mistral.ai. Stored encrypted on this Mac." = "貼上送往 admin.mistral.ai 的請求中的 Cookie 標頭。加密儲存在本機。";

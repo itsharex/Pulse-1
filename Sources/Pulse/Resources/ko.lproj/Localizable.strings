@@ -727,4 +727,3 @@
 "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "app.kilo.ai에서 발급받습니다. 비워 두어도 되며, 그러면 Kilo CLI가 저장한 로그인을 Pulse가 씁니다. 이 Mac에 암호화되어 저장됩니다.";
 
 /* Mistral */
-"Paste the Cookie header of a request to admin.mistral.ai. Stored encrypted on this Mac." = "admin.mistral.ai 요청의 Cookie 헤더를 붙여 넣으십시오. 이 Mac에 암호화되어 저장됩니다.";

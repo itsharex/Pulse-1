@@ -88,16 +88,26 @@ extension ProviderProfile {
     /// Keeps only the named cookies out of a browser's `name=value; …`
     /// header, and nothing at all if the first name is missing. What is not
     /// kept never leaves the process.
+    ///
+    /// A name ending in `*` is a prefix, for a service whose session cookie
+    /// carries a suffix of its own — Mistral's is `ory_session_` and then the
+    /// deployment's id. The prefix has to be followed by something; `*` alone
+    /// would keep every cookie the browser holds for the host.
     static func keep(_ header: String, cookies names: [String]) -> String? {
         guard let required = names.first else { return nil }
+        func matches(_ name: String, _ pattern: String) -> Bool {
+            guard pattern.hasSuffix("*") else { return name == pattern }
+            let prefix = String(pattern.dropLast())
+            return !prefix.isEmpty && name.hasPrefix(prefix) && name.count > prefix.count
+        }
         let pairs = header.split(separator: ";").compactMap { part -> (String, String)? in
             let trimmed = part.trimmingCharacters(in: .whitespaces)
             guard let equals = trimmed.firstIndex(of: "=") else { return nil }
             let name = String(trimmed[..<equals])
             let value = String(trimmed[trimmed.index(after: equals)...])
-            return names.contains(name) && !value.isEmpty ? (name, value) : nil
+            return names.contains(where: { matches(name, $0) }) && !value.isEmpty ? (name, value) : nil
         }
-        guard pairs.contains(where: { $0.0 == required }) else { return nil }
+        guard pairs.contains(where: { matches($0.0, required) }) else { return nil }
         var seen: Set<String> = []
         return pairs.filter { seen.insert($0.0).inserted }
             .map { "\($0.0)=\($0.1)" }
