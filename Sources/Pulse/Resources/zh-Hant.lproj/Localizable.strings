@@ -613,6 +613,7 @@
 
 /* 服務選擇 */
 "Choose services to monitor" = "選擇要監控的服務";
+"Choose services to start monitoring…" = "選擇服務，開始監控…";
 "New services detected" = "找到新支援的服務";
 "Choose at least one service. Pulse reads its login and checks usage only after you finish. You can change this later in Settings." = "請至少勾選一項服務。按「完成」後，Pulse 才會讀取所選服務的登入資訊並查詢用量。之後可以在設定中更改。";
 "This version supports more services found on your Mac. Choose any you want to add; your existing choices stay in place." = "這個版本新增支援以下服務，也在你的 Mac 上找到了它們。勾選想加入的服務即可，原有選擇會保留。";
