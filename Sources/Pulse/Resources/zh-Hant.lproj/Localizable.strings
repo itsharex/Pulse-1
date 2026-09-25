@@ -760,3 +760,6 @@
 /* GitKraken AI */
 "Uses only the access token you enter in Settings. No Keychain prompt." = "只使用你在設定中輸入的存取權杖。不會出現鑰匙圈提示。";
 "The Bearer token from gitkraken.dev's usage request, copied from the browser's developer tools. Stored encrypted on this Mac." = "在瀏覽器開發者工具中，從 gitkraken.dev 的用量請求複製 Bearer 權杖。加密儲存在本機。";
+
+/* xKiro */
+"From xkiro.com. Stored encrypted on this Mac." = "在 xkiro.com 取得。加密儲存在本機。";
