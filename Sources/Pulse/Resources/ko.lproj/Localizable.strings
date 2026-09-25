@@ -493,7 +493,6 @@
 "Full tank" = "가득 찬 기준";
 "What you call a full balance. The ring measures against it." = "얼마를 가득으로 볼지 정합니다. 링은 이 값을 기준으로 잽니다.";
 "How much of the balance Pulse last saw you top up to is gone." = "Pulse가 마지막으로 확인한 충전액에서 얼마나 썼는지 보여 줍니다.";
-"The money left, with no ring. DeepSeek reports no allowance." = "링을 그리지 않고 잔액만 표시합니다. DeepSeek은 허용량을 보고하지 않습니다.";
 "How much of the figure you set is gone." = "직접 정한 금액에서 얼마나 썼는지 보여 줍니다.";
 "From platform.deepseek.com. Stored encrypted on this Mac." = "platform.deepseek.com에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
 "Balance" = "잔액";
@@ -832,3 +831,4 @@
 "Subscriptions" = "구독";
 "API and pay-as-you-go" = "API·종량제";
 "Enabled" = "사용 중";
+"The money left, with no ring. There is no allowance to measure against." = "남은 금액만 표시하고 링은 그리지 않습니다. 비교할 한도가 없기 때문입니다.";

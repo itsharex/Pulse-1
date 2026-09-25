@@ -44,7 +44,7 @@ struct SettingsView: View {
     @State private var apiKey = ""
     /// The budget being typed, kept as text so a half-entered number is not
     /// read as a denominator on every keystroke.
-    @State private var deepSeekBudget = ""
+    @State private var balanceBudgetText = ""
     /// A self-hosted gateway's address being typed, committed on Save rather
     /// than on every keystroke — a half-typed host is a request nobody meant
     /// to make.
@@ -1771,8 +1771,8 @@ struct SettingsView: View {
             let shown = provider
             // The stored figure, shown in the field rather than left blank
             // beside a ring that is measuring against it.
-            if shown == .deepSeek {
-                deepSeekBudget = settings.deepSeekBudget.map { String($0) } ?? ""
+            if Self.hasBalanceRing(account) {
+                balanceBudgetText = Self.text(settings.balanceBudget(for: account))
             }
             if shown.usesServerAddress {
                 serverAddress = settings.serverAddress(for: account)
@@ -2137,19 +2137,25 @@ struct SettingsView: View {
             : .localized("Asking \(provider.displayName)")
     }
 
-    /// DeepSeek reports money and no allowance, so the ring has no denominator
-    /// until one is chosen. Three modes because there are exactly three places
-    /// one can come from — see `DeepSeekBasis`.
-    private var deepSeekBasisRow: some View {
+    /// Whether this account's ring is a balance's, with a basis to choose:
+    /// an API account that reports money. See `BalanceRing`.
+    static func hasBalanceRing(_ account: AccountKey) -> Bool {
+        account.isPrimary && account.provider.billing == .api && account.provider.reportsSpendableBalance
+    }
+
+    /// An API account reports money and no allowance, so the ring has no
+    /// denominator until one is chosen. Three modes because there are exactly
+    /// three places one can come from — see `BalanceBasis`.
+    private func balanceBasisRow(for account: AccountKey) -> some View {
         SettingsRow(
             String.localized("Ring shows"),
-            subtitle: Self.deepSeekBasisSubtitle(settings.deepSeekBasis)
+            subtitle: Self.balanceBasisSubtitle(settings.balanceBasis(for: account))
         ) {
             Picker("", selection: Binding(
-                get: { settings.deepSeekBasis },
-                set: { settings.deepSeekBasis = $0 }
+                get: { settings.balanceBasis(for: account) },
+                set: { settings.setBalanceBasis($0, for: account) }
             )) {
-                ForEach(DeepSeekBasis.allCases) { basis in
+                ForEach(BalanceBasis.allCases) { basis in
                     Text(basis.title).tag(basis)
                 }
             }
@@ -2275,27 +2281,27 @@ struct SettingsView: View {
         store.refresh(account)
     }
 
-    private var deepSeekBudgetRow: some View {
+    private func balanceBudgetRow(for account: AccountKey) -> some View {
         SettingsRow(
             String.localized("Full tank"),
             subtitle: String.localized("What you call a full balance. The ring measures against it.")
         ) {
             HStack(spacing: 8) {
-                TextField("", text: $deepSeekBudget)
+                TextField("", text: $balanceBudgetText)
                     .textFieldStyle(.roundedBorder)
                     .frame(width: SettingsLayout.controlWidth - 70)
-                    .onSubmit { saveDeepSeekBudget() }
+                    .onSubmit { saveBalanceBudget(for: account) }
 
-                Button(String.localized("Save")) { saveDeepSeekBudget() }
+                Button(String.localized("Save")) { saveBalanceBudget(for: account) }
             }
         }
     }
 
     /// Blank clears it, which puts the ring back to showing the balance alone
     /// rather than a fraction of nothing.
-    private func saveDeepSeekBudget() {
-        settings.deepSeekBudget = Self.money(deepSeekBudget)
-        deepSeekBudget = Self.text(settings.deepSeekBudget)
+    private func saveBalanceBudget(for account: AccountKey) {
+        settings.setBalanceBudget(Self.money(balanceBudgetText), for: account)
+        balanceBudgetText = Self.text(settings.balanceBudget(for: account))
     }
 
     /// A figure typed into a settings field, or nil for anything that is not
@@ -2333,12 +2339,12 @@ struct SettingsView: View {
             .locale(LocalizationSource.locale))
     }
 
-    private static func deepSeekBasisSubtitle(_ basis: DeepSeekBasis) -> String {
+    private static func balanceBasisSubtitle(_ basis: BalanceBasis) -> String {
         switch basis {
         case .sinceTopUp:
             .localized("How much of the balance Pulse last saw you top up to is gone.")
         case .balanceOnly:
-            .localized("The money left, with no ring. DeepSeek reports no allowance.")
+            .localized("The money left, with no ring. There is no allowance to measure against.")
         case .budget:
             .localized("How much of the figure you set is gone.")
         }
@@ -2651,12 +2657,14 @@ struct SettingsView: View {
                 }
             }
 
-            if account.provider == .deepSeek {
+            // Every API account that reports money, as DeepSeek's did first:
+            // the ring has no denominator until one of three is chosen.
+            if Self.hasBalanceRing(account) {
                 SettingsRowDivider()
-                deepSeekBasisRow
-                if settings.deepSeekBasis == .budget {
+                balanceBasisRow(for: account)
+                if settings.balanceBasis(for: account) == .budget {
                     SettingsRowDivider()
-                    deepSeekBudgetRow
+                    balanceBudgetRow(for: account)
                 }
             }
 

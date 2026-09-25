@@ -88,9 +88,9 @@ final class AppSettings {
     /// DeepSeek reports a prepaid balance and no allowance at all, so unlike
     /// every other provider there is no percentage to show until something
     /// supplies one. Three modes, one setting, and the card always names which
-    /// is in force — see `DeepSeekBasis`. Scalars rather than the per-account
+    /// is in force — see `BalanceBasis`. Scalars rather than the per-account
     /// dictionaries beside them because DeepSeek has no second account.
-    var deepSeekBasis: DeepSeekBasis {
+    var deepSeekBasis: BalanceBasis {
         didSet {
             guard deepSeekBasis != oldValue else { return }
             UserDefaults.standard.set(deepSeekBasis.rawValue, forKey: Key.deepSeekBasis)
@@ -98,7 +98,7 @@ final class AppSettings {
         }
     }
 
-    /// What the reader calls a full tank, for `DeepSeekBasis.budget`. Nil until
+    /// What the reader calls a full tank, for `BalanceBasis.budget`. Nil until
     /// they say, which leaves that mode showing the balance and no fraction.
     var deepSeekBudget: Double? {
         didSet {
@@ -165,6 +165,46 @@ final class AppSettings {
             UserDefaults.standard.set(serverAddresses, forKey: Key.serverAddresses)
             onChange?()
         }
+    }
+
+    /// Where each API account's ring gets its denominator, keyed by account.
+    /// DeepSeek's own lives in `deepSeekBasis`, from before there were others;
+    /// `balanceBasis(for:)` reads either. A missing entry is the default.
+    var balanceBases: [String: String] = [:] {
+        didSet {
+            guard balanceBases != oldValue else { return }
+            UserDefaults.standard.set(balanceBases, forKey: Key.balanceBases)
+            onChange?()
+        }
+    }
+
+    /// What the reader calls a full tank for each API account, for
+    /// `BalanceBasis.budget`. DeepSeek's lives in `deepSeekBudget`.
+    var balanceBudgets: [String: Double] = [:] {
+        didSet {
+            guard balanceBudgets != oldValue else { return }
+            UserDefaults.standard.set(balanceBudgets, forKey: Key.balanceBudgets)
+            onChange?()
+        }
+    }
+
+    func balanceBasis(for account: AccountKey) -> BalanceBasis {
+        if account == AccountKey(.deepSeek) { return deepSeekBasis }
+        return balanceBases[account.id].flatMap(BalanceBasis.init(rawValue:)) ?? .default
+    }
+
+    func setBalanceBasis(_ basis: BalanceBasis, for account: AccountKey) {
+        if account == AccountKey(.deepSeek) { deepSeekBasis = basis; return }
+        balanceBases[account.id] = basis == .default ? nil : basis.rawValue
+    }
+
+    func balanceBudget(for account: AccountKey) -> Double? {
+        account == AccountKey(.deepSeek) ? deepSeekBudget : balanceBudgets[account.id]
+    }
+
+    func setBalanceBudget(_ budget: Double?, for account: AccountKey) {
+        if account == AccountKey(.deepSeek) { deepSeekBudget = budget; return }
+        balanceBudgets[account.id] = budget
     }
 
     /// Warn when a prepaid balance falls below this much, per account.
@@ -1069,7 +1109,7 @@ final class AppSettings {
         followsActiveDisplay: Bool = false,
         openSettingsShortcut: GlobalShortcut? = nil,
         togglePanelShortcut: GlobalShortcut? = nil,
-        deepSeekBasis: DeepSeekBasis = .default,
+        deepSeekBasis: BalanceBasis = .default,
         deepSeekBudget: Double? = nil,
         deepSeekCurrency: String? = nil,
         qoderSite: QoderSite = .international,
@@ -1413,7 +1453,7 @@ final class AppSettings {
             togglePanelShortcut: defaults.string(forKey: Key.togglePanelShortcut)
                 .flatMap(GlobalShortcut.init(storage:)),
             deepSeekBasis: defaults.string(forKey: Key.deepSeekBasis)
-                .flatMap(DeepSeekBasis.init(rawValue:)) ?? .default,
+                .flatMap(BalanceBasis.init(rawValue:)) ?? .default,
             deepSeekBudget: defaults.object(forKey: Key.deepSeekBudget) as? Double,
             deepSeekCurrency: defaults.string(forKey: Key.deepSeekCurrency),
             qoderSite: defaults.string(forKey: Key.qoderSite)
@@ -1465,6 +1505,9 @@ final class AppSettings {
             alertsOnReset: defaults.object(forKey: Key.alertsOnReset) as? Bool ?? false,
             alertsOnFailure: defaults.object(forKey: Key.alertsOnFailure) as? Bool ?? false
         )
+        settings.balanceBases = defaults.dictionary(forKey: Key.balanceBases) as? [String: String] ?? [:]
+        settings.balanceBudgets = (defaults.dictionary(forKey: Key.balanceBudgets) as? [String: Double] ?? [:])
+            .filter { $0.value.isFinite && $0.value > 0 }
         settings.detectedProviders = detected
         settings.suggestedProviders = selection.suggestedProviders
         settings.extensions = scan.extensions
@@ -1555,6 +1598,8 @@ final class AppSettings {
         static let stepFunSite = "settings.stepFunSite"
         static let serverAddresses = "settings.serverAddresses"
         static let lowBalanceAlerts = "settings.lowBalanceAlerts"
+        static let balanceBases = "settings.balanceBases"
+        static let balanceBudgets = "settings.balanceBudgets"
         static let language = "settings.language"
         static let pinnedWindows = "settings.pinnedWindows"
         static let sources = "settings.sources"

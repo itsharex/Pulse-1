@@ -493,7 +493,6 @@
 "Full tank" = "満額の基準";
 "What you call a full balance. The ring measures against it." = "いくらを満額とみなすかです。リングはこれを基準に測ります。";
 "How much of the balance Pulse last saw you top up to is gone." = "Pulse が最後に見たチャージ額から、どれだけ使ったかです。";
-"The money left, with no ring. DeepSeek reports no allowance." = "リングを描かず残高だけを表示します。DeepSeek は割り当てを報告しません。";
 "How much of the figure you set is gone." = "設定した金額のうち、どれだけ使ったかです。";
 "From platform.deepseek.com. Stored encrypted on this Mac." = "platform.deepseek.com で取得します。この Mac に暗号化して保存されます。";
 "Balance" = "残高";
@@ -832,3 +831,4 @@
 "Subscriptions" = "サブスクリプション";
 "API and pay-as-you-go" = "API・従量課金";
 "Enabled" = "有効";
+"The money left, with no ring. There is no allowance to measure against." = "残高だけを表示し、リングは描きません。比べる上限がないためです。";

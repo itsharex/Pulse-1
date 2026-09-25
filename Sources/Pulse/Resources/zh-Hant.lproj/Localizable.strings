@@ -493,7 +493,6 @@
 "Full tank" = "滿額基準";
 "What you call a full balance. The ring measures against it." = "你認為多少算滿，圓環就照這個來量。";
 "How much of the balance Pulse last saw you top up to is gone." = "自 Pulse 上次看到你儲值以來，已經用掉多少。";
-"The money left, with no ring. DeepSeek reports no allowance." = "只顯示餘額，不畫圓環。DeepSeek 不回報任何額度。";
 "How much of the figure you set is gone." = "你設定的金額已經用掉多少。";
 "From platform.deepseek.com. Stored encrypted on this Mac." = "在 platform.deepseek.com 取得。加密儲存在本機。";
 "Balance" = "餘額";
@@ -832,3 +831,4 @@
 "Subscriptions" = "訂閱";
 "API and pay-as-you-go" = "API 與按量計費";
 "Enabled" = "已啟用";
+"The money left, with no ring. There is no allowance to measure against." = "只顯示餘額，不畫圓環：沒有可以對照的額度。";

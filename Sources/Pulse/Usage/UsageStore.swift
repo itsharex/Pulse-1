@@ -623,6 +623,7 @@ final class UsageStore {
                 (.qoder, rawQoder),
                 (.stepFun, rawStepFun),
             ] + rawProfiled where wanted.contains(provider) {
+                let raw = self.ringed(raw)
                 results.append(BatchResult(
                     provider: provider,
                     raw: raw,
@@ -839,9 +840,10 @@ final class UsageStore {
 
             guard pass == self.currentPass else { return }
 
-            let fetched = await UsageCache.shared.reconciled(raw)
+            let answered = self.ringed(raw)
+            let fetched = await UsageCache.shared.reconciled(answered)
             guard pass == self.currentPass else { return }
-            self.commit(fetched, raw: raw, for: account.id)
+            self.commit(fetched, raw: answered, for: account.id)
 
             if previous?.windows != fetched.windows {
                 self.signals.lastChange = Date()
@@ -863,6 +865,18 @@ final class UsageStore {
             self.scheduleNext()
             self.runQueued()
         }
+    }
+
+    /// An API account's balance with the ring its basis gives it. DeepSeek
+    /// makes its own, from before the rule was everyone's; see `BalanceRing`.
+    private func ringed(_ raw: ProviderUsage) -> ProviderUsage {
+        let account = raw.account
+        guard account.provider.billing == .api, account.provider != .deepSeek else { return raw }
+        return BalanceRing.applying(
+            basis: settings.balanceBasis(for: account),
+            budget: settings.balanceBudget(for: account),
+            to: raw
+        )
     }
 
     /// What a profiled provider's fetch is handed: the credential Pulse holds

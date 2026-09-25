@@ -493,7 +493,6 @@
 "Full tank" = "Full tank";
 "What you call a full balance. The ring measures against it." = "What you call a full balance. The ring measures against it.";
 "How much of the balance Pulse last saw you top up to is gone." = "How much of the balance Pulse last saw you top up to is gone.";
-"The money left, with no ring. DeepSeek reports no allowance." = "The money left, with no ring. DeepSeek reports no allowance.";
 "How much of the figure you set is gone." = "How much of the figure you set is gone.";
 "From platform.deepseek.com. Stored encrypted on this Mac." = "From platform.deepseek.com. Stored encrypted on this Mac.";
 "Balance" = "Balance";
@@ -832,3 +831,4 @@
 "Subscriptions" = "Subscriptions";
 "API and pay-as-you-go" = "API and pay-as-you-go";
 "Enabled" = "Enabled";
+"The money left, with no ring. There is no allowance to measure against." = "The money left, with no ring. There is no allowance to measure against.";
