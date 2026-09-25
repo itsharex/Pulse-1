@@ -802,3 +802,7 @@
 "Bailian CLI" = "Bailian CLI";
 "Runs the Bailian CLI (bl) with its saved login. Pulse does not read or store its credentials." = "Runs the Bailian CLI (bl) with its saved login. Pulse does not read or store its credentials.";
 "Uses the login the Bailian CLI already saved." = "Uses the login the Bailian CLI already saved.";
+/* Nous Portal */
+"Reads the Nous Portal login Hermes Agent saved in ~/.hermes. No Keychain prompt." = "Reads the Nous Portal login Hermes Agent saved in ~/.hermes. No Keychain prompt.";
+"Hermes Agent's login" = "Hermes Agent's login";
+"Uses the login Hermes Agent already saved. Pulse never renews it." = "Uses the login Hermes Agent already saved. Pulse never renews it.";

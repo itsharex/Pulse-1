@@ -802,3 +802,7 @@
 "Bailian CLI" = "百鍊 CLI";
 "Runs the Bailian CLI (bl) with its saved login. Pulse does not read or store its credentials." = "啟動百鍊 CLI（bl），使用它已儲存的登入。Pulse 不讀取或儲存其憑證。";
 "Uses the login the Bailian CLI already saved." = "使用百鍊 CLI 已經存下的登入。";
+/* Nous Portal */
+"Reads the Nous Portal login Hermes Agent saved in ~/.hermes. No Keychain prompt." = "讀取 Hermes Agent 儲存在 ~/.hermes 中的 Nous Portal 登入資訊。不會出現鑰匙圈提示。";
+"Hermes Agent's login" = "Hermes Agent 的登入資訊";
+"Uses the login Hermes Agent already saved. Pulse never renews it." = "使用 Hermes Agent 已經存下的登入資訊。Pulse 不會替它續期。";
