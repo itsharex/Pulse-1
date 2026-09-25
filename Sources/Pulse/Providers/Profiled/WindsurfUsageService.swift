@@ -12,11 +12,10 @@ import Foundation
 /// Reading either again here would be the same account counted twice under
 /// two names. This one is windsurf.com's own endpoint.
 ///
-/// **The credential is pasted, not read.** windsurf.com keeps its session in
-/// the browser's `localStorage` as four `devin_*` values, not in a cookie, and
-/// a profiled provider can only read cookies from a browser. So the user
-/// copies the four out of the page, as one line of JSON, and pastes that where
-/// a key would go. They are sent only to windsurf.com.
+/// **The credential is read from the browser's `localStorage`**, where
+/// windsurf.com keeps its session as four `devin_*` values rather than in a
+/// cookie: Read in Settings finds them in a Chromium browser and saves them as
+/// one JSON object. They are sent only to windsurf.com.
 ///
 /// The shape is second-hand — field numbers from CodexBar's Windsurf provider
 /// and its tests, which took them from Windsurf's bundled protobuf metadata —
@@ -25,9 +24,8 @@ extension ProviderProfile {
     static let windsurf = ProviderProfile(
         displayName: "Windsurf",
         iconResource: "windsurf",
-        credential: .apiKey(optional: false),
-        accessDescription: { .localized("Uses only the session you paste in Settings. No Keychain prompt.") },
-        keySubtitle: { .localized("The session copied from windsurf.com, as one line of JSON. Stored encrypted on this Mac.") },
+        credential: .browserStorage(origin: "https://windsurf.com", keys: WindsurfUsageService.storageKeys),
+        accessDescription: { .localized("Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt.") },
         setupSlug: "windsurf",
         discoveryPaths: ["/Applications/Windsurf.app"],
         fetch: { await WindsurfUsageService.fetch($0) }
@@ -35,15 +33,16 @@ extension ProviderProfile {
 }
 
 enum WindsurfUsageService {
+    static let storageKeys = ["devin_session_token", "devin_auth1_token", "devin_account_id", "devin_primary_org_id"]
+
     static let endpoint =
         URL(string: "https://windsurf.com/_backend/exa.seat_management_pb.SeatManagementService/GetPlanStatus")!
 
     static func fetch(_ context: ProfileContext, session: URLSession? = nil) async -> ProviderUsage {
-        guard let text = context.trimmedCredential else { return context.unavailable(.apiKeyMissing) }
-        // Something pasted that isn't the four values is not a key the
-        // service refused: it was never sent.
-        guard let bundle = Session(pasted: text) else { return context.unavailable(.apiKeyRefused) }
-        switch await ProfileHTTP.data(for: request(bundle), session: session) {
+        guard let text = context.trimmedCredential, let bundle = Session(pasted: text) else {
+            return context.unavailable(.sessionMissing)
+        }
+        switch await ProfileHTTP.data(for: request(bundle), refused: .sessionExpired, session: session) {
         case .failure(let reason):
             return context.unavailable(reason)
         case .success(let data):
@@ -63,8 +62,8 @@ enum WindsurfUsageService {
 
         /// `{"devin_session_token": …, "devin_auth1_token": …,
         /// "devin_account_id": …, "devin_primary_org_id": …}`, which is what
-        /// the snippet in the setup page copies. Any of the four missing and
-        /// there is no session.
+        /// `ProviderProfile.storageCredential` saves. Any of the four missing
+        /// and there is no session.
         init?(pasted text: String) {
             guard let object = try? JSONSerialization.jsonObject(with: Data(text.utf8)) as? [String: Any]
             else { return nil }

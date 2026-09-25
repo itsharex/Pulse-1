@@ -125,20 +125,36 @@ struct WindsurfTests {
     @Test("No session is asked for, not sent")
     func missingSession() async {
         let empty = ProfileContext(provider: .windsurf, credential: "  ", serverAddress: nil)
-        #expect(await WindsurfUsageService.fetch(empty).state == .unavailable(.apiKeyMissing))
+        #expect(await WindsurfUsageService.fetch(empty).state == .unavailable(.sessionMissing))
     }
 
-    @Test("Something pasted that isn't a session is never sent, and says to check it")
+    @Test("A saved credential that isn't the four values is never sent")
     func unusableSession() async {
         let wrong = ProfileContext(provider: .windsurf, credential: "sk-not-a-session", serverAddress: nil)
-        #expect(await WindsurfUsageService.fetch(wrong).state == .unavailable(.apiKeyRefused))
+        #expect(await WindsurfUsageService.fetch(wrong).state == .unavailable(.sessionMissing))
     }
 
-    @Test("Statuses mean what they mean everywhere", arguments: [
-        (401, ProviderUsage.Unavailability.apiKeyRefused), (403, .apiKeyRefused),
-        (429, .rateLimited), (500, .serverError), (404, .serverError),
-    ])
-    func statuses(status: Int, reason: ProviderUsage.Unavailability) {
-        #expect(ProfileHTTP.classify(.init(data: Data(), status: status)) == .failure(reason))
+    @Test("What Read saves from the browser is what the session reads, quoted values unwrapped")
+    func fromBrowserStorage() throws {
+        let stored = [
+            "devin_session_token": "\"session-token-value\"",
+            "devin_auth1_token": "auth1-token-value",
+            "devin_account_id": "\"account-1\"",
+            "devin_primary_org_id": "org-1",
+            "unrelated": "kept out",
+        ]
+        let credential = try #require(ProviderProfile.storageCredential(from: stored, keys: WindsurfUsageService.storageKeys))
+        #expect(!credential.contains("unrelated"))
+        let session = try #require(WindsurfUsageService.Session(pasted: credential))
+        #expect(session.token == "session-token-value")
+        #expect(session.accountID == "account-1")
+        var partial = stored
+        partial["devin_primary_org_id"] = nil
+        #expect(ProviderProfile.storageCredential(from: partial, keys: WindsurfUsageService.storageKeys) == nil)
+    }
+
+    @Test("A refused or redirected session reads as expired", arguments: [401, 403, 302])
+    func refused(status: Int) {
+        #expect(ProfileHTTP.classify(.init(data: Data(), status: status), refused: .sessionExpired) == .failure(.sessionExpired))
     }
 }

@@ -4,7 +4,7 @@ Profiled provider: [`Sources/Pulse/Providers/Profiled/WindsurfUsageService.swift
 
 **Not Devin's route.** Windsurf is Cognition's now, and [Devin](devin.md) already reads both other ways to this plan: the Devin/Windsurf app's saved plan in `state.vscdb` (which it looks for under both `Application Support/Devin` and `…/Windsurf`), and `app.devin.ai`'s quota endpoint with a session out of the browser. Reading either here would count one account twice under two names. This provider reads windsurf.com's own endpoint, and nothing else.
 
-- **Credential:** pasted — `.apiKey(optional: false)` holding one line of JSON: `{"devin_session_token", "devin_auth1_token", "devin_account_id", "devin_primary_org_id"}`, the four values windsurf.com keeps in `localStorage`. All four or nothing: anything else is reported as `.apiKeyRefused` without a request being sent.
+- **Credential:** `.browserStorage(origin: "https://windsurf.com", keys: …)` — the four values windsurf.com keeps in `localStorage` (`devin_session_token`, `devin_auth1_token`, `devin_account_id`, `devin_primary_org_id`), read from a Chromium browser when the user presses Read and saved together as one JSON object (`ProviderProfile.storageCredential`, which unwraps JSON-quoted values). All four or nothing: anything less is "Read a browser session", with no request sent. A 401/403 or a redirect is "session expired".
 - **Route:** `POST https://windsurf.com/_backend/exa.seat_management_pb.SeatManagementService/GetPlanStatus`, Connect over protobuf. Headers: `Content-Type: application/proto`, `Connect-Protocol-Version: 1`, `Origin: https://windsurf.com`, `Referer: https://windsurf.com/profile`, `x-auth-token` and `x-devin-session-token` (the session token), `x-devin-auth1-token`, `x-devin-account-id`, `x-devin-primary-org-id`. Body: field 1 the session token, field 2 `include_top_up_status = true`.
 - **Reply:** field 1 `plan_status`, of which: 1 `plan_info` (its 2 is the plan's name), 14 `daily_quota_remaining_percent`, 15 `weekly_quota_remaining_percent`, 17 and 18 their resets in Unix seconds. Every other field is skipped by wire type; a reply that can't be walked to the end is unreadable.
 - **Windows:** `.daily` (86,400 s) and `.weekly` (604,800 s), both `reportsLength: true` — the service names them. `usedFraction = (100 − remaining) / 100`. A remaining figure over 100 is dropped.
@@ -18,7 +18,6 @@ Profiled provider: [`Sources/Pulse/Providers/Profiled/WindsurfUsageService.swift
 
 ## Missing shared piece
 
-Profiled providers can read cookies from a browser (`.sessionCookie`) but not `localStorage`. With a `localStorage` credential kind — `ChromiumLocalStorage` already exists — this could read the four values the way Devin does, and the user would paste nothing.
 
 ## Evidence
 

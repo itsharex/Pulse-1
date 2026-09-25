@@ -731,5 +731,7 @@
 "From app.factory.ai. Stored encrypted on this Mac." = "在 app.factory.ai 取得。加密儲存在本機。";
 
 /* Windsurf */
-"Uses only the session you paste in Settings. No Keychain prompt." = "只使用你在設定中貼上的登入工作階段。不會出現鑰匙圈提示。";
-"The session copied from windsurf.com, as one line of JSON. Stored encrypted on this Mac." = "從 windsurf.com 複製的登入工作階段，一行 JSON。加密儲存在本機。";
+
+/* Profiled providers: browser storage */
+"Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt." = "按「讀取」時，從 Chromium 核心瀏覽器讀取 windsurf.com 的登入資訊。不會出現鑰匙圈提示。";
+"Browser session" = "瀏覽器登入資訊";

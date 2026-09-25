@@ -27,6 +27,12 @@ struct ProviderProfile: Sendable {
         /// kept to the named cookies. The first name is the one that has to
         /// be there for the session to count.
         case sessionCookie(host: String, cookies: [String])
+        /// A sign-in a site keeps in a Chromium browser's `localStorage` rather
+        /// than in a cookie, read when the user presses Read — the same reader
+        /// Devin's pane uses. Every named key has to be there; they are stored
+        /// together as one JSON object, which is what `context.credential`
+        /// then holds. Nothing else in that origin's storage is kept.
+        case browserStorage(origin: String, keys: [String])
         /// A self-hosted gateway: a key, and the address it is sent to. The
         /// key goes nowhere else.
         case keyAndAddress
@@ -115,6 +121,23 @@ extension ProviderProfile {
     }
 }
 
+extension ProviderProfile {
+    /// The named `localStorage` values as one JSON object of strings, or nil
+    /// unless every one is there. A value the site stored JSON-encoded — a
+    /// quoted string — is unwrapped, so the service reads plain strings
+    /// whichever way the site wrote them.
+    static func storageCredential(from values: [String: String], keys: [String]) -> String? {
+        var picked: [String: String] = [:]
+        for key in keys {
+            guard let raw = values[key]?.trimmingCharacters(in: .whitespacesAndNewlines), !raw.isEmpty else { return nil }
+            let unwrapped = (try? JSONSerialization.jsonObject(with: Data(raw.utf8), options: .fragmentsAllowed)) as? String
+            picked[key] = unwrapped ?? raw
+        }
+        guard let data = try? JSONSerialization.data(withJSONObject: picked, options: .sortedKeys) else { return nil }
+        return String(data: data, encoding: .utf8)
+    }
+}
+
 /// So a request can fail with the reason itself: `Result<Data, Unavailability>`.
 extension ProviderUsage.Unavailability: Error {}
 
@@ -150,7 +173,9 @@ enum ProfileHTTP {
         -> Result<Data, ProviderUsage.Unavailability> {
         switch reply.status {
         case 200..<300: .success(reply.data)
-        case 401, 403: .failure(refused)
+        // A redirect is never followed (see `reply`), and for every service
+        // here the one it sends is to its sign-in page.
+        case 300..<400, 401, 403: .failure(refused)
         case 429: .failure(.rateLimited)
         default: .failure(.serverError)
         }
@@ -158,11 +183,17 @@ enum ProfileHTTP {
 
     /// The reply whatever its status, for a provider whose failures carry
     /// meaning in the body. Only a request that never got an answer fails.
+    ///
+    /// **Redirects are not followed.** A key or a session cookie is set on the
+    /// request by hand, and a hand-set header travels with a redirect to
+    /// whatever host it names. The redirect comes back as a 3xx instead, which
+    /// `classify` reads as the credential being turned away.
     static func reply(
         for request: URLRequest,
         session: URLSession? = nil
     ) async -> Result<Reply, ProviderUsage.Unavailability> {
-        guard let (data, response) = try? await (session ?? NetworkSession.shared).data(for: request),
+        guard let (data, response) = try? await (session ?? NetworkSession.shared)
+                .data(for: request, delegate: NoRedirects()),
               let http = response as? HTTPURLResponse
         else { return .failure(.unreachable) }
         return .success(Reply(data: data, status: http.statusCode))

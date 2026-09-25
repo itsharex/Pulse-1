@@ -549,7 +549,10 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     /// lives in a different file in a different format and — because it is not
     /// encrypted — needs no keychain permission. Both want the same row in
     /// Settings: which browser, and a button to go and look.
-    var readsBrowserStorage: Bool { usesSessionCookie || self == .devin }
+    var readsBrowserStorage: Bool {
+        if case .browserStorage = profile?.credential { return true }
+        return usesSessionCookie || self == .devin
+    }
 
     /// Whether Pulse holds a credential of its own for this provider.
     ///

@@ -61,8 +61,10 @@ enum UsageRoute: String, Codable, Sendable {
              .helmcode, .clawRouter, .zenMux, .v0, .devPass,
              .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
              .replicate, .typeSafe, .vercelAIGateway:
-            if case .sessionCookie = account.provider.profile?.credential { return .webSession }
-            return .endpoint
+            switch account.provider.profile?.credential {
+            case .sessionCookie, .browserStorage: return .webSession
+            default: return .endpoint
+            }
         }
     }
 }

@@ -1428,6 +1428,37 @@ struct SettingsView: View {
             return
         }
 
+        // A profiled provider's sign-in is saved like a pasted key, because
+        // its fetch reads the credential it is handed and never the browser.
+        if case .browserStorage(let origin, let keys) = account.provider.profile?.credential {
+            Task {
+                let found = await Task.detached(priority: .userInitiated) {
+                    ChromiumLocalStorage.find(
+                        origin: origin,
+                        in: chosen.map { [$0] } ?? ChromiumLocalStorage.present(),
+                        accept: { ProviderProfile.storageCredential(from: $0, keys: keys) != nil }
+                    )
+                }.value
+                guard let found, let credential = ProviderProfile.storageCredential(from: found.values, keys: keys),
+                      APIKeyStore.setKey(credential, for: account.provider)
+                else {
+                    if pane == .account(account) {
+                        let host = URL(string: origin)?.host() ?? origin
+                        sessionMessage = String.localized("No session found. Sign in at \(host) first.")
+                    }
+                    return
+                }
+                store.loadAPIKeys()
+                store.refresh(account)
+                if pane == .account(account) {
+                    apiKey = credential
+                    savedKey = credential
+                    sessionMessage = String.localized("Read from \(found.browser.name).")
+                }
+            }
+            return
+        }
+
         Task {
             // Off the main thread: it opens every table in a browser profile's
             // storage, and the settings window should not freeze while it does.
@@ -2503,6 +2534,8 @@ struct SettingsView: View {
                 SettingsRow(
                     account.provider.usesSessionCookie
                         ? String.localized("Session cookie")
+                        : account.provider.profile != nil && account.provider.readsBrowserStorage
+                        ? String.localized("Browser session")
                         : account.provider.usesKeyPair
                             ? String.localized("Access keys")
                             // Devin's is a token *and* an organization, and

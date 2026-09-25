@@ -128,7 +128,7 @@ final class UsageStore {
             // The field is a second way in; the first is a login this Mac may
             // already have, which only a fetch can find.
             .loading
-        } else if account.provider.profile != nil, account.provider.usesSessionCookie {
+        } else if account.provider.profile != nil, account.provider.readsBrowserStorage {
             .sessionMissing
         } else if account.provider.usesSessionCookie {
             .ollamaSessionMissing

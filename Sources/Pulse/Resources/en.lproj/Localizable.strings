@@ -731,5 +731,7 @@
 "From app.factory.ai. Stored encrypted on this Mac." = "From app.factory.ai. Stored encrypted on this Mac.";
 
 /* Windsurf */
-"Uses only the session you paste in Settings. No Keychain prompt." = "Uses only the session you paste in Settings. No Keychain prompt.";
-"The session copied from windsurf.com, as one line of JSON. Stored encrypted on this Mac." = "The session copied from windsurf.com, as one line of JSON. Stored encrypted on this Mac.";
+
+/* Profiled providers: browser storage */
+"Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt." = "Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt.";
+"Browser session" = "Browser session";

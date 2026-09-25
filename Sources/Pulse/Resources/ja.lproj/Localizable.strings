@@ -731,5 +731,7 @@
 "From app.factory.ai. Stored encrypted on this Mac." = "app.factory.ai で取得します。この Mac に暗号化して保存されます。";
 
 /* Windsurf */
-"Uses only the session you paste in Settings. No Keychain prompt." = "設定に貼り付けたログインセッションだけを使います。キーチェーンの確認はありません。";
-"The session copied from windsurf.com, as one line of JSON. Stored encrypted on this Mac." = "windsurf.com からコピーした、1 行の JSON 形式のログインセッションです。この Mac に暗号化して保存されます。";
+
+/* Profiled providers: browser storage */
+"Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt." = "「読み取る」を押すと、Chromium 系ブラウザから windsurf.com のサインイン情報を読み込みます。キーチェーンの確認はありません。";
+"Browser session" = "ブラウザのセッション";
