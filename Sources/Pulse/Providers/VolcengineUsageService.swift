@@ -178,7 +178,7 @@ struct VolcengineUsageService: Sendable {
     ) async -> Result<Data, Refusal> {
         switch await BoundedProcess.run(
             binary, arguments,
-            environment: NetworkSession.subprocessEnvironment(),
+            environment: BoundedProcess.environment(leading: binary, over: BoundedProcess.inheritedEnvironment),
             deadline: deadline,
             outputCeiling: outputCeiling
         ) {

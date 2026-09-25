@@ -1570,7 +1570,10 @@ struct SettingsView: View {
                     ) {
                         Toggle("", isOn: Binding(
                             get: { settings.showsCodexResetCredits },
-                            set: { settings.showsCodexResetCredits = $0 }
+                            set: {
+                                settings.showsCodexResetCredits = $0
+                                store.refreshCodexResetCredits()
+                            }
                         ))
                         .labelsHidden()
                         .toggleStyle(.switch)
@@ -1790,7 +1793,7 @@ struct SettingsView: View {
             let shown = provider
             // The stored figure, shown in the field rather than left blank
             // beside a ring that is measuring against it.
-            if Self.hasBalanceRing(account) {
+            if hasBalanceRing(account) {
                 balanceBudgetText = Self.text(settings.balanceBudget(for: account))
             }
             if shown.usesServerAddress {
@@ -2156,10 +2159,15 @@ struct SettingsView: View {
             : .localized("Asking \(provider.displayName)")
     }
 
-    /// Whether this account's ring is a balance's, with a basis to choose:
-    /// an API account that reports money. See `BalanceRing`.
-    static func hasBalanceRing(_ account: AccountKey) -> Bool {
-        account.isPrimary && account.provider.billing == .api && account.provider.reportsSpendableBalance
+    /// Whether this account's ring is a balance's, with a basis to choose: an
+    /// API account that reports money — and whose reading is money, not
+    /// limits of its own. A sub2api group reports quota windows, which are the
+    /// provider's figures; a basis picker beside them would change nothing,
+    /// and a control that does nothing is worse than none. See `BalanceRing`.
+    private func hasBalanceRing(_ account: AccountKey) -> Bool {
+        guard account.isPrimary, account.provider.billing == .api, account.provider.reportsSpendableBalance
+        else { return false }
+        return store.usage(for: account).windows.allSatisfy { $0.estimate == .sinceTopUp || $0.estimate == .yourBudget }
     }
 
     /// An API account reports money and no allowance, so the ring has no
@@ -2678,7 +2686,7 @@ struct SettingsView: View {
 
             // Every API account that reports money, as DeepSeek's did first:
             // the ring has no denominator until one of three is chosen.
-            if Self.hasBalanceRing(account) {
+            if hasBalanceRing(account) {
                 SettingsRowDivider()
                 balanceBasisRow(for: account)
                 if settings.balanceBasis(for: account) == .budget {

@@ -98,18 +98,17 @@ enum AlibabaTokenPlanUsageService {
     /// Keys, cookies and cloud credentials in Pulse's own environment never
     /// cross into it.
     static func environment(for binary: URL) -> [String: String] {
-        let inherited = NetworkSession.subprocessEnvironment() ?? ProcessInfo.processInfo.environment
+        let inherited = BoundedProcess.inheritedEnvironment
         let kept: Set<String> = [
             "HOME", "LANG", "LC_ALL", "LC_CTYPE", "TZ",
             "HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY", "NO_PROXY",
             "http_proxy", "https_proxy", "all_proxy", "no_proxy",
         ]
         var environment = inherited.filter { kept.contains($0.key) }
-        // The CLI may be a script whose interpreter sits beside it.
-        let directories = [binary.deletingLastPathComponent().path, "/opt/homebrew/bin", "/usr/local/bin",
-                           "/usr/bin", "/bin"]
+        let directories = ["/opt/homebrew/bin", "/usr/local/bin", "/usr/bin", "/bin"]
         environment["PATH"] = (directories + (inherited["PATH"].map { [$0] } ?? [])).joined(separator: ":")
-        return environment
+        // The CLI may be a script whose interpreter sits beside it.
+        return BoundedProcess.environment(leading: binary, over: environment)
     }
 
     static func run(_ binary: URL, _ arguments: [String]) async -> Result<Data, ProviderUsage.Unavailability> {

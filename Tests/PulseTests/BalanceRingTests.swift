@@ -84,3 +84,20 @@ struct BalanceRingTests {
         #expect(settings.balanceBases[AccountKey(.deepSeek).id] == nil)
     }
 }
+
+@Suite("Balance ring never calls an account spent")
+@MainActor
+struct BalanceRingSpentTests {
+    @Test("A zero or negative balance fills the ring but is not the provider saying spent")
+    func zeroIsNotSpent() {
+        let baselines = BalanceBaselines(file: nil)
+        for amount in [0.0, -12.5] {
+            var usage = ProviderUsage(account: AccountKey(.moonshot), windows: [], observedAt: nil, state: .live,
+                                      plan: nil, creditBalance: nil)
+            usage.creditRemaining = .init(amount: amount, currency: "USD")
+            let ringed = BalanceRing.applying(basis: .budget, budget: 10, to: usage, baselines: baselines)
+            #expect(ringed.windows.first?.usedFraction == 1)
+            #expect(ringed.windows.first?.isExhausted == false)
+        }
+    }
+}

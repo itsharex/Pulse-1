@@ -173,11 +173,13 @@ final class AppSettings {
     /// Codex's app server, so while this is on every Codex refresh starts or
     /// asks that process — which somebody reading Codex from its usage
     /// endpoint alone would otherwise never run.
+    ///
+    /// No `onChange`: that refetches every provider, and this is one row on
+    /// one card. Settings asks the store for the count itself.
     var showsCodexResetCredits = false {
         didSet {
             guard showsCodexResetCredits != oldValue else { return }
             UserDefaults.standard.set(showsCodexResetCredits, forKey: Key.showsCodexResetCredits)
-            onChange?()
         }
     }
 
@@ -245,6 +247,7 @@ final class AppSettings {
     /// account has the provider's own raw value as its id.
     var providerOrder: [String] {
         didSet {
+            orderedCache = nil
             guard providerOrder != oldValue else { return }
             UserDefaults.standard.set(providerOrder, forKey: Key.providerOrder)
             // Deliberately no `onChange`: that is how the AppKit side hears
@@ -259,6 +262,7 @@ final class AppSettings {
     /// only because Pulse was signed in to them.
     var extraAccounts: [ExtraAccount] {
         didSet {
+            orderedCache = nil
             guard extraAccounts != oldValue else { return }
             // Before the change is announced: whoever reacts is about to
             // measure the panel, and the rail is now longer than it was.
@@ -285,7 +289,15 @@ final class AppSettings {
     /// **Scanned at launch and when asked, not watched.** A program being
     /// copied in is a half-written folder for a moment, and a watcher would
     /// list it broken and then fixed. Settings has a button for "look again".
-    private(set) var extensions: [PulseExtension] = []
+    private(set) var extensions: [PulseExtension] = [] {
+        didSet {
+            orderedCache = nil
+            // What `storedRail()` — `--json` — lists, so it never has to read
+            // the folder itself.
+            let names = Dictionary(extensions.map { ($0.account.id, $0.name) }, uniquingKeysWith: { first, _ in first })
+            UserDefaults.standard.set(names, forKey: Key.extensionNames)
+        }
+    }
     private(set) var extensionProblems: [ExtensionCatalog.Problem] = []
 
     /// Reads the extensions folder again and, if that changed anything, tells
@@ -320,11 +332,28 @@ final class AppSettings {
     /// touched it — which is everybody until they do — gets the whole list in
     /// alphabetical order rather than in the order the enum happens to be
     /// written in.
+    ///
+    /// **Worked out once and kept.** The panel asks for it on every mouse
+    /// event it handles and every view that draws the rail asks again, and
+    /// with seventy-odd providers each answer was a sort of every name. It
+    /// changes only with the stored order, the added accounts and the
+    /// extensions found, which is exactly what clears it. Those three are
+    /// still read on every call, so whoever asks is told when they change.
     var orderedAccounts: [AccountKey] {
+        _ = providerOrder
+        _ = extraAccounts
+        _ = extensions
+        if let orderedCache { return orderedCache }
         let known = allAccounts
-        let stored = providerOrder.compactMap(AccountKey.init(id:)).filter(known.contains)
-        return stored + known.filter { !stored.contains($0) }.sorted(by: byName)
+        let knownSet = Set(known)
+        let stored = providerOrder.compactMap(AccountKey.init(id:)).filter(knownSet.contains)
+        let storedSet = Set(stored)
+        let ordered = stored + known.filter { !storedSet.contains($0) }.sorted(by: byName)
+        orderedCache = ordered
+        return ordered
     }
+
+    @ObservationIgnored private var orderedCache: [AccountKey]?
 
     /// The order accounts fall into before anybody has arranged them: **by the
     /// name on the row**.
@@ -1403,12 +1432,16 @@ final class AppSettings {
 
         let extras = defaults.data(forKey: Key.extraAccounts)
             .flatMap { try? JSONDecoder().decode([ExtraAccount].self, from: $0) } ?? []
-        // Scanned here too: the folder is the only record of which extensions
-        // exist, and a manifest is a small file. Nothing is run.
-        let found = ExtensionCatalog.scan().extensions
+        // **Not scanned here.** A status line runs this every couple of
+        // seconds, and the folder was already read by the app, which writes
+        // down what it found — account id to name — each time it looks.
+        let found = (defaults.dictionary(forKey: Key.extensionNames) as? [String: String] ?? [:])
+            .compactMap { id, name in AccountKey(id: id).map { ($0, name) } }
+            .filter { $0.0.provider == .pulseExtension }
+            .sorted { $0.0.id < $1.0.id }
         let known = Provider.builtIn.flatMap { provider in
             [AccountKey(provider)] + extras.filter { $0.provider == provider }.map(\.key)
-        } + found.map(\.account)
+        } + found.map(\.0)
 
         let enabled = Set(defaults.stringArray(forKey: ProviderSelection.enabledKey) ?? [])
         // Same resolution as `orderedAccounts`: stored order first, then
@@ -1427,7 +1460,7 @@ final class AppSettings {
             // else in the app tolerates duplicates (`label(for:)` takes the
             // first), so crashing here would be the only place that doesn't.
             labels: Dictionary(
-                extras.map { ($0.id, $0.label) } + found.map { ($0.account.id, $0.name) },
+                extras.map { ($0.id, $0.label) } + found.map { ($0.0.id, $0.1) },
                 uniquingKeysWith: { first, _ in first }
             ),
             pinnedWindows: defaults.dictionary(forKey: Key.pinnedWindows) as? [String: String] ?? [:]
@@ -1615,6 +1648,7 @@ final class AppSettings {
         static let lowBalanceAlerts = "settings.lowBalanceAlerts"
         static let balanceBases = "settings.balanceBases"
         static let showsCodexResetCredits = "settings.showsCodexResetCredits"
+        static let extensionNames = "settings.extensionNames"
         static let balanceBudgets = "settings.balanceBudgets"
         static let language = "settings.language"
         static let pinnedWindows = "settings.pinnedWindows"

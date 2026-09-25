@@ -68,9 +68,15 @@ enum BalanceRing {
     ) -> ProviderUsage {
         guard usage.state == .live, usage.windows.isEmpty, let money = usage.creditRemaining else { return usage }
         let mark = baselines.advance(account: usage.account, currency: money.currency, seeing: money.amount, at: now)
+        // **Never spent on Pulse's say-so.** A balance at or below zero is
+        // arithmetic, not the provider's word: Moonshot runs negative and
+        // keeps working, and xAI's posted ledger can read zero mid-cycle with
+        // credit left. Only a provider flag may call an account spent
+        // (DeepSeek's `is_available`), and none reaches here, so a balance
+        // ring rises to 99% and says no more — see `UsageAlerts.step`.
         guard let window = window(
             balance: money.amount, basis: basis, budget: budget, peak: mark.peak,
-            isExhausted: money.amount <= 0
+            isExhausted: false
         ) else { return usage }
         var ringed = usage
         ringed.windows = [window]

@@ -143,15 +143,25 @@ final class UsageStore {
     /// every Codex refresh rather than inside it: it is a second call to a
     /// different route, and a slow app server must not hold the ring up.
     private(set) var codexResetCredits: CodexResetCredits?
+    /// Which ask is the latest. Two can be in flight — a ring click right
+    /// after a pass — and the one that answers last is not always the one
+    /// asked last: an app server timing out after twenty seconds must not
+    /// put "Not available" over the count a later ask already brought back.
+    private var codexResetCreditsAsk = 0
 
-    private func refreshCodexResetCredits() {
+    /// Internal so Settings can ask directly when the switch moves, rather
+    /// than through `onChange`, which refetches every provider for what is
+    /// one row on one card.
+    func refreshCodexResetCredits() {
+        codexResetCreditsAsk += 1
+        let ask = codexResetCreditsAsk
         guard settings.showsCodexResetCredits, settings.isEnabled(AccountKey(.codex)) else {
             codexResetCredits = nil
             return
         }
         Task { [weak self, appServer] in
             let credits = await CodexAccountUsageService(server: appServer).resetCredits()
-            guard let self, self.settings.showsCodexResetCredits else { return }
+            guard let self, ask == self.codexResetCreditsAsk, self.settings.showsCodexResetCredits else { return }
             self.codexResetCredits = credits
         }
     }
@@ -575,6 +585,16 @@ final class UsageStore {
             async let stepFunUsage = wanted.contains(.stepFun)
                 ? await stepFun.fetch()
                 : ProviderUsage.unavailable(.stepFun, reason: .loading)
+            // Started beside the built-in ones, not after they have all come
+            // back: waiting on them put the slowest of each group end to end.
+            async let profiledUsage = withTaskGroup(of: (Provider, ProviderUsage).self) { group in
+                for (profile, context) in profiled {
+                    group.addTask { (context.provider, await profile.fetch(context)) }
+                }
+                var readings: [(Provider, ProviderUsage)] = []
+                for await reading in group { readings.append(reading) }
+                return readings
+            }
 
             let (rawCodex, rawKiro, rawClaude, rawAntigravity, rawOpenCode) =
                 await (codexUsage, kiroUsage, claudeUsage, antigravityUsage, openCodeUsage)
@@ -586,14 +606,7 @@ final class UsageStore {
             let (rawDeepSeek, rawDevin) = await (deepSeekUsage, devinUsage)
             let (rawSub2API, rawNewAPI, rawV2EX) = await (sub2apiUsage, newAPIUsage, v2exUsage)
             let (rawXiaomi, rawQoder, rawStepFun) = await (xiaomiUsage, qoderUsage, stepFunUsage)
-            let rawProfiled = await withTaskGroup(of: (Provider, ProviderUsage).self) { group in
-                for (profile, context) in profiled {
-                    group.addTask { (context.provider, await profile.fetch(context)) }
-                }
-                var readings: [(Provider, ProviderUsage)] = []
-                for await reading in group { readings.append(reading) }
-                return readings
-            }
+            let rawProfiled = await profiledUsage
 
             // **The disowning is checked before anything is written, not just
             // before the readings are handed to the panel.** `reconciled`

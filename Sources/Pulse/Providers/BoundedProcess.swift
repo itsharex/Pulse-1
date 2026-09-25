@@ -24,6 +24,32 @@ import Foundation
 /// not one provider being slow — it is the rail freezing until something else
 /// happens to call `refresh`.
 enum BoundedProcess {
+    /// A helper's environment: `inherited`, with the folder `binary` was
+    /// found in at the front of `PATH`. **Every launcher of another tool's
+    /// CLI goes through this.**
+    ///
+    /// An npm install of a CLI is a Node script — `#!/usr/bin/env node` — and
+    /// a GUI app's `PATH` is `/usr/bin:/bin:/usr/sbin:/sbin`, which has no
+    /// `node` in it. So a `codex` found under `~/.nvm/…/bin` started and died
+    /// at once with "env: node: No such file or directory", and everything
+    /// only its app server reports never arrived (issue #67). nvm, Homebrew
+    /// and Volta all put `node` beside the CLI they installed, so that folder
+    /// is where to look first. The path as found, not the link resolved:
+    /// nvm's `codex` links into `lib/node_modules`, where there is no `node`.
+    static func environment(leading binary: URL, over inherited: [String: String]) -> [String: String] {
+        var environment = inherited
+        let folder = binary.deletingLastPathComponent().path
+        let path = inherited["PATH"] ?? "/usr/bin:/bin:/usr/sbin:/sbin"
+        let rest = path.split(separator: ":").map(String.init).filter { $0 != folder }
+        environment["PATH"] = ([folder] + rest).joined(separator: ":")
+        return environment
+    }
+
+    /// What a helper inherits: the proxy the user chose, over Pulse's own.
+    static var inheritedEnvironment: [String: String] {
+        NetworkSession.subprocessEnvironment() ?? ProcessInfo.processInfo.environment
+    }
+
     enum Failure: Error, Equatable {
         /// The program could not be started at all: missing, not executable.
         case couldNotStart
