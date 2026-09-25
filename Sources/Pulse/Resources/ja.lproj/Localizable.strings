@@ -774,3 +774,6 @@
 "From poe.com/api/keys. Stored encrypted on this Mac." = "poe.com/api/keys で取得します。この Mac に暗号化して保存されます。";
 /* Aixy */
 "From aixy-gateway.com. Stored encrypted on this Mac." = "aixy-gateway.com で取得します。この Mac に暗号化して保存されます。";
+
+/* Neuralwatt */
+"From portal.neuralwatt.com. Stored encrypted on this Mac." = "portal.neuralwatt.com で取得します。この Mac に暗号化して保存されます。";

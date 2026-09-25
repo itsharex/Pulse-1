@@ -774,3 +774,6 @@
 "From poe.com/api/keys. Stored encrypted on this Mac." = "在 poe.com/api/keys 取得。加密儲存在本機。";
 /* Aixy */
 "From aixy-gateway.com. Stored encrypted on this Mac." = "在 aixy-gateway.com 取得。加密儲存在本機。";
+
+/* Neuralwatt */
+"From portal.neuralwatt.com. Stored encrypted on this Mac." = "在 portal.neuralwatt.com 取得。加密儲存在本機。";
