@@ -766,3 +766,6 @@
 
 /* Hyper */
 "From hyper.charm.land. Stored encrypted on this Mac." = "hyper.charm.land で取得します。この Mac に暗号化して保存されます。";
+
+/* Atlas Cloud */
+"From atlascloud.ai, with permission to read the balance. Stored encrypted on this Mac." = "atlascloud.ai で、残高を読める権限のあるキーを取得します。この Mac に暗号化して保存されます。";

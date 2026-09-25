@@ -766,3 +766,6 @@
 
 /* Hyper */
 "From hyper.charm.land. Stored encrypted on this Mac." = "在 hyper.charm.land 获取。加密保存在本机。";
+
+/* Atlas Cloud */
+"From atlascloud.ai, with permission to read the balance. Stored encrypted on this Mac." = "在 atlascloud.ai 获取，需有查看余额的权限。加密保存在本机。";

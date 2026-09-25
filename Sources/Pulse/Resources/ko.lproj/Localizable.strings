@@ -766,3 +766,6 @@
 
 /* Hyper */
 "From hyper.charm.land. Stored encrypted on this Mac." = "hyper.charm.land에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* Atlas Cloud */
+"From atlascloud.ai, with permission to read the balance. Stored encrypted on this Mac." = "atlascloud.ai에서 잔액 조회 권한이 있는 키를 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
