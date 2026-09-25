@@ -783,3 +783,6 @@
 
 /* ZenMux */
 "A Management API key from zenmux.ai. An ordinary API key won't work. Stored encrypted on this Mac." = "zenmux.ai에서 발급한 Management API 키입니다. 일반 API 키로는 사용할 수 없습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* v0 */
+"From v0.app. Stored encrypted on this Mac." = "v0.app에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
