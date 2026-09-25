@@ -772,3 +772,5 @@
 
 /* Poe */
 "From poe.com/api/keys. Stored encrypted on this Mac." = "From poe.com/api/keys. Stored encrypted on this Mac.";
+/* Aixy */
+"From aixy-gateway.com. Stored encrypted on this Mac." = "From aixy-gateway.com. Stored encrypted on this Mac.";

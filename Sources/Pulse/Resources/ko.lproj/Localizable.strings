@@ -772,3 +772,5 @@
 
 /* Poe */
 "From poe.com/api/keys. Stored encrypted on this Mac." = "poe.com/api/keys에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+/* Aixy */
+"From aixy-gateway.com. Stored encrypted on this Mac." = "aixy-gateway.com에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";

@@ -772,3 +772,5 @@
 
 /* Poe */
 "From poe.com/api/keys. Stored encrypted on this Mac." = "在 poe.com/api/keys 获取。加密保存在本机。";
+/* Aixy */
+"From aixy-gateway.com. Stored encrypted on this Mac." = "在 aixy-gateway.com 获取。加密保存在本机。";
