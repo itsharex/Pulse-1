@@ -756,3 +756,7 @@
 
 /* Chutes */
 "From chutes.ai. Stored encrypted on this Mac." = "From chutes.ai. Stored encrypted on this Mac.";
+
+/* GitKraken AI */
+"Uses only the access token you enter in Settings. No Keychain prompt." = "Uses only the access token you enter in Settings. No Keychain prompt.";
+"The Bearer token from gitkraken.dev's usage request, copied from the browser's developer tools. Stored encrypted on this Mac." = "The Bearer token from gitkraken.dev's usage request, copied from the browser's developer tools. Stored encrypted on this Mac.";

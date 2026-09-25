@@ -756,3 +756,7 @@
 
 /* Chutes */
 "From chutes.ai. Stored encrypted on this Mac." = "chutes.ai で取得します。この Mac に暗号化して保存されます。";
+
+/* GitKraken AI */
+"Uses only the access token you enter in Settings. No Keychain prompt." = "設定で入力したアクセストークンだけを使います。キーチェーンの確認はありません。";
+"The Bearer token from gitkraken.dev's usage request, copied from the browser's developer tools. Stored encrypted on this Mac." = "gitkraken.dev の使用量リクエストに付いている Bearer トークンを、ブラウザの開発者ツールからコピーします。この Mac に暗号化して保存されます。";

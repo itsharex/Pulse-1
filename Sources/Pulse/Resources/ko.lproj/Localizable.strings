@@ -756,3 +756,7 @@
 
 /* Chutes */
 "From chutes.ai. Stored encrypted on this Mac." = "chutes.ai에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* GitKraken AI */
+"Uses only the access token you enter in Settings. No Keychain prompt." = "설정에 입력한 액세스 토큰만 사용합니다. 키체인 확인 창은 표시되지 않습니다.";
+"The Bearer token from gitkraken.dev's usage request, copied from the browser's developer tools. Stored encrypted on this Mac." = "gitkraken.dev 사용량 요청에 담긴 Bearer 토큰을 브라우저 개발자 도구에서 복사합니다. 이 Mac에 암호화되어 저장됩니다.";
