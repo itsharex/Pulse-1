@@ -132,6 +132,65 @@ Pulse 只呈现各服务上报的数字，每个百分比都来自那份回复�
 | **Qoder** | 什么都不用填——读取浏览器里 qoder.com 或 qoder.com.cn 的登录会话，也可以手动粘贴 `Cookie:` 头 | 积分额度（套餐加加油包），按 Qoder 上报的重置时间显示；团队套餐的共享积分单独画一个环，从不相加；额度为零时会直说，而不是画一个空环（[Docs/providers/qoder.md](Docs/providers/qoder.md)） |
 | **阶跃星辰（StepFun）** | 什么都不用填——读取浏览器里 platform.stepfun.com 或 platform.stepfun.ai 的登录会话，也可以手动粘贴 `Cookie:` 头 | Step Plan：Token Plan 的月度 Credit 和加油包合成一个环，并显示最早一批的到期日；旧版 Coding Plan 显示 5 小时和每周两个窗口；没有订阅时会直说，而不是画一个环（[Docs/providers/stepfun.md](Docs/providers/stepfun.md)） |
 
+### 更多服务商
+
+参照 [CodexBar](https://github.com/steipete/CodexBar) 的实现编写。**尚未用真实账号验证**——如果某家用不了，欢迎[提 issue](https://github.com/qunqin24/Pulse/issues)。各家的设置步骤见 [Docs/setup/](Docs/setup/)（英文），维护说明见 [Docs/providers/README.md](Docs/providers/README.md#profiled-providers)。
+
+| 服务商 | 读取通道与鉴权方式 | 显示内容 |
+|---|---|---|
+| **Abacus AI** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 算力点数与账单日期 |
+| **Aixy** | 设置中填入 API Key | 按周期的网关预算 |
+| **Alibaba Coding Plan** | 设置中填入 API Key | 5 小时、每周、每月额度；先问国际站，再问国内站 |
+| **Alibaba Token Plan** | 运行阿里 `bl` CLI，使用其已保存的登录 | 5 小时、每周、每月用量占比 |
+| **Amp** | 设置中填入 API Key | 免费每日额度、套餐额度与余额 |
+| **Atlas Cloud** | 设置中填入 API Key | 余额 |
+| **Augment Code** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 本周期已用积分 |
+| **Bifrost** | 填入 Key；自建网关地址由你填写 | 虚拟 Key 的美元预算 |
+| **Chutes** | 设置中填入 API Key | 滚动窗口与每月额度 |
+| **ClawRouter** | 设置中填入 API Key | 每月预算 |
+| **ClinePass** | 设置中填入 API Key | 5 小时、每周、每月限额 |
+| **Codebuff** | 填入 Key，或读取其 CLI 已保存的登录 | 积分；用 CLI 登录时另有每周限额 |
+| **DeepInfra** | 设置中填入 API Key | 余额；在其后台设过限额时显示花费占比 |
+| **DevPass** | 设置中填入 API Key | 每周高级额度与套餐积分 |
+| **ElevenLabs** | 设置中填入 API Key | 本计费周期的字符额度 |
+| **Factory** | 设置中填入 API Key | 5 小时、每周、每月限额（旧计费为 Standard 与 Premium）；额外用量余额 |
+| **Gemini** | 读取 Gemini CLI 保存的登录，只读、从不代为刷新 | 每个模型的配额。该登录约一小时过期，只在近期用过 Gemini CLI 时有读数 |
+| **GitKraken AI** | 粘贴 token | 个人积分与共享池 |
+| **Hugging Face** | 粘贴 token，或读取 `hf auth login` 保存的 | ZeroGPU 配额 |
+| **Hyper** | 设置中填入 API Key | Hypercredit 余额 |
+| **IBM Bob** | 设置中填入 API Key | Bobcoins 相对团队预算的用量 |
+| **JetBrains AI** | 读取 JetBrains IDE 保存的配额文件，不向任何地方发送数据 | AI Assistant 配额；IDE 运行时才更新 |
+| **Kilo Code** | 填入 Key，或读取其 CLI 已保存的登录 | 积分余额与 Kilo Pass |
+| **LiteLLM** | 填入 Key；自建网关地址由你填写 | 团队与用户预算 |
+| **LLM API Key Proxy** | 填入 Key；自建网关地址由你填写 | 按上游划分的配额组 |
+| **LongCat** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | Token 包额度与加油包 |
+| **Manus** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 每日与每月积分 |
+| **Mistral** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | API 与 Vibe 的每月额度，以及可用余额 |
+| **Moonshot** | 设置中填入 API Key | Kimi 开放平台余额，美元或人民币 |
+| **Neuralwatt** | 设置中填入 API Key | kWh 订阅、消费额度与余额 |
+| **Notion AI** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 滚动窗口与计费周期额度（Business 与 Enterprise） |
+| **Nous Portal** | 读取 Hermes Agent 保存的登录，只读 | 每月积分额度与余额 |
+| **OpenAI API** | 设置中填入 API Key | 预付余额（旧计费接口仍可用时） |
+| **Perplexity** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | API 余额 |
+| **Poe** | 设置中填入 API Key | 积分余额 |
+| **Qwen Cloud** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 5 小时、每周、每月占比，以及档位 |
+| **Raycast AI** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | AI 积分与续期日期 |
+| **Replicate** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 预付余额 |
+| **Sakana AI** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 5 小时与每周限额 |
+| **Synthetic** | 设置中填入 API Key | 5 小时、每周与搜索额度 |
+| **T3 Chat** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 4 小时窗口与每月用量 |
+| **TypeSafe** | 粘贴 `Cookie:` 请求头 | 余额与套餐 |
+| **v0** | 设置中填入 API Key | 计费额度 |
+| **Venice** | 设置中填入 API Key | 余额，美元或 DIEM |
+| **Vercel AI Gateway** | 设置中填入 API Key | 余额 |
+| **Warp** | 设置中填入 API Key | 套餐积分与附加积分 |
+| **Windsurf** | 从 Chromium 内核浏览器读取 windsurf.com 的登录 | 每日与每周配额 |
+| **xAI API** | 以 `TeamID:ManagementKey` 格式填入 | 团队预付余额（xAI 已入账的数额） |
+| **xKiro** | 设置中填入 API Key | 5 小时与每周窗口、每日免费 Token 与钱包 |
+| **Zed** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 编辑预测额度与消费上限 |
+| **ZenMux** | 填入管理密钥 | 5 小时与 7 天配额，以及余额 |
+| **ZoomMate** | 读取浏览器登录会话，或粘贴 `Cookie:` 请求头 | 积分相对预算上限的用量 |
+
 ---
 
 ## 安装与快速上手

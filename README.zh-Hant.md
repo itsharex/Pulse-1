@@ -132,6 +132,65 @@ Pulse 只呈現各服務回報的數字，每個百分比都來自那份回覆�
 | **Qoder** | 無需輸入——讀取瀏覽器中 qoder.com 或 qoder.com.cn 的登入工作階段，也可以手動貼上 `Cookie:` 標頭 | 點數額度（方案加加購包），依 Qoder 回報的重設時間顯示；團隊方案的共用點數另外畫一個環，絕不相加；點數為零時會直接說明，而不是畫一個空環（[Docs/providers/qoder.md](Docs/providers/qoder.md)） |
 | **階躍星辰（StepFun）** | 無需輸入——讀取瀏覽器中 platform.stepfun.com 或 platform.stepfun.ai 的登入工作階段，也可以手動貼上 `Cookie:` 標頭 | Step Plan：Token Plan 的每月 Credit 與加購包合成一個環，並顯示最早一批的到期日；舊版 Coding Plan 顯示 5 小時與每週兩個視窗；沒有訂閱時會直接說明，而不是畫一個環（[Docs/providers/stepfun.md](Docs/providers/stepfun.md)） |
 
+### 更多服務商
+
+參照 [CodexBar](https://github.com/steipete/CodexBar) 的實作撰寫。**尚未用真實帳號驗證**——如果某家用不了，歡迎[回報 issue](https://github.com/qunqin24/Pulse/issues)。各家的設定步驟見 [Docs/setup/](Docs/setup/)（英文），維護說明見 [Docs/providers/README.md](Docs/providers/README.md#profiled-providers)。
+
+| 服務商 | 資料通道與驗證方式 | 顯示內容 |
+|---|---|---|
+| **Abacus AI** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 算力點數與帳單日期 |
+| **Aixy** | 貼上的 API 金鑰 | 依週期的閘道預算 |
+| **Alibaba Coding Plan** | 貼上的 API 金鑰 | 5 小時、每週、每月額度；先查國際站，再查中國站 |
+| **Alibaba Token Plan** | 執行阿里 `bl` CLI，使用其已儲存的登入 | 5 小時、每週、每月用量比例 |
+| **Amp** | 貼上的 API 金鑰 | 免費每日額度、方案額度與餘額 |
+| **Atlas Cloud** | 貼上的 API 金鑰 | 餘額 |
+| **Augment Code** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 本週期已用點數 |
+| **Bifrost** | 貼上的金鑰；自架閘道位址由你填寫 | 虛擬金鑰的美元預算 |
+| **Chutes** | 貼上的 API 金鑰 | 滾動視窗與每月額度 |
+| **ClawRouter** | 貼上的 API 金鑰 | 每月預算 |
+| **ClinePass** | 貼上的 API 金鑰 | 5 小時、每週、每月限額 |
+| **Codebuff** | 貼上的金鑰，或讀取其 CLI 已儲存的登入 | 點數；使用 CLI 登入時另有每週限額 |
+| **DeepInfra** | 貼上的 API 金鑰 | 餘額；在其後台設過限額時顯示花費比例 |
+| **DevPass** | 貼上的 API 金鑰 | 每週高級額度與方案點數 |
+| **ElevenLabs** | 貼上的 API 金鑰 | 本計費週期的字元額度 |
+| **Factory** | 貼上的 API 金鑰 | 5 小時、每週、每月限額（舊計費為 Standard 與 Premium）；額外用量餘額 |
+| **Gemini** | 讀取 Gemini CLI 儲存的登入，只讀、從不代為更新 | 每個模型的配額。該登入約一小時過期，只在近期用過 Gemini CLI 時有讀數 |
+| **GitKraken AI** | 貼上的 token | 個人點數與共用池 |
+| **Hugging Face** | 貼上的 token，或讀取 `hf auth login` 儲存的 | ZeroGPU 配額 |
+| **Hyper** | 貼上的 API 金鑰 | Hypercredit 餘額 |
+| **IBM Bob** | 貼上的 API 金鑰 | Bobcoins 相對團隊預算的用量 |
+| **JetBrains AI** | 讀取 JetBrains IDE 儲存的配額檔案，不向任何地方傳送資料 | AI Assistant 配額；IDE 執行時才更新 |
+| **Kilo Code** | 貼上的金鑰，或讀取其 CLI 已儲存的登入 | 點數餘額與 Kilo Pass |
+| **LiteLLM** | 貼上的金鑰；自架閘道位址由你填寫 | 團隊與使用者預算 |
+| **LLM API Key Proxy** | 貼上的金鑰；自架閘道位址由你填寫 | 依上游劃分的配額組 |
+| **LongCat** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | Token 包額度與加油包 |
+| **Manus** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 每日與每月點數 |
+| **Mistral** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | API 與 Vibe 的每月額度，以及可用餘額 |
+| **Moonshot** | 貼上的 API 金鑰 | Kimi 開放平台餘額，美元或人民幣 |
+| **Neuralwatt** | 貼上的 API 金鑰 | kWh 訂閱、消費額度與餘額 |
+| **Notion AI** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 滾動視窗與計費週期額度（Business 與 Enterprise） |
+| **Nous Portal** | 讀取 Hermes Agent 儲存的登入，只讀 | 每月點數額度與餘額 |
+| **OpenAI API** | 貼上的 API 金鑰 | 預付餘額（舊計費介面仍可用時） |
+| **Perplexity** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | API 餘額 |
+| **Poe** | 貼上的 API 金鑰 | 點數餘額 |
+| **Qwen Cloud** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 5 小時、每週、每月比例，以及方案等級 |
+| **Raycast AI** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | AI 點數與續期日期 |
+| **Replicate** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 預付餘額 |
+| **Sakana AI** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 5 小時與每週限額 |
+| **Synthetic** | 貼上的 API 金鑰 | 5 小時、每週與搜尋額度 |
+| **T3 Chat** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 4 小時視窗與每月用量 |
+| **TypeSafe** | 貼上的 `Cookie:` 標頭 | 餘額與方案 |
+| **v0** | 貼上的 API 金鑰 | 計費額度 |
+| **Venice** | 貼上的 API 金鑰 | 餘額，美元或 DIEM |
+| **Vercel AI Gateway** | 貼上的 API 金鑰 | 餘額 |
+| **Warp** | 貼上的 API 金鑰 | 方案點數與附加點數 |
+| **Windsurf** | 從 Chromium 核心瀏覽器讀取 windsurf.com 的登入 | 每日與每週配額 |
+| **xAI API** | 以 `TeamID:ManagementKey` 格式填入 | 團隊預付餘額（xAI 已入帳的數額） |
+| **xKiro** | 貼上的 API 金鑰 | 5 小時與每週視窗、每日免費 Token 與錢包 |
+| **Zed** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 編輯預測額度與消費上限 |
+| **ZenMux** | 貼上的管理金鑰 | 5 小時與 7 天配額，以及餘額 |
+| **ZoomMate** | 讀取瀏覽器登入工作階段，或貼上 `Cookie:` 標頭 | 點數相對預算上限的用量 |
+
 ---
 
 ## 安裝

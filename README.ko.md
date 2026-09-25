@@ -132,6 +132,65 @@ Pulse는 각 서비스가 보고하는 숫자를 그대로 보여 줍니다. 화
 | **Qoder** | 입력할 것이 없음——qoder.com 또는 qoder.com.cn에 로그인된 브라우저 세션을 읽음. `Cookie:` 헤더를 붙여 넣을 수도 있음 | 크레딧 한도(플랜과 팩 합산)를 Qoder가 보고하는 초기화 시각과 함께 표시. 팀 플랜의 공유 크레딧은 별도 링으로 표시하며 절대 합산하지 않음. 크레딧이 0이면 링을 그리지 않고 그렇다고 알림([Docs/providers/qoder.md](Docs/providers/qoder.md)) |
 | **StepFun** | 입력할 것이 없음——platform.stepfun.com 또는 platform.stepfun.ai에 로그인된 브라우저 세션을 읽음. `Cookie:` 헤더를 붙여 넣을 수도 있음 | Step Plan: Token Plan의 월간 Credit과 추가 팩을 하나의 링으로 합치고 가장 먼저 만료되는 분의 날짜를 표시. 구 Coding Plan은 5시간·주간 두 창. 플랜이 없으면 링을 그리지 않고 그렇게 표시함([Docs/providers/stepfun.md](Docs/providers/stepfun.md)) |
 
+### 그 밖의 제공업체
+
+[CodexBar](https://github.com/steipete/CodexBar)의 구현을 참고해 옮겨 온 것입니다. **실제 계정으로는 아직 확인하지 않았습니다**——동작하지 않는 것이 있으면 [issue](https://github.com/qunqin24/Pulse/issues)로 알려 주십시오. 제공업체별 설정 방법은 [Docs/setup/](Docs/setup/)(영문), 유지 관리 설명은 [Docs/providers/README.md](Docs/providers/README.md#profiled-providers)에 있습니다.
+
+| 제공업체 | 데이터 경로와 인증 방식 | 표시 내용 |
+|---|---|---|
+| **Abacus AI** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 컴퓨트 포인트와 청구일 |
+| **Aixy** | 붙여 넣은 API 키 | 기간별 게이트웨이 예산 |
+| **Alibaba Coding Plan** | 붙여 넣은 API 키 | 5시간·주간·월간 한도. 국제 콘솔을 먼저, 이어서 중국 본토 |
+| **Alibaba Token Plan** | Alibaba `bl` CLI를 저장된 로그인으로 실행 | 5시간·주간·월간 사용 비율 |
+| **Amp** | 붙여 넣은 API 키 | 무료 일일 한도, 플랜 한도와 크레딧 |
+| **Atlas Cloud** | 붙여 넣은 API 키 | 잔액 |
+| **Augment Code** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 이번 주기에 사용한 크레딧 |
+| **Bifrost** | 붙여 넣은 키. 직접 운영하는 게이트웨이 주소를 입력 | 가상 키의 달러 예산 |
+| **Chutes** | 붙여 넣은 API 키 | 롤링 창과 월간 한도 |
+| **ClawRouter** | 붙여 넣은 API 키 | 월간 예산 |
+| **ClinePass** | 붙여 넣은 API 키 | 5시간·주간·월간 한도 |
+| **Codebuff** | 붙여 넣은 키 또는 CLI가 저장한 로그인 | 크레딧. CLI 로그인 시 주간 한도도 표시 |
+| **DeepInfra** | 붙여 넣은 API 키 | 잔액. 그쪽에서 한도를 정했다면 그 대비 지출 |
+| **DevPass** | 붙여 넣은 API 키 | 주간 프리미엄 한도와 플랜 크레딧 |
+| **ElevenLabs** | 붙여 넣은 API 키 | 청구 기간의 문자 크레딧 |
+| **Factory** | 붙여 넣은 API 키 | 5시간·주간·월간 한도(구 청구 방식은 Standard와 Premium). 추가 사용 잔액 |
+| **Gemini** | Gemini CLI가 저장한 로그인을 읽기만 함(갱신하지 않음) | 모델별 할당량. 로그인이 약 1시간 만에 만료되므로 Gemini CLI를 쓰는 동안만 읽힘 |
+| **GitKraken AI** | 붙여 넣은 토큰 | 개인 크레딧과 공유 풀 |
+| **Hugging Face** | 붙여 넣은 토큰 또는 `hf auth login`이 저장한 토큰 | ZeroGPU 할당량 |
+| **Hyper** | 붙여 넣은 API 키 | Hypercredit 잔액 |
+| **IBM Bob** | 붙여 넣은 API 키 | 팀 예산 대비 Bobcoins 사용량 |
+| **JetBrains AI** | JetBrains IDE가 저장하는 할당량 파일. 어디에도 전송하지 않음 | AI Assistant 할당량. IDE 실행 중에만 갱신 |
+| **Kilo Code** | 붙여 넣은 키 또는 CLI가 저장한 로그인 | 크레딧 잔액과 Kilo Pass |
+| **LiteLLM** | 붙여 넣은 키. 직접 운영하는 게이트웨이 주소를 입력 | 팀과 사용자 예산 |
+| **LLM API Key Proxy** | 붙여 넣은 키. 직접 운영하는 게이트웨이 주소를 입력 | 업스트림별 할당량 그룹 |
+| **LongCat** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 토큰 팩 한도와 추가 팩 |
+| **Manus** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 일간과 월간 크레딧 |
+| **Mistral** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | API와 Vibe 월간 한도, 사용 가능한 크레딧 |
+| **Moonshot** | 붙여 넣은 API 키 | Kimi 오픈 플랫폼 잔액(USD 또는 CNY) |
+| **Neuralwatt** | 붙여 넣은 API 키 | kWh 구독, 사용 한도와 잔액 |
+| **Notion AI** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 롤링 창과 청구 기간 한도(Business·Enterprise) |
+| **Nous Portal** | Hermes Agent가 저장한 로그인을 읽기만 함 | 월간 크레딧 지급량과 잔액 |
+| **OpenAI API** | 붙여 넣은 API 키 | 선불 잔액(구 청구 경로가 응답하는 경우) |
+| **Perplexity** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | API 크레딧 잔액 |
+| **Poe** | 붙여 넣은 API 키 | 포인트 잔액 |
+| **Qwen Cloud** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 5시간·주간·월간 비율과 등급 |
+| **Raycast AI** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | AI 크레딧과 갱신일 |
+| **Replicate** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 선불 잔액 |
+| **Sakana AI** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 5시간과 주간 한도 |
+| **Synthetic** | 붙여 넣은 API 키 | 5시간·주간·검색 한도 |
+| **T3 Chat** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 4시간 창과 월간 수치 |
+| **TypeSafe** | 붙여 넣은 `Cookie:` 헤더 | 크레딧 잔액과 플랜 |
+| **v0** | 붙여 넣은 API 키 | 청구 한도 |
+| **Venice** | 붙여 넣은 API 키 | 잔액(USD 또는 DIEM) |
+| **Vercel AI Gateway** | 붙여 넣은 API 키 | 잔액 |
+| **Warp** | 붙여 넣은 API 키 | 플랜 크레딧과 추가 크레딧 |
+| **Windsurf** | Chromium 계열 브라우저에서 windsurf.com 로그인을 읽음 | 일간과 주간 할당량 |
+| **xAI API** | `TeamID:ManagementKey` 형식으로 붙여 넣음 | 팀 선불 잔액(xAI에 기록된 금액) |
+| **xKiro** | 붙여 넣은 API 키 | 5시간·주간 창, 일일 무료 토큰과 지갑 |
+| **Zed** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 편집 예측 한도와 지출 한도 |
+| **ZenMux** | 붙여 넣은 관리 키 | 5시간·7일 할당량과 잔액 |
+| **ZoomMate** | 로그인된 브라우저 세션을 읽거나 `Cookie:` 헤더를 붙여 넣음 | 예산 상한 대비 크레딧 |
+
 ---
 
 ## 설치 및 빠른 시작

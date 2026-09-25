@@ -132,6 +132,65 @@ Pulse は各サービスが報告する数字をそのまま表示します。�
 | **Qoder** | 入力は不要——qoder.com または qoder.com.cn のサインイン済みブラウザセッションを読み取る。`Cookie:` ヘッダーを貼り付けることもできる | クレジット枠（プランとパックの合計）を Qoder が報告するリセット時刻とともに表示。チームプランの共有クレジットは別の輪として表示し、決して合算しない。クレジットが 0 のときはそう表示し、輪は描かない（[Docs/providers/qoder.md](Docs/providers/qoder.md)） |
 | **StepFun** | 入力は不要——platform.stepfun.com または platform.stepfun.ai のサインイン済みブラウザセッションを読み取る。`Cookie:` ヘッダーを貼り付けることもできる | Step Plan：Token Plan の月次 Credit と追加パックを 1 つの輪にまとめ、最も早く失効する分の日付を表示。旧 Coding Plan は 5 時間枠と週間枠。プランがなければ輪を描かずにそう表示する（[Docs/providers/stepfun.md](Docs/providers/stepfun.md)） |
 
+### その他のプロバイダ
+
+[CodexBar](https://github.com/steipete/CodexBar) の実装を読んで移植したものです。**実際のアカウントではまだ確認していません**——動かないものがあれば [issue](https://github.com/qunqin24/Pulse/issues) でお知らせください。各プロバイダの設定手順は [Docs/setup/](Docs/setup/)（英語）、メンテナ向けの説明は [Docs/providers/README.md](Docs/providers/README.md#profiled-providers) にあります。
+
+| プロバイダ | データ経路と認証方法 | 表示内容 |
+|---|---|---|
+| **Abacus AI** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | コンピュートポイントと請求日 |
+| **Aixy** | 貼り付けた API キー | 期間ごとのゲートウェイ予算 |
+| **Alibaba Coding Plan** | 貼り付けた API キー | 5 時間・週・月の枠。国際版コンソールを先に、次に中国本土版 |
+| **Alibaba Token Plan** | Alibaba の `bl` CLI を、保存済みのログインで実行 | 5 時間・週・月の使用割合 |
+| **Amp** | 貼り付けた API キー | 無料の日次枠、プランの枠とクレジット |
+| **Atlas Cloud** | 貼り付けた API キー | 残高 |
+| **Augment Code** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 今サイクルの使用クレジット |
+| **Bifrost** | 貼り付けたキー。自前のゲートウェイのアドレスを入力 | 仮想キーのドル建て予算 |
+| **Chutes** | 貼り付けた API キー | ローリング枠と月間枠 |
+| **ClawRouter** | 貼り付けた API キー | 月間予算 |
+| **ClinePass** | 貼り付けた API キー | 5 時間・週・月の上限 |
+| **Codebuff** | 貼り付けたキー、または CLI が保存したログイン | クレジット。CLI のログインでは週次上限も |
+| **DeepInfra** | 貼り付けた API キー | 残高。先方で上限を設定していればその消費割合 |
+| **DevPass** | 貼り付けた API キー | 週次プレミアム枠とプランのクレジット |
+| **ElevenLabs** | 貼り付けた API キー | 請求期間の文字クレジット |
+| **Factory** | 貼り付けた API キー | 5 時間・週・月の上限（旧課金では Standard と Premium）。追加利用の残高 |
+| **Gemini** | Gemini CLI が保存したログインを読み取るのみ（更新はしない） | モデルごとのクォータ。ログインは約 1 時間で切れるため、Gemini CLI を使っている間だけ読める |
+| **GitKraken AI** | 貼り付けたトークン | 個人クレジットと共有プール |
+| **Hugging Face** | 貼り付けたトークン、または `hf auth login` が保存したもの | ZeroGPU クォータ |
+| **Hyper** | 貼り付けた API キー | Hypercredit 残高 |
+| **IBM Bob** | 貼り付けた API キー | チーム予算に対する Bobcoins の使用量 |
+| **JetBrains AI** | JetBrains IDE が保存するクォータファイル。どこにも送信しない | AI Assistant のクォータ。IDE の実行中に更新 |
+| **Kilo Code** | 貼り付けたキー、または CLI が保存したログイン | クレジット残高と Kilo Pass |
+| **LiteLLM** | 貼り付けたキー。自前のゲートウェイのアドレスを入力 | チームとユーザーの予算 |
+| **LLM API Key Proxy** | 貼り付けたキー。自前のゲートウェイのアドレスを入力 | 上流ごとのクォータグループ |
+| **LongCat** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | トークンパックの枠と追加パック |
+| **Manus** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 日次と月次のクレジット |
+| **Mistral** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | API と Vibe の月間枠、利用可能なクレジット |
+| **Moonshot** | 貼り付けた API キー | Kimi Open Platform の残高（USD または CNY） |
+| **Neuralwatt** | 貼り付けた API キー | kWh のサブスクリプション、利用枠と残高 |
+| **Notion AI** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | ローリング枠と請求期間の枠（Business・Enterprise） |
+| **Nous Portal** | Hermes Agent が保存したログインを読み取るのみ | 月間クレジット付与と残高 |
+| **OpenAI API** | 貼り付けた API キー | 前払い残高（旧課金経路が応答する場合） |
+| **Perplexity** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | API クレジット残高 |
+| **Poe** | 貼り付けた API キー | ポイント残高 |
+| **Qwen Cloud** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 5 時間・週・月の割合とティア |
+| **Raycast AI** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | AI クレジットと更新日 |
+| **Replicate** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 前払い残高 |
+| **Sakana AI** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 5 時間と週の上限 |
+| **Synthetic** | 貼り付けた API キー | 5 時間・週・検索の枠 |
+| **T3 Chat** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 4 時間枠と月間の数値 |
+| **TypeSafe** | 貼り付けた `Cookie:` ヘッダー | クレジット残高とプラン |
+| **v0** | 貼り付けた API キー | 課金枠 |
+| **Venice** | 貼り付けた API キー | 残高（USD または DIEM） |
+| **Vercel AI Gateway** | 貼り付けた API キー | 残高 |
+| **Warp** | 貼り付けた API キー | プランのクレジットと追加クレジット |
+| **Windsurf** | Chromium 系ブラウザから windsurf.com のサインインを読み取る | 日次と週次のクォータ |
+| **xAI API** | `TeamID:ManagementKey` の形式で貼り付け | チームの前払い残高（xAI の記帳額） |
+| **xKiro** | 貼り付けた API キー | 5 時間と週の枠、日次の無料トークンとウォレット |
+| **Zed** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 編集予測の枠と支出上限 |
+| **ZenMux** | 貼り付けた管理キー | 5 時間と 7 日のクォータ、残高 |
+| **ZoomMate** | サインイン済みブラウザのセッションを読み取る、または `Cookie:` ヘッダーを貼り付け | 予算上限に対するクレジット |
+
 ---
 
 ## インストール
