@@ -10,6 +10,8 @@ The sidebar is `.searchable(placement: .sidebar)` — **not** `.automatic`: this
 
 `ProviderSetupView` is shared by initial setup and upgrade suggestions. Each provider is a native checkbox with its name, a presence-only **Detected on this Mac** hint, and the access description from `ProviderAccess`. Detected rows come first, names sort within each group, and every checkbox starts off. **Select detected services** is an explicit action. The list scrolls while the explanation and buttons stay visible. These access descriptions may wrap: they must be readable before a service is selected.
 
+The chooser lists providers in the same two groups as the sidebar, subscriptions first, each group detected-first then by name.
+
 On initial setup, **Done** is disabled until at least one is selected; closing the window leaves monitoring stopped. On an upgrade, the chooser only contains newly supported detected providers and may be completed with none selected. Existing choices continue to run. Restoration and dismissal rules: [../architecture.md](../architecture.md#provider-choice-before-monitoring).
 
 Settings stays reachable after dismissing the initial chooser. Appearance points to the provider panes; a disabled primary provider displays the same access description above **Show in panel**. Enabling it starts monitoring. Connection, sign-in, diagnostics and usage controls appear after the initial choice, but Current usage says **Not shown** and Retry is unavailable while that account is off. Merely opening a disabled pane does not preload its saved key, read its history, or start any provider request or Codex's app server.
@@ -35,7 +37,8 @@ While Liquid Glass is on, the caption still says to drag the panel by a ring. Th
 | Application | **General** | Open at login, hide menu bar icon; Shortcuts; Language |
 | Application | **Notifications** | Warn at, when a limit comes back, when a reading stops arriving |
 | Application | **Network and refresh** | Check every; proxy |
-| Accounts | one per account | unchanged |
+| Subscriptions | one per subscription account | Split from API accounts by `Provider.Billing`: a plan with limits that turn over on a clock |
+| API and pay-as-you-go | one per API account | Money put in and drawn down by the call — DeepSeek, the gateways, the API platforms. A provider with both is filed under the one its buyers mostly pay for |
 | Extensions | **Manage extensions**, then one per extension found | The folder, **Look again**, what was found, and every folder that couldn't be used with the reason. An extension's own pane is an account pane plus an **Extension** group: program, time limit, id. [../extensions.md](../extensions.md) |
 | (untitled, last) | Developer integrations, About | unchanged |
 

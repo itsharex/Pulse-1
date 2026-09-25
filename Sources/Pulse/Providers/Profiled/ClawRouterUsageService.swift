@@ -17,6 +17,7 @@ import Foundation
 extension ProviderProfile {
     static let clawRouter = ProviderProfile(
         displayName: "ClawRouter",
+        billing: .api,
         iconResource: "openclaw",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

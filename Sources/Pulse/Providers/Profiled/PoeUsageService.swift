@@ -15,6 +15,7 @@ import Foundation
 extension ProviderProfile {
     static let poe = ProviderProfile(
         displayName: "Poe",
+        billing: .api,
         iconResource: "poe",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

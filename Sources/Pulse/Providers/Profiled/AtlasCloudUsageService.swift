@@ -15,6 +15,7 @@ import Foundation
 extension ProviderProfile {
     static let atlasCloud = ProviderProfile(
         displayName: "Atlas Cloud",
+        billing: .api,
         iconResource: "atlascloud",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

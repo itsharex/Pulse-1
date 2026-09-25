@@ -26,6 +26,7 @@ import Foundation
 extension ProviderProfile {
     static let perplexity = ProviderProfile(
         displayName: "Perplexity",
+        billing: .api,
         iconResource: "perplexity",
         credential: .sessionCookie(host: PerplexityUsageService.host, cookies: PerplexityUsageService.cookies),
         accessDescription: {

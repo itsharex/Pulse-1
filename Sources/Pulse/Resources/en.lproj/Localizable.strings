@@ -827,3 +827,7 @@
 
 /* xAI API */
 "TeamID:ManagementKey, from console.x.ai. An inference key won't work. Stored encrypted on this Mac." = "TeamID:ManagementKey, from console.x.ai. An inference key won't work. Stored encrypted on this Mac.";
+
+/* Billing groups */
+"Subscriptions" = "Subscriptions";
+"API and pay-as-you-go" = "API and pay-as-you-go";

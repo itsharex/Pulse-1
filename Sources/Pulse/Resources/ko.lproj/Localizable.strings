@@ -827,3 +827,7 @@
 
 /* xAI API */
 "TeamID:ManagementKey, from console.x.ai. An inference key won't work. Stored encrypted on this Mac." = "TeamID:ManagementKey 형식으로 입력합니다. console.x.ai에서 발급받습니다. 추론용 키는 사용할 수 없습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* Billing groups */
+"Subscriptions" = "구독";
+"API and pay-as-you-go" = "API·종량제";

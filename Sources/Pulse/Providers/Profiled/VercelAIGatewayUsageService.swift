@@ -13,6 +13,7 @@ import Foundation
 extension ProviderProfile {
     static let vercelAIGateway = ProviderProfile(
         displayName: "Vercel AI Gateway",
+        billing: .api,
         iconResource: "vercel",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

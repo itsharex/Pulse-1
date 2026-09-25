@@ -23,6 +23,7 @@ import Foundation
 extension ProviderProfile {
     static let moonshot = ProviderProfile(
         displayName: "Moonshot",
+        billing: .api,
         iconResource: "moonshot",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

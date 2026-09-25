@@ -25,6 +25,7 @@ import Foundation
 extension ProviderProfile {
     static let aixy = ProviderProfile(
         displayName: "Aixy",
+        billing: .api,
         iconResource: "extension",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

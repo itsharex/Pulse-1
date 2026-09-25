@@ -32,6 +32,7 @@ import Foundation
 extension ProviderProfile {
     static let typeSafe = ProviderProfile(
         displayName: "TypeSafe",
+        billing: .api,
         iconResource: "extension",
         credential: .sessionCookie(host: "console.typesafe.ai", cookies: []),
         accessDescription: { .localized("Uses the Cookie header you paste in Settings. No Keychain prompt.") },

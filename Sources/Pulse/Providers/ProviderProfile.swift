@@ -42,6 +42,9 @@ struct ProviderProfile: Sendable {
 
     /// The product's name, left untranslated.
     let displayName: String
+    /// How the account is paid for, which decides where it is listed and
+    /// which rail it rides. See `Provider.Billing`.
+    var billing: Provider.Billing = .subscription
     /// An SVG in `Resources`, without its extension.
     let iconResource: String
     let credential: Credential

@@ -23,6 +23,7 @@ import Foundation
 extension ProviderProfile {
     static let openAIPlatform = ProviderProfile(
         displayName: "OpenAI API",
+        billing: .api,
         iconResource: "openai",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

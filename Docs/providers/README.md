@@ -48,6 +48,10 @@ Ollama Cloud, Xiaomi Coding Plan, Qoder and StepFun are the four read from a **b
 
 Z.ai and GLM Coding Plan share [`ZaiUsageService.swift`](../../Sources/Pulse/Providers/ZaiUsageService.swift). MiniMax and MiniMax CN share [`MiniMaxUsageService.swift`](../../Sources/Pulse/Providers/MiniMaxUsageService.swift). Two rings, two accounts, two keys — not a region switch inside one provider.
 
+## Subscriptions and API accounts
+
+`Provider.billing` sorts every provider into one of two kinds, which Settings and the chooser list apart: a **subscription** sells a plan with limits that turn over on a clock, and its figure is a percentage the provider states; an **API** account is money put in and drawn down by the call, with a balance or a spend and no allowance. A provider with both is filed under the one its buyers mostly pay for. Built-in cases answer in `Provider.billing` (DeepSeek, sub2api and New API are API); profiled ones set `billing` in their profile.
+
 ## Profiled providers
 
 Each is one file under `Sources/Pulse/Providers/Profiled/`, with its reply shape, what it leaves out and why in its own notes page, and a user setup page under the same slug in [`../setup/`](../setup/). **Every one of these shapes is second-hand**, read from CodexBar's providers and tests (MIT) and not from a live account; each page says so, and a captured reply replaces the fixture when someone with an account can produce one.

@@ -827,3 +827,7 @@
 
 /* xAI API */
 "TeamID:ManagementKey, from console.x.ai. An inference key won't work. Stored encrypted on this Mac." = "格式為 TeamID:ManagementKey，在 console.x.ai 取得。推論用的金鑰不能用。加密儲存在本機。";
+
+/* Billing groups */
+"Subscriptions" = "訂閱";
+"API and pay-as-you-go" = "API 與按量計費";

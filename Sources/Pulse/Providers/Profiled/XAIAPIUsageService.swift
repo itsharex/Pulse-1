@@ -19,6 +19,7 @@ import Foundation
 extension ProviderProfile {
     static let xaiAPI = ProviderProfile(
         displayName: "xAI API",
+        billing: .api,
         iconResource: "xai",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

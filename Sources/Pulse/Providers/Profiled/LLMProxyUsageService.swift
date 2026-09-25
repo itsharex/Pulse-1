@@ -20,6 +20,7 @@ import Foundation
 extension ProviderProfile {
     static let llmProxy = ProviderProfile(
         displayName: "LLM API Key Proxy",
+        billing: .api,
         iconResource: "extension",
         credential: .keyAndAddress,
         accessDescription: {

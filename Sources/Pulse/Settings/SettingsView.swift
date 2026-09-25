@@ -154,12 +154,16 @@ struct SettingsView: View {
                     }
                 }
 
-                if !matchingProviderAccounts.isEmpty {
-                    Section(String.localized("Accounts")) {
-                        // Same order as the rail: a sidebar that disagreed with
-                        // the thing it configures is its own small confusion.
-                        ForEach(matchingProviderAccounts) { account in
-                            row(.account(account))
+                // Subscriptions and API accounts apart, each in rail order:
+                // a sidebar that disagreed with the thing it configures is its
+                // own small confusion. See `Provider.Billing`.
+                ForEach(Provider.Billing.allCases, id: \.self) { billing in
+                    let accounts = matchingProviderAccounts.filter { $0.provider.billing == billing }
+                    if !accounts.isEmpty {
+                        Section(billing.sectionTitle) {
+                            ForEach(accounts) { account in
+                                row(.account(account))
+                            }
                         }
                     }
                 }
@@ -3199,6 +3203,16 @@ struct SettingsView: View {
 
     private static var version: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1 (prototype)"
+    }
+}
+
+extension Provider.Billing {
+    /// What the sidebar and the chooser head each group with.
+    var sectionTitle: String {
+        switch self {
+        case .subscription: .localized("Subscriptions")
+        case .api: .localized("API and pay-as-you-go")
+        }
     }
 }
 

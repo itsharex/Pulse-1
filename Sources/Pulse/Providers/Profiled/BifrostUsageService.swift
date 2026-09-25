@@ -18,6 +18,7 @@ import Foundation
 extension ProviderProfile {
     static let bifrost = ProviderProfile(
         displayName: "Bifrost",
+        billing: .api,
         iconResource: "extension",
         credential: .keyAndAddress,
         accessDescription: {

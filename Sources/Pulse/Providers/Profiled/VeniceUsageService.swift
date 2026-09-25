@@ -17,6 +17,7 @@ import Foundation
 extension ProviderProfile {
     static let venice = ProviderProfile(
         displayName: "Venice",
+        billing: .api,
         iconResource: "venice",
         credential: .apiKey(optional: false),
         accessDescription: { .localized("Uses only the API key you enter in Settings. No Keychain prompt.") },

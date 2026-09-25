@@ -24,6 +24,7 @@ import Foundation
 extension ProviderProfile {
     static let liteLLM = ProviderProfile(
         displayName: "LiteLLM",
+        billing: .api,
         iconResource: "extension",
         credential: .keyAndAddress,
         accessDescription: { .localized("Sends the key you enter only to the server address you enter. No Keychain prompt.") },

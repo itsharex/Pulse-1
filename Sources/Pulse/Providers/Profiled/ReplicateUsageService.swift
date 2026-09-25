@@ -26,6 +26,7 @@ import Foundation
 extension ProviderProfile {
     static let replicate = ProviderProfile(
         displayName: "Replicate",
+        billing: .api,
         iconResource: "replicate",
         credential: .sessionCookie(host: "replicate.com", cookies: ["sessionid", "csrftoken"]),
         accessDescription: { .localized("Uses a browser session you import in Settings. Importing may ask for browser Keychain access.") },

@@ -98,6 +98,33 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     /// every "each provider's first account" list are built from.
     static let builtIn = allCases.filter { $0 != .pulseExtension }
 
+    /// How an account is paid for, which is what Pulse sorts providers by.
+    ///
+    /// **Two kinds of account, and they want different things from Pulse.** A
+    /// subscription sells a plan with limits that turn over on a clock, and
+    /// its figure is a percentage the provider states. An API account is
+    /// money put in and drawn down by the call, with no allowance at all: its
+    /// figure is a balance or a spend, and its ring only exists against a
+    /// denominator Pulse watched or the reader typed (see DeepSeek's). They
+    /// were one list while there was one API provider.
+    ///
+    /// A provider that has both is filed under the one its buyers mostly pay
+    /// for: a plan with a balance beside it is a subscription.
+    enum Billing: String, Sendable, CaseIterable {
+        case subscription
+        case api
+    }
+
+    var billing: Billing {
+        if let profile { return profile.billing }
+        switch self {
+        // Money in, drawn down by the call. The two gateways are somebody's
+        // own relay in front of API keys.
+        case .deepSeek, .sub2api, .newAPI: return .api
+        default: return .subscription
+        }
+    }
+
     var id: String { rawValue }
 
     /// Product names, left untranslated.
