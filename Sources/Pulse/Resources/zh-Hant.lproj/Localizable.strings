@@ -786,3 +786,6 @@
 
 /* v0 */
 "From v0.app. Stored encrypted on this Mac." = "在 v0.app 取得。加密儲存在本機。";
+
+/* DevPass */
+"An API key from llmgateway.io. Stored encrypted on this Mac." = "在 llmgateway.io 產生的 API 金鑰。加密儲存在本機。";

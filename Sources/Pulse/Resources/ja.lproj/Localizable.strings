@@ -786,3 +786,6 @@
 
 /* v0 */
 "From v0.app. Stored encrypted on this Mac." = "v0.app で取得します。この Mac に暗号化して保存されます。";
+
+/* DevPass */
+"An API key from llmgateway.io. Stored encrypted on this Mac." = "llmgateway.io で発行した API キーです。この Mac に暗号化して保存されます。";

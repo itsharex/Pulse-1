@@ -786,3 +786,6 @@
 
 /* v0 */
 "From v0.app. Stored encrypted on this Mac." = "v0.app에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* DevPass */
+"An API key from llmgateway.io. Stored encrypted on this Mac." = "llmgateway.io에서 발급한 API 키입니다. 이 Mac에 암호화되어 저장됩니다.";
