@@ -337,7 +337,10 @@ enum PanelMetrics {
     /// is worked out from it before SwiftUI lays anything out — and getting it
     /// wrong slices the end off the rail, which is exactly what happened the
     /// first time a seventh account existed.
-    nonisolated(unsafe) private static var storedCapacity = Provider.builtIn.count
+    /// Replaced at launch by `AppSettings.restored()`; this is only what a
+    /// preview or a test starts from, and it is long enough for the longest
+    /// rail either of them draws.
+    nonisolated(unsafe) private static var storedCapacity = 25
 
     static var scale: CGFloat { lock.withLock { stored } }
     static var spacing: CGFloat { lock.withLock { storedSpacing } }

@@ -208,7 +208,7 @@ final class AppSettings {
             guard extraAccounts != oldValue else { return }
             // Before the change is announced: whoever reacts is about to
             // measure the panel, and the rail is now longer than it was.
-            PanelMetrics.makeRoom(for: railSlotCount)
+            resizeRail()
             let data = try? JSONEncoder().encode(extraAccounts)
             UserDefaults.standard.set(data, forKey: Key.extraAccounts)
             onChange?()
@@ -248,7 +248,7 @@ final class AppSettings {
         extensions = scan.extensions
         extensionProblems = scan.problems
         // Before the change is announced, for the reason `extraAccounts` gives.
-        PanelMetrics.makeRoom(for: railSlotCount)
+        resizeRail()
         if changedAccounts { onChange?() }
     }
 
@@ -383,6 +383,9 @@ final class AppSettings {
                 enabledAccounts = oldValue
                 return
             }
+            // The rail is sized from what is shown, so the budget moves
+            // before the change is announced — see `railSlotCount`.
+            resizeRail()
             UserDefaults.standard.set(Array(enabledAccounts), forKey: ProviderSelection.enabledKey)
             onChange?()
         }
@@ -971,7 +974,7 @@ final class AppSettings {
             guard splitAccounts != oldValue else { return }
             // The rail is about to get longer. Before the change is announced,
             // so whoever re-measures the panel sees the size it will be.
-            PanelMetrics.makeRoom(for: railSlotCount)
+            resizeRail()
             UserDefaults.standard.set(Array(splitAccounts), forKey: Key.splitAccounts)
             onChange?()
         }
@@ -1003,15 +1006,36 @@ final class AppSettings {
         splitAccounts = updated
     }
 
+    /// Whether this is the settings the running app is drawn from, and so the
+    /// one allowed to move `PanelMetrics`.
+    ///
+    /// **Global state, owned by one instance.** The rail's budget is a static
+    /// the AppKit frame reads, and every other `AppSettings` — a preview's, a
+    /// test's — switching an account on would resize a panel it has nothing to
+    /// do with. Under parallel tests that was a race: one suite's toggle
+    /// shrank the window another suite was measuring.
+    private var drivesPanelMetrics = false
+
+    private func resizeRail() {
+        guard drivesPanelMetrics else { return }
+        PanelMetrics.makeRoom(for: railSlotCount)
+    }
+
     /// How many rings the rail has to have room for.
     ///
-    /// **Every account, not only the shown ones** — the same rule the count
-    /// this replaces followed, because the panel keeps its maximum frame while
-    /// the rail shrinks inside it. A split account is counted for the groups it
-    /// can produce rather than the groups a reading happens to carry, so the
-    /// budget does not move when a provider answers with one group short.
+    /// **The shown accounts, not every account.** It used to be every one, so
+    /// that switching a provider off never resized the window. That stopped
+    /// being affordable once there were dozens of providers: the transparent
+    /// window was reserving a rail for all of them, thousands of points taller
+    /// than any screen, for rings nobody had switched on. Switching one on or
+    /// off now resizes the window — from Settings, never while a card is
+    /// opening — and `settingsChanged()` re-places it on the way.
+    ///
+    /// A split account is still counted for the groups it can produce rather
+    /// than the groups a reading happens to carry, so a reading never moves
+    /// the budget: only a setting does.
     var railSlotCount: Int {
-        allAccounts.reduce(0) { total, account in
+        shownAccounts.reduce(0) { total, account in
             total + (isSplit(account) ? account.provider.modelGroupCount : 1)
         }
     }
@@ -1440,7 +1464,8 @@ final class AppSettings {
         PanelMetrics.putLabelAboveRing(settings.labelAboveRing)
         PanelMetrics.useRoundEnds(settings.usesRoundEnds)
         PanelMetrics.showForecast(settings.showsForecast)
-        PanelMetrics.makeRoom(for: settings.railSlotCount)
+        settings.drivesPanelMetrics = true
+        settings.resizeRail()
         return settings
     }
 

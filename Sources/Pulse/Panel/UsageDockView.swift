@@ -261,8 +261,8 @@ enum DockLayout {
     /// Rail length with every provider switched on, which is what the panel
     /// has to leave room for. Measured docked, which is the longer of the two —
     /// the window never needs to shrink, only the rail drawn inside it.
-    static func maximumLength(on axis: PanelEdge.Axis) -> CGFloat {
-        length(for: PanelMetrics.railCapacity, on: axis, docked: true)
+    static func maximumLength(on axis: PanelEdge.Axis, capacity: Int = PanelMetrics.railCapacity) -> CGFloat {
+        length(for: capacity, on: axis, docked: true)
     }
 
     /// Kept for the vertical rail, which is what every existing caller means.
@@ -297,10 +297,10 @@ enum DockLayout {
             : CGSize(width: collapsedHeight, height: collapsedHitWidth)
     }
 
-    /// The tallest the rail ever gets. The panel window is kept at this height
-    /// whatever is switched on, so turning a provider off never has to resize
-    /// the window — the rail simply draws shorter inside it, and the leftover
-    /// space is transparent.
+    /// The tallest the rail gets with what is switched on now. The panel window
+    /// is kept at this height while a reading changes the rail — a split
+    /// account's second ring is already budgeted for — and resized only when a
+    /// setting changes what is shown. See `AppSettings.railSlotCount`.
     static var maximumHeight: CGFloat { height(for: PanelMetrics.railCapacity) }
 }
 
