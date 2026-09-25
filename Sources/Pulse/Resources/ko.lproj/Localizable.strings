@@ -806,3 +806,7 @@
 "Reads the Nous Portal login Hermes Agent saved in ~/.hermes. No Keychain prompt." = "Hermes Agent가 ~/.hermes에 저장한 Nous Portal 로그인을 읽습니다. 키체인 확인 창은 표시되지 않습니다.";
 "Hermes Agent's login" = "Hermes Agent 로그인";
 "Uses the login Hermes Agent already saved. Pulse never renews it." = "Hermes Agent가 이미 저장해 둔 로그인을 사용합니다. Pulse는 이 로그인을 갱신하지 않습니다.";
+
+/* Hugging Face */
+"Uses a token entered in Settings, or reads the one hf auth login saved in ~/.cache/huggingface. No Keychain prompt." = "설정에 입력한 토큰을 사용하거나 hf auth login이 ~/.cache/huggingface에 저장한 토큰을 읽습니다. 키체인 확인 창은 표시되지 않습니다.";
+"From huggingface.co/settings/tokens. Stored encrypted on this Mac." = "huggingface.co/settings/tokens에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";

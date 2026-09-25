@@ -806,3 +806,7 @@
 "Reads the Nous Portal login Hermes Agent saved in ~/.hermes. No Keychain prompt." = "讀取 Hermes Agent 儲存在 ~/.hermes 中的 Nous Portal 登入資訊。不會出現鑰匙圈提示。";
 "Hermes Agent's login" = "Hermes Agent 的登入資訊";
 "Uses the login Hermes Agent already saved. Pulse never renews it." = "使用 Hermes Agent 已經存下的登入資訊。Pulse 不會替它續期。";
+
+/* Hugging Face */
+"Uses a token entered in Settings, or reads the one hf auth login saved in ~/.cache/huggingface. No Keychain prompt." = "使用在設定中輸入的 token，或讀取 hf auth login 儲存在 ~/.cache/huggingface 中的 token。不會出現鑰匙圈提示。";
+"From huggingface.co/settings/tokens. Stored encrypted on this Mac." = "在 huggingface.co/settings/tokens 取得。加密儲存在本機。";

@@ -806,3 +806,7 @@
 "Reads the Nous Portal login Hermes Agent saved in ~/.hermes. No Keychain prompt." = "Reads the Nous Portal login Hermes Agent saved in ~/.hermes. No Keychain prompt.";
 "Hermes Agent's login" = "Hermes Agent's login";
 "Uses the login Hermes Agent already saved. Pulse never renews it." = "Uses the login Hermes Agent already saved. Pulse never renews it.";
+
+/* Hugging Face */
+"Uses a token entered in Settings, or reads the one hf auth login saved in ~/.cache/huggingface. No Keychain prompt." = "Uses a token entered in Settings, or reads the one hf auth login saved in ~/.cache/huggingface. No Keychain prompt.";
+"From huggingface.co/settings/tokens. Stored encrypted on this Mac." = "From huggingface.co/settings/tokens. Stored encrypted on this Mac.";
