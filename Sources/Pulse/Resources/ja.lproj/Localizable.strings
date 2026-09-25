@@ -725,3 +725,6 @@
 /* Kilo Code */
 "Uses a key entered in Settings, or reads ~/.local/share/kilo/auth.json. No Keychain prompt." = "設定で入力したキーを使うか、~/.local/share/kilo/auth.json を読み取ります。キーチェーンの確認はありません。";
 "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "app.kilo.ai で取得します。省略可能で、その場合は Kilo CLI が保存したログインを Pulse が使います。この Mac に暗号化して保存されます。";
+
+/* Mistral */
+"Paste the Cookie header of a request to admin.mistral.ai. Stored encrypted on this Mac." = "admin.mistral.ai へのリクエストの Cookie ヘッダーを貼り付けてください。この Mac に暗号化して保存されます。";

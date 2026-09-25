@@ -725,3 +725,6 @@
 /* Kilo Code */
 "Uses a key entered in Settings, or reads ~/.local/share/kilo/auth.json. No Keychain prompt." = "使用在設定中輸入的金鑰，或讀取 ~/.local/share/kilo/auth.json。不會出現鑰匙圈提示。";
 "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "在 app.kilo.ai 取得。可以不填——Pulse 能用 Kilo CLI 已存下的登入。加密儲存在本機。";
+
+/* Mistral */
+"Paste the Cookie header of a request to admin.mistral.ai. Stored encrypted on this Mac." = "貼上送往 admin.mistral.ai 的請求中的 Cookie 標頭。加密儲存在本機。";
