@@ -817,3 +817,6 @@
 /* Codebuff */
 "Uses a key entered in Settings, or reads the login the codebuff CLI saved in ~/.config/manicode. No Keychain prompt." = "設定で入力したキーを使うか、codebuff CLI が ~/.config/manicode に保存したログインを読み取ります。キーチェーンの確認はありません。";
 "From codebuff.com. Optional — Pulse can use the login the codebuff CLI saved. Stored encrypted on this Mac." = "codebuff.com で取得します。省略可能で、その場合は codebuff CLI が保存したログインを Pulse が使います。この Mac に暗号化して保存されます。";
+
+/* Venice */
+"From venice.ai's API settings. Stored encrypted on this Mac." = "venice.ai の API 設定で取得します。この Mac に暗号化して保存されます。";
