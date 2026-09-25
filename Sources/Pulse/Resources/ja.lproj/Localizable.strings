@@ -721,3 +721,7 @@
 "Reads the login saved in ~/.gemini/oauth_creds.json. No Keychain prompt." = "~/.gemini/oauth_creds.json に保存されたログインを読み取ります。キーチェーンの確認はありません。";
 "Gemini CLI's own login" = "Gemini CLI 自身のログイン";
 "Uses the login Gemini CLI already saved. Using Gemini CLI renews it." = "Gemini CLI が既に保存しているログインを使います。Gemini CLI を使うと更新されます。";
+
+/* Kilo Code */
+"Uses a key entered in Settings, or reads ~/.local/share/kilo/auth.json. No Keychain prompt." = "設定で入力したキーを使うか、~/.local/share/kilo/auth.json を読み取ります。キーチェーンの確認はありません。";
+"From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "app.kilo.ai で取得します。省略可能で、その場合は Kilo CLI が保存したログインを Pulse が使います。この Mac に暗号化して保存されます。";
