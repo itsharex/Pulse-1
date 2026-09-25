@@ -780,3 +780,6 @@
 
 /* ClawRouter */
 "From clawrouter.openclaw.ai. Stored encrypted on this Mac." = "在 clawrouter.openclaw.ai 获取。加密保存在本机。";
+
+/* ZenMux */
+"A Management API key from zenmux.ai. An ordinary API key won't work. Stored encrypted on this Mac." = "在 zenmux.ai 生成的 Management API key，普通 API key 用不了。加密保存在本机。";
