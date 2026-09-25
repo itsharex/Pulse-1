@@ -735,3 +735,5 @@
 /* Profiled providers: browser storage */
 "Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt." = "点「读取」时，从 Chromium 内核浏览器读取 windsurf.com 的登录信息。不弹钥匙串。";
 "Browser session" = "浏览器登录信息";
+/* OpenAI API */
+"From platform.openai.com. Stored encrypted on this Mac." = "在 platform.openai.com 获取。加密保存在本机。";

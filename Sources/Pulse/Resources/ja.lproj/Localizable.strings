@@ -735,3 +735,5 @@
 /* Profiled providers: browser storage */
 "Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt." = "「読み取る」を押すと、Chromium 系ブラウザから windsurf.com のサインイン情報を読み込みます。キーチェーンの確認はありません。";
 "Browser session" = "ブラウザのセッション";
+/* OpenAI API */
+"From platform.openai.com. Stored encrypted on this Mac." = "platform.openai.com で取得します。この Mac に暗号化して保存されます。";

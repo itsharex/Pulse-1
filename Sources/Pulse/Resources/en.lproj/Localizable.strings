@@ -735,3 +735,5 @@
 /* Profiled providers: browser storage */
 "Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt." = "Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt.";
 "Browser session" = "Browser session";
+/* OpenAI API */
+"From platform.openai.com. Stored encrypted on this Mac." = "From platform.openai.com. Stored encrypted on this Mac.";

@@ -735,3 +735,5 @@
 /* Profiled providers: browser storage */
 "Reads windsurf.com's sign-in from a Chromium browser when you press Read. No Keychain prompt." = "‘읽기’를 누르면 Chromium 계열 브라우저에서 windsurf.com 로그인 정보를 읽습니다. 키체인 확인 창은 표시되지 않습니다.";
 "Browser session" = "브라우저 세션";
+/* OpenAI API */
+"From platform.openai.com. Stored encrypted on this Mac." = "platform.openai.com에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
