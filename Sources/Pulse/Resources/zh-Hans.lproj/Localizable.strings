@@ -810,3 +810,6 @@
 /* Hugging Face */
 "Uses a token entered in Settings, or reads the one hf auth login saved in ~/.cache/huggingface. No Keychain prompt." = "使用在设置里填入的 token，或读取 hf auth login 保存在 ~/.cache/huggingface 里的 token。不弹钥匙串。";
 "From huggingface.co/settings/tokens. Stored encrypted on this Mac." = "在 huggingface.co/settings/tokens 获取。加密保存在本机。";
+
+/* Moonshot */
+"From the Kimi Open Platform console, international or China. Stored encrypted on this Mac." = "在 Kimi 开放平台控制台（国际站或中国站）获取。加密保存在本机。";
