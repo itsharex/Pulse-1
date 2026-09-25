@@ -769,3 +769,6 @@
 
 /* Atlas Cloud */
 "From atlascloud.ai, with permission to read the balance. Stored encrypted on this Mac." = "From atlascloud.ai, with permission to read the balance. Stored encrypted on this Mac.";
+
+/* Poe */
+"From poe.com/api/keys. Stored encrypted on this Mac." = "From poe.com/api/keys. Stored encrypted on this Mac.";

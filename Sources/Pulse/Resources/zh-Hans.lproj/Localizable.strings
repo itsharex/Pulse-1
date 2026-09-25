@@ -769,3 +769,6 @@
 
 /* Atlas Cloud */
 "From atlascloud.ai, with permission to read the balance. Stored encrypted on this Mac." = "在 atlascloud.ai 获取，需有查看余额的权限。加密保存在本机。";
+
+/* Poe */
+"From poe.com/api/keys. Stored encrypted on this Mac." = "在 poe.com/api/keys 获取。加密保存在本机。";

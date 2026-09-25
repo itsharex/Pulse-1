@@ -769,3 +769,6 @@
 
 /* Atlas Cloud */
 "From atlascloud.ai, with permission to read the balance. Stored encrypted on this Mac." = "atlascloud.ai에서 잔액 조회 권한이 있는 키를 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* Poe */
+"From poe.com/api/keys. Stored encrypted on this Mac." = "poe.com/api/keys에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
