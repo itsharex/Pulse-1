@@ -65,7 +65,7 @@ Pulse 是一個停靠在螢幕邊緣的小巧懸浮監視器。它顯示各服�
 
 ### 多帳號與本機帳本
 - **多帳號支援**：可同時監看同一服務商的多個訂閱（Claude Code、Codex、Grok、Grok Bot），並排顯示並自訂標籤。
-- **Token 用量支出（僅限設定）**：預設關閉，在頁面頂端開啟後才讀取本機記錄，關閉即可停止掃描。支援本機日誌、資料庫與匯出檔，來源目錄涵蓋 **54 個用戶端來源**，包括 Gemini CLI、Cline、Roo Code、OpenClaw 與 GitHub Copilot。Cursor、Trae 等來源需要事先匯出或擷取記錄。這些來源與浮動膠囊上的 25 個配額服務商不同；各來源的支援程度與真實用戶端驗證情形不一。[來源與涵蓋範圍](Docs/token-spend-sources.md)。
+- **Token 用量支出（僅限設定）**：預設關閉，在頁面頂端開啟後才讀取本機記錄，關閉即可停止掃描。支援本機日誌、資料庫與匯出檔，來源目錄涵蓋 **54 個用戶端來源**，包括 Gemini CLI、Cline、Roo Code、OpenClaw 與 GitHub Copilot。Cursor、Trae 等來源需要事先匯出或擷取記錄。這些來源與浮動膠囊上的 77 個配額服務商不同；各來源的支援程度與真實用戶端驗證情形不一。[來源與涵蓋範圍](Docs/token-spend-sources.md)。
 - **清楚的用量估算**：預設開啟最近 7 天，並記住你選擇的區間。費用採用公開的 API 價格，而非訂閱費用。未知價格會保留為不可用，計數不完整或時間粒度較粗者會明確標示；沒有 token 計數器的來源會如實標示為不可用。
 - **模型詳情與圖表**：點開單一模型可查看輸入／輸出／快取用量與估算費用、記錄足以支撐時的每日與每小時圖表、各 agent 的貢獻，以及可排序、分頁的明細表。將指標移到圖表上，即可讀取對應日期或小時及其 token 數量。無法取得的每日或每小時明細會標註為不可用。
 - **七十七個服務商**：Claude Code、Codex、Kiro、Antigravity、Cursor、GitHub Copilot、Grok、Grok Bot、OpenCode Go、Kimi Code、Ollama Cloud、z.ai、Zhipu、MiniMax（國際與中國大陸）、Volcengine、Command Code、DeepSeek、Devin、小米 Coding Plan、sub2api、New API、V2EX、Qoder 與階躍星辰（StepFun）；另有 Abacus AI、Aixy、Alibaba Coding Plan、Alibaba Token Plan、Amp、Atlas Cloud、Augment Code、Bifrost、Chutes、ClawRouter、ClinePass、Codebuff、DeepInfra、DevPass、ElevenLabs、Factory、Gemini、GitKraken AI、Hugging Face、Hyper、IBM Bob、JetBrains AI、Kilo Code、LiteLLM、LLM API Key Proxy、LongCat、Manus、Mistral、Moonshot、Neuralwatt、Notion AI、Nous Portal、OpenAI API、Perplexity、Poe、Qwen Cloud、Raycast AI、Replicate、Sakana AI、Synthetic、T3 Chat、TypeSafe、v0、Venice、Vercel AI Gateway、Warp、Windsurf、xAI API、xKiro、Zed、ZenMux、ZoomMate。
