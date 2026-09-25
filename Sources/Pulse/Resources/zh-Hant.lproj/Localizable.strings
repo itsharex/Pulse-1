@@ -824,3 +824,6 @@
 /* TypeSafe */
 "Uses the Cookie header you paste in Settings. No Keychain prompt." = "使用你在設定中貼上的 Cookie 標頭。不會出現鑰匙圈提示。";
 "The Cookie header of a request to console.typesafe.ai/settings/billing. Stored encrypted on this Mac." = "開啟 console.typesafe.ai/settings/billing 時請求中帶的 Cookie 標頭。加密儲存在本機。";
+
+/* xAI API */
+"TeamID:ManagementKey, from console.x.ai. An inference key won't work. Stored encrypted on this Mac." = "格式為 TeamID:ManagementKey，在 console.x.ai 取得。推論用的金鑰不能用。加密儲存在本機。";

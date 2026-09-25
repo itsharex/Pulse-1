@@ -824,3 +824,6 @@
 /* TypeSafe */
 "Uses the Cookie header you paste in Settings. No Keychain prompt." = "Uses the Cookie header you paste in Settings. No Keychain prompt.";
 "The Cookie header of a request to console.typesafe.ai/settings/billing. Stored encrypted on this Mac." = "The Cookie header of a request to console.typesafe.ai/settings/billing. Stored encrypted on this Mac.";
+
+/* xAI API */
+"TeamID:ManagementKey, from console.x.ai. An inference key won't work. Stored encrypted on this Mac." = "TeamID:ManagementKey, from console.x.ai. An inference key won't work. Stored encrypted on this Mac.";
