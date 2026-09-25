@@ -14,10 +14,7 @@ Profiled provider: [`Sources/Pulse/Providers/Profiled/WindsurfUsageService.swift
 
 - **A quota that is absent.** Protobuf does not write a zero, so "0% remaining" and "no such quota" arrive the same way. CodexBar leaves it off; so does this, rather than guess that it is spent. Unverified against a spent account — if Windsurf's schema marks the field `optional`, a zero would arrive and be read.
 - **`plan_end`, top-up status, grace period** — not usage.
-- **The app's saved plan** (`state.vscdb`) and **browser `localStorage` import** — CodexBar's other two routes. The first is Devin's; the second needs a credential kind profiled providers don't have (see below).
-
-## Missing shared piece
-
+- **The app's saved plan** (`state.vscdb`) — CodexBar's other route, and Devin's.
 
 ## Evidence
 
