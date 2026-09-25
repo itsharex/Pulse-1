@@ -820,3 +820,7 @@
 
 /* Venice */
 "From venice.ai's API settings. Stored encrypted on this Mac." = "在 venice.ai 的 API 设置里获取。加密保存在本机。";
+
+/* TypeSafe */
+"Uses the Cookie header you paste in Settings. No Keychain prompt." = "使用你在设置里粘贴的 Cookie 请求头。不弹钥匙串。";
+"The Cookie header of a request to console.typesafe.ai/settings/billing. Stored encrypted on this Mac." = "打开 console.typesafe.ai/settings/billing 时请求里带的 Cookie 请求头。加密保存在本机。";

@@ -820,3 +820,7 @@
 
 /* Venice */
 "From venice.ai's API settings. Stored encrypted on this Mac." = "venice.ai の API 設定で取得します。この Mac に暗号化して保存されます。";
+
+/* TypeSafe */
+"Uses the Cookie header you paste in Settings. No Keychain prompt." = "設定に貼り付けた Cookie ヘッダーを使います。キーチェーンの確認はありません。";
+"The Cookie header of a request to console.typesafe.ai/settings/billing. Stored encrypted on this Mac." = "console.typesafe.ai/settings/billing へのリクエストに付いている Cookie ヘッダーです。この Mac に暗号化して保存されます。";

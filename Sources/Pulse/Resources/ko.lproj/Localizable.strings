@@ -820,3 +820,7 @@
 
 /* Venice */
 "From venice.ai's API settings. Stored encrypted on this Mac." = "venice.ai의 API 설정에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* TypeSafe */
+"Uses the Cookie header you paste in Settings. No Keychain prompt." = "설정에 붙여 넣은 Cookie 헤더를 사용합니다. 키체인 확인 창은 표시되지 않습니다.";
+"The Cookie header of a request to console.typesafe.ai/settings/billing. Stored encrypted on this Mac." = "console.typesafe.ai/settings/billing 요청에 담긴 Cookie 헤더입니다. 이 Mac에 암호화되어 저장됩니다.";
