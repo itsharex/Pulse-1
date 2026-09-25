@@ -91,3 +91,24 @@ struct CodexResetCreditsTests {
         #expect(UsageDetailCard.resetCreditsText(.unreported) == String.localized("Not available"))
     }
 }
+
+/// Starting `codex app-server` from a GUI app, whose PATH has no `node`.
+@Suite("Codex helper environment")
+struct CodexHelperEnvironmentTests {
+    @Test("The folder codex was found in leads PATH, once, and nothing else changes")
+    func pathLeadsWithCodexFolder() {
+        let codex = URL(fileURLWithPath: "/Users/me/.nvm/versions/node/v24/bin/codex")
+        let environment = CodexAppServer.environment(
+            for: codex,
+            over: ["PATH": "/usr/bin:/Users/me/.nvm/versions/node/v24/bin:/bin", "HTTPS_PROXY": "http://proxy:8080"]
+        )
+        #expect(environment["PATH"] == "/Users/me/.nvm/versions/node/v24/bin:/usr/bin:/bin")
+        #expect(environment["HTTPS_PROXY"] == "http://proxy:8080")
+    }
+
+    @Test("With no PATH at all, the system folders follow")
+    func noInheritedPath() {
+        let environment = CodexAppServer.environment(for: URL(fileURLWithPath: "/opt/homebrew/bin/codex"), over: [:])
+        #expect(environment["PATH"] == "/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin")
+    }
+}

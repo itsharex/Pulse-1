@@ -38,6 +38,8 @@ The plan comes back as an internal tier name, not the name on the plan — `prol
 
 ## App-server / SIGPIPE / PATH
 
+**The folder `codex` was found in leads the helper's `PATH`** (`CodexAppServer.environment(for:over:)`). An npm install of `codex` is a Node script (`#!/usr/bin/env node`), and a GUI app's `PATH` has no `node` in it, so a `codex` found under `~/.nvm/versions/node/<v>/bin` started and died at once with `env: node: No such file or directory`: nothing only the app server reports — reset credits included — ever arrived, while the rings, read from the endpoint, looked fine (reported under #67; reproduced with `env -i PATH=/usr/bin:/bin:/usr/sbin:/sbin`, and fixed: the same probe then read three credits). nvm, Homebrew and Volta put `node` beside the `codex` they installed. The path as found, not the link resolved: nvm's `codex` links into `lib/node_modules`, where there is no `node`.
+
 **SIGPIPE is ignored process-wide** (`AppDelegate`), and it has to be. Writing to a pipe whose far end has closed raises it; default is to kill the process. The helper exiting, being killed with the terminal it was started from, or the user quitting Codex took Pulse down with it (`Terminated due to signal 13`). Ignored, the write returns `EPIPE` and `CodexAppServer.write` drops the helper so the next call starts a fresh one.
 
 **Historical evidence:** reproduced both ways against a process that had already exited — unguarded the probe was killed before it could print a line; guarded it reported “Broken pipe” and carried on.

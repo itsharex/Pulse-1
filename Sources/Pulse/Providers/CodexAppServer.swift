@@ -107,7 +107,10 @@ actor CodexAppServer {
         let process = Process()
         process.executableURL = executable
         process.arguments = ["app-server"]
-        process.environment = NetworkSession.subprocessEnvironment()
+        process.environment = Self.environment(
+            for: executable,
+            over: NetworkSession.subprocessEnvironment() ?? ProcessInfo.processInfo.environment
+        )
 
         let input = Pipe(), output = Pipe()
         process.standardInput = input
@@ -197,6 +200,27 @@ actor CodexAppServer {
         // leave it behind. `terminate()` on one that has already exited is a
         // no-op.
         shutDown()
+    }
+
+    /// The helper's environment: the one it would have had, with the folder
+    /// `codex` was found in at the front of `PATH`.
+    ///
+    /// **An npm install of `codex` is a Node script** — `#!/usr/bin/env node`
+    /// — and a GUI app's `PATH` is `/usr/bin:/bin:/usr/sbin:/sbin`, which has
+    /// no `node` in it. So Pulse found `codex` under `~/.nvm/…/bin`, started
+    /// it, and it died at once with "env: node: No such file or directory":
+    /// nothing the app server alone reports, reset credits included, ever
+    /// arrived (issue #67). nvm, Homebrew and Volta all put `node` beside the
+    /// `codex` they installed, so that folder is where to look first. The
+    /// path as found, not the link resolved: nvm's `codex` links into
+    /// `lib/node_modules`, where there is no `node`.
+    static func environment(for executable: URL, over inherited: [String: String]) -> [String: String] {
+        var environment = inherited
+        let folder = executable.deletingLastPathComponent().path
+        let path = inherited["PATH"] ?? "/usr/bin:/bin:/usr/sbin:/sbin"
+        let rest = path.split(separator: ":").map(String.init).filter { $0 != folder }
+        environment["PATH"] = ([folder] + rest).joined(separator: ":")
+        return environment
     }
 
     /// Where `codex` tends to live. A GUI app inherits almost no `PATH`, so
