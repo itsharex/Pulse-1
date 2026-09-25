@@ -1,10 +1,10 @@
 # Providers
 
-Pulse tracks **twenty-five** `Provider` cases. There is no Pulse backend and no Pulse account. Each provider reports its own usage by whatever route that product actually offers — often an undocumented account endpoint the product itself calls, sometimes a documented usage path, sometimes a local helper that only exists while an editor is open.
+Pulse tracks **seventy-seven** built-in providers: twenty-five written case by case, and fifty-two described by a `ProviderProfile` (see [Adding a provider](#adding-a-provider) and [Profiled providers](#profiled-providers)). There is no Pulse backend and no Pulse account. Each provider reports its own usage by whatever route that product actually offers — often an undocumented account endpoint the product itself calls, sometimes a documented usage path, sometimes a local helper that only exists while an editor is open.
 
 This directory is the home for routes, credentials, cookies, extra logins, and the failure lessons that belong to those. Current service code is authoritative. Historical measurements and “do not repeat” notes are labelled as such. Nothing here claims a runtime test of a live account.
 
-This page is about **quota providers** — the twenty-five cases Pulse can draw a ring for. Extensions — programs a user adds, each reporting one account — are carried by a twenty-sixth case, `.pulseExtension`, which `Provider.builtIn` leaves out; they have no route, credential or setup page here. Their contract is [`../extensions.md`](../extensions.md). Token spend readers are a different, overlapping catalogue of agents that left records on this Mac, most of which Pulse draws no ring for; they and their stores are documented in [`../token-spend.md`](../token-spend.md) and [`../token-spend-sources.md`](../token-spend-sources.md), not here. Do not add a spend reader to this directory.
+This page is about **quota providers** — the seventy-seven cases Pulse can draw a ring for. Extensions — programs a user adds, each reporting one account — are carried by one more case, `.pulseExtension`, which `Provider.builtIn` leaves out; they have no route, credential or setup page here. Their contract is [`../extensions.md`](../extensions.md). Token spend readers are a different, overlapping catalogue of agents that left records on this Mac, most of which Pulse draws no ring for; they and their stores are documented in [`../token-spend.md`](../token-spend.md) and [`../token-spend-sources.md`](../token-spend-sources.md), not here. Do not add a spend reader to this directory.
 
 Shared types: [`../../Sources/Pulse/Usage/UsageProvider.swift`](../../Sources/Pulse/Usage/UsageProvider.swift), [`../../Sources/Pulse/Usage/MonitoredAccount.swift`](../../Sources/Pulse/Usage/MonitoredAccount.swift), [`../../Sources/Pulse/Usage/ProviderUsage.swift`](../../Sources/Pulse/Usage/ProviderUsage.swift), [`../../Sources/Pulse/Usage/UsageSource.swift`](../../Sources/Pulse/Usage/UsageSource.swift). Sign-in machinery: [authentication.md](authentication.md).
 
@@ -47,6 +47,67 @@ Per-provider pages: [claude-code.md](claude-code.md), [codex.md](codex.md), [kir
 Ollama Cloud, Xiaomi Coding Plan, Qoder and StepFun are the four read from a **browser session** rather than a key or another tool's files; they share [`BrowserCookies.swift`](../../Sources/Pulse/Auth/BrowserCookies.swift) and nothing else, because what counts as a session differs per site and a shared filter would forward whichever cookie any one of them adds next. Qoder's filter is the one deny list among them, because its session cookie has no published name ([qoder.md](qoder.md)).
 
 Z.ai and GLM Coding Plan share [`ZaiUsageService.swift`](../../Sources/Pulse/Providers/ZaiUsageService.swift). MiniMax and MiniMax CN share [`MiniMaxUsageService.swift`](../../Sources/Pulse/Providers/MiniMaxUsageService.swift). Two rings, two accounts, two keys — not a region switch inside one provider.
+
+## Profiled providers
+
+Each is one file under `Sources/Pulse/Providers/Profiled/`, with its reply shape, what it leaves out and why in its own notes page, and a user setup page under the same slug in [`../setup/`](../setup/). **Every one of these shapes is second-hand**, read from CodexBar's providers and tests (MIT) and not from a live account; each page says so, and a captured reply replaces the fixture when someone with an account can produce one.
+
+| `Provider` | Ring name | Credential | Money balance | Notes |
+|---|---|---|---|---|
+| `.clinePass` | ClinePass | pasted key |  | [clinepass.md](clinepass.md) |
+| `.alibabaCodingPlan` | Alibaba Coding Plan | pasted key |  | [alibaba-coding-plan.md](alibaba-coding-plan.md) |
+| `.alibabaTokenPlan` | Alibaba Token Plan | the tool's own login on this Mac |  | [alibaba-token-plan.md](alibaba-token-plan.md) |
+| `.qwenCloud` | Qwen Cloud | browser session |  | [qwen-cloud.md](qwen-cloud.md) |
+| `.factory` | Factory | pasted key |  | [factory.md](factory.md) |
+| `.gemini` | Gemini | the tool's own login on this Mac |  | [gemini.md](gemini.md) |
+| `.kiloCode` | Kilo Code | pasted key or the tool's own login | yes | [kilo-code.md](kilo-code.md) |
+| `.augment` | Augment Code | browser session |  | [augment.md](augment.md) |
+| `.jetBrainsAI` | JetBrains AI | the tool's own login on this Mac |  | [jetbrains-ai.md](jetbrains-ai.md) |
+| `.t3Chat` | T3 Chat | browser session |  | [t3-chat.md](t3-chat.md) |
+| `.synthetic` | Synthetic | pasted key |  | [synthetic.md](synthetic.md) |
+| `.elevenLabs` | ElevenLabs | pasted key |  | [elevenlabs.md](elevenlabs.md) |
+| `.warp` | Warp | pasted key |  | [warp.md](warp.md) |
+| `.windsurf` | Windsurf | browser storage (Chromium) |  | [windsurf.md](windsurf.md) |
+| `.bifrost` | Bifrost | key + your server address |  | [bifrost.md](bifrost.md) |
+| `.chutes` | Chutes | pasted key |  | [chutes.md](chutes.md) |
+| `.longCat` | LongCat | browser session |  | [longcat.md](longcat.md) |
+| `.zoomMate` | ZoomMate | browser session |  | [zoommate.md](zoommate.md) |
+| `.notionAI` | Notion AI | browser session |  | [notion-ai.md](notion-ai.md) |
+| `.ibmBob` | IBM Bob | pasted key |  | [ibm-bob.md](ibm-bob.md) |
+| `.nousPortal` | Nous Portal | the tool's own login on this Mac | yes | [nous-portal.md](nous-portal.md) |
+| `.raycastAI` | Raycast AI | browser session |  | [raycast-ai.md](raycast-ai.md) |
+| `.gitKraken` | GitKraken AI | pasted key |  | [gitkraken.md](gitkraken.md) |
+| `.xKiro` | xKiro | pasted key | yes | [xkiro.md](xkiro.md) |
+| `.abacus` | Abacus AI | browser session |  | [abacus.md](abacus.md) |
+| `.moonshot` | Moonshot | pasted key | yes | [moonshot.md](moonshot.md) |
+| `.hyper` | Hyper | pasted key |  | [hyper.md](hyper.md) |
+| `.atlasCloud` | Atlas Cloud | pasted key | yes | [atlas-cloud.md](atlas-cloud.md) |
+| `.poe` | Poe | pasted key |  | [poe.md](poe.md) |
+| `.venice` | Venice | pasted key | yes | [venice.md](venice.md) |
+| `.openAIPlatform` | OpenAI API | pasted key | yes | [openai-api.md](openai-api.md) |
+| `.amp` | Amp | pasted key | yes | [amp.md](amp.md) |
+| `.zed` | Zed | browser session |  | [zed.md](zed.md) |
+| `.sakana` | Sakana AI | browser session | yes | [sakana.md](sakana.md) |
+| `.mistral` | Mistral | browser session | yes | [mistral.md](mistral.md) |
+| `.codebuff` | Codebuff | pasted key or the tool's own login |  | [codebuff.md](codebuff.md) |
+| `.llmProxy` | LLM API Key Proxy | key + your server address |  | [llm-proxy.md](llm-proxy.md) |
+| `.liteLLM` | LiteLLM | key + your server address |  | [litellm.md](litellm.md) |
+| `.aixy` | Aixy | pasted key |  | [aixy.md](aixy.md) |
+| `.neuralwatt` | Neuralwatt | pasted key | yes | [neuralwatt.md](neuralwatt.md) |
+| `.clawRouter` | ClawRouter | pasted key |  | [clawrouter.md](clawrouter.md) |
+| `.zenMux` | ZenMux | pasted key | yes | [zenmux.md](zenmux.md) |
+| `.v0` | v0 | pasted key |  | [v0.md](v0.md) |
+| `.devPass` | DevPass | pasted key |  | [devpass.md](devpass.md) |
+| `.perplexity` | Perplexity | browser session | yes | [perplexity.md](perplexity.md) |
+| `.manus` | Manus | browser session |  | [manus.md](manus.md) |
+| `.huggingFace` | Hugging Face | pasted key or the tool's own login |  | [hugging-face.md](hugging-face.md) |
+| `.deepInfra` | DeepInfra | pasted key | yes | [deepinfra.md](deepinfra.md) |
+| `.xaiAPI` | xAI API | pasted key | yes | [xai-api.md](xai-api.md) |
+| `.replicate` | Replicate | browser session | yes | [replicate.md](replicate.md) |
+| `.typeSafe` | TypeSafe | browser session | yes | [typesafe.md](typesafe.md) |
+| `.vercelAIGateway` | Vercel AI Gateway | pasted key | yes | [vercel-ai-gateway.md](vercel-ai-gateway.md) |
+
+Left out, and why: Doubao, Kimi, MiMo, Ollama, z.ai and OpenCode are already here under other names; Azure OpenAI and AWS Bedrock cost money on every refresh (a real inference call; $0.01 per Cost Explorer call), and Muse mints an inference key to read its quota; Deepgram, CodeRabbit, Wayfinder and llmman report counts or health rather than an allowance or a balance; Pi and Vertex AI would be cost estimates from local logs; Fireworks, Groq and ai& report only spend, which Pulse has no place for yet; Helmcode needs a session cookie nobody has named and a site picker.
 
 ## Shared contracts
 

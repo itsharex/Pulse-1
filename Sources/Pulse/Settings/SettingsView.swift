@@ -1370,7 +1370,7 @@ struct SettingsView: View {
                  .moonshot, .hyper, .atlasCloud, .poe, .venice,
                  .openAIPlatform, .amp, .zed, .sakana, .mistral,
                  .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-                 .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+                 .clawRouter, .zenMux, .v0, .devPass,
                  .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
                  .replicate, .typeSafe, .vercelAIGateway:
                 guard case .sessionCookie(let profileHost, let cookies) = account.provider.profile?.credential

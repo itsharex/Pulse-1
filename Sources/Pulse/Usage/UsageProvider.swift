@@ -73,7 +73,6 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     case liteLLM
     case aixy
     case neuralwatt
-    case helmcode
     case clawRouter
     case zenMux
     case v0
@@ -196,7 +195,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         .moonshot, .hyper, .atlasCloud, .poe, .venice,
         .openAIPlatform, .amp, .zed, .sakana, .mistral,
         .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .clawRouter, .zenMux, .v0, .devPass,
         .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
         .replicate, .typeSafe, .vercelAIGateway:
             profile?.displayName ?? rawValue
@@ -267,7 +266,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         .moonshot, .hyper, .atlasCloud, .poe, .venice,
         .openAIPlatform, .amp, .zed, .sakana, .mistral,
         .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .clawRouter, .zenMux, .v0, .devPass,
         .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
         .replicate, .typeSafe, .vercelAIGateway:
             profile?.iconResource ?? "extension"
@@ -301,7 +300,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         .moonshot, .hyper, .atlasCloud, .poe, .venice,
         .openAIPlatform, .amp, .zed, .sakana, .mistral,
         .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .clawRouter, .zenMux, .v0, .devPass,
         .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
         .replicate, .typeSafe, .vercelAIGateway:
             false
@@ -327,7 +326,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         .moonshot, .hyper, .atlasCloud, .poe, .venice,
         .openAIPlatform, .amp, .zed, .sakana, .mistral,
         .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .clawRouter, .zenMux, .v0, .devPass,
         .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
         .replicate, .typeSafe, .vercelAIGateway:
             false
@@ -387,7 +386,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         .moonshot, .hyper, .atlasCloud, .poe, .venice,
         .openAIPlatform, .amp, .zed, .sakana, .mistral,
         .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .clawRouter, .zenMux, .v0, .devPass,
         .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
         .replicate, .typeSafe, .vercelAIGateway:
             false
@@ -444,7 +443,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         .moonshot, .hyper, .atlasCloud, .poe, .venice,
         .openAIPlatform, .amp, .zed, .sakana, .mistral,
         .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-        .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+        .clawRouter, .zenMux, .v0, .devPass,
         .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
         .replicate, .typeSafe, .vercelAIGateway:
             profile?.soleRoute?()

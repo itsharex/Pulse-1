@@ -173,7 +173,7 @@ extension Provider {
              .moonshot, .hyper, .atlasCloud, .poe, .venice,
              .openAIPlatform, .amp, .zed, .sakana, .mistral,
              .codebuff, .llmProxy, .liteLLM, .aixy, .neuralwatt,
-             .helmcode, .clawRouter, .zenMux, .v0, .devPass,
+             .clawRouter, .zenMux, .v0, .devPass,
              .perplexity, .manus, .huggingFace, .deepInfra, .xaiAPI,
              .replicate, .typeSafe, .vercelAIGateway:
             false

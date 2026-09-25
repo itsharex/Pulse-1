@@ -117,7 +117,7 @@ enum UsageSource: String, CaseIterable, Identifiable, Sendable {
              (_, .poe), (_, .venice), (_, .openAIPlatform), (_, .amp),
              (_, .zed), (_, .sakana), (_, .mistral), (_, .codebuff),
              (_, .llmProxy), (_, .liteLLM), (_, .aixy), (_, .neuralwatt),
-             (_, .helmcode), (_, .clawRouter), (_, .zenMux), (_, .v0),
+             (_, .clawRouter), (_, .zenMux), (_, .v0),
              (_, .devPass), (_, .perplexity), (_, .manus), (_, .huggingFace),
              (_, .deepInfra), (_, .xaiAPI), (_, .replicate), (_, .typeSafe),
              (_, .vercelAIGateway):

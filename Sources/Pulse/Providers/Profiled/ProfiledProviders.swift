@@ -46,7 +46,6 @@ extension Provider {
         case .liteLLM: .liteLLM
         case .aixy: .aixy
         case .neuralwatt: .neuralwatt
-        case .helmcode: .helmcode
         case .clawRouter: .clawRouter
         case .zenMux: .zenMux
         case .v0: .v0
