@@ -31,6 +31,18 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
     case v2ex
     case qoder
     case stepFun
+    /// **Not one provider: every program in the extensions folder.** Each
+    /// extension is an account of this one — `AccountKey(.pulseExtension,
+    /// slot: <the extension's id>)` — so the rail, the cache, the settings
+    /// panes and `--json` carry it the way they carry an added account,
+    /// without a case per program. There is never a primary account of it,
+    /// and it is left out of `builtIn`, which is what every list of "the
+    /// providers" means. See `PulseExtension` and Docs/extensions.md.
+    case pulseExtension = "extension"
+
+    /// The providers Pulse ships, which is what the chooser, the defaults and
+    /// every "each provider's first account" list are built from.
+    static let builtIn = allCases.filter { $0 != .pulseExtension }
 
     var id: String { rawValue }
 
@@ -118,6 +130,9 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         // Plan", but a ring named for the plan alone says nothing about whose
         // it is, and the company sells nothing else Pulse could mean.
         case .stepFun: "StepFun"
+        // What the type is called. Each extension's own name is its
+        // account's label, from its manifest; see `AppSettings.label(for:)`.
+        case .pulseExtension: "Extension"
         }
     }
 
@@ -173,6 +188,10 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         case .v2ex: "v2ex"
         case .qoder: "qoder"
         case .stepFun: "stepfun"
+        // One mark for every extension. A manifest's own icon is a later
+        // capability; until then the ring says "a program of yours", not
+        // which brand, and its name says the rest.
+        case .pulseExtension: "extension"
         }
     }
 
@@ -193,7 +212,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         case .kiro, .antigravity, .cursor, .openCodeGo, .kimiCode, .ollamaCloud,
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .grok, .grokBot,
              .volcengine, .commandCode, .deepSeek, .devin, .xiaomiMiMo, .sub2api,
-             .newAPI, .v2ex, .qoder, .stepFun: false
+             .newAPI, .v2ex, .qoder, .stepFun, .pulseExtension: false
         }
     }
 
@@ -207,7 +226,7 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         case .antigravity, .cursor, .openCodeGo, .kimiCode, .ollamaCloud,
              .minimax, .minimaxCN, .copilot, .grok, .grokBot, .volcengine,
              .commandCode, .deepSeek, .devin, .xiaomiMiMo,
-             .sub2api, .newAPI, .v2ex, .qoder, .stepFun: false
+             .sub2api, .newAPI, .v2ex, .qoder, .stepFun, .pulseExtension: false
         }
     }
 
@@ -254,7 +273,8 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         case .claudeCode, .codex, .volcengine, .devin: true
         case .kiro, .antigravity, .cursor, .openCodeGo, .kimiCode, .ollamaCloud,
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .grok, .grokBot,
-             .commandCode, .deepSeek, .xiaomiMiMo, .sub2api, .newAPI, .v2ex, .qoder, .stepFun: false
+             .commandCode, .deepSeek, .xiaomiMiMo, .sub2api, .newAPI, .v2ex, .qoder, .stepFun,
+             .pulseExtension: false
         }
     }
 
@@ -294,6 +314,9 @@ enum Provider: String, CaseIterable, Identifiable, Codable, Sendable {
         case .claudeCode, .codex, .openCodeGo, .kimiCode, .ollamaCloud,
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .volcengine,
              .commandCode, .deepSeek, .devin, .xiaomiMiMo, .sub2api, .newAPI, .v2ex, .qoder, .stepFun:
+            nil
+        // Stated on its own pane, which names the program instead.
+        case .pulseExtension:
             nil
         }
     }

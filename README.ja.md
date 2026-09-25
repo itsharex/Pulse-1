@@ -71,6 +71,7 @@ Pulse は画面の端にすっと収まる、控えめなフローティング�
 - **25 のプロバイダ**：Claude Code、Codex、Kiro、Antigravity、Cursor、GitHub Copilot、Grok、Grok Bot、OpenCode Go、Kimi Code、Ollama Cloud、z.ai、Zhipu、MiniMax（国際・中国本土）、Volcengine、Command Code、DeepSeek、Devin、Xiaomi Coding Plan、sub2api、New API、V2EX、Qoder、StepFun。
 - **スクリプト可**：`Pulse --json` が最後の読み取り値——プラン、すべての上限、リセット時刻、数字がどれだけ古いか——を出力します。tmux、sketchybar、Raycast、シェルプロンプトにどうぞ。キャッシュを読むだけなので、ポーリングのコストはかかりません。
 - **開発者向け連携**：設定から Raycast 拡張と、そのまま設定できる tmux・sketchybar・シェルのスクリプトを書き出せます。アカウントのリンクは該当ペインを直接開きます。[セットアップガイド](Docs/integrations.md)。
+- **拡張機能**：自作の小さなプログラムで、1 つのアカウントの使用量（社内のクォータ API など）を Pulse のリングに表示できます。フォークを保守する必要はありません。オンにするまでは実行されず、Pulse が認証情報を渡すこともありません。[作り方](Docs/extensions.md)（英語）。
 - **接続診断**：実際の読み取り元、キャッシュの利用、最新のチェックとフォールバックの結果を確認できます。状況に応じた操作で再接続・再ログイン・認証情報の修正ができ、アカウント情報やシークレットを含まない診断レポートをコピーできます。
 - **プライバシー第一**：Pulse はあなたの Mac 上で、あなた自身のログインのもとで動きます。接続先は三つだけで、ここに挙げたものがすべてです——すでに使っているプロバイダ、トークン消費ペインの公開モデル価格を取得する [models.dev](https://models.dev)、そしてアプリの更新を確認する GitHub/Sparkle。プロバイダへのリクエスト、サインイン時のトークン交換、models.dev は「設定」›「ネットワークと更新」で選んだプロキシを使い、手動プロキシは対応するヘルパープロセスにも渡されます。Sparkle のアップデート確認は常に macOS のシステムプロキシ設定に従います。
 

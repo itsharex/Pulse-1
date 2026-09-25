@@ -71,6 +71,7 @@ Pulse 是一個停靠在螢幕邊緣的小巧懸浮監視器。它顯示各服�
 - **二十五個服務商**：Claude Code、Codex、Kiro、Antigravity、Cursor、GitHub Copilot、Grok、Grok Bot、OpenCode Go、Kimi Code、Ollama Cloud、z.ai、Zhipu、MiniMax（國際與中國大陸）、Volcengine、Command Code、DeepSeek、Devin、小米 Coding Plan、sub2api、New API、V2EX、Qoder 與階躍星辰（StepFun）。
 - **可腳本化**：`Pulse --json` 印出最近一次讀數——方案、每一條額度、重設時間，以及數字有多舊——可接 tmux、sketchybar、Raycast 或 shell 提示字元。它只讀快取，所以高頻輪詢幾乎沒有成本。
 - **開發者整合**：在設定中匯出 Raycast 擴充功能，以及可直接設定的 tmux、sketchybar 與 shell 指令碼。帳號連結會直接開啟對應頁面。[設定指南](Docs/integrations.md)。
+- **擴充功能**：自己寫個小程式，就能讓 Pulse 顯示某個帳號的用量，例如公司內部的額度 API，不必再維護一份分支。開啟之前不會執行，Pulse 也不會交給它任何憑證。[撰寫說明](Docs/extensions.md)（英文）。
 - **連線診斷**：查看實際的讀取來源、快取使用情形、最近一次檢查與備援結果。情境化操作可協助重新連線、重新登入或修正憑證；可複製不含帳號資訊與金鑰的診斷報告。
 - **隱私優先**：Pulse 跑在你自己的 Mac 上，用你自己的登入狀態。它只發起三類連線，這裡列的就是全部——你原本就在使用的服務商、為 Token 用量支出頁取得公開模型價格的 [models.dev](https://models.dev)，以及檢查更新的 GitHub/Sparkle。服務商請求、登入時的權杖交換與 models.dev 會使用「設定 › 網路與重新整理」中選擇的代理，Pulse 也會把手動代理傳給支援的輔助程序。Sparkle 的更新檢查一律跟隨 macOS 系統代理設定。
 

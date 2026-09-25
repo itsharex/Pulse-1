@@ -162,6 +162,9 @@ extension Provider {
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .volcengine,
              .commandCode, .deepSeek, .devin, .xiaomiMiMo, .sub2api, .newAPI,
              .v2ex, .qoder, .stepFun: false
+        // One account per extension, and each is its own: a second one of the
+        // same program is a second folder, not a sign-in.
+        case .pulseExtension: false
         }
     }
 }

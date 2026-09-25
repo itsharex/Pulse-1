@@ -36,7 +36,10 @@ While Liquid Glass is on, the caption still says to drag the panel by a ring. Th
 | Application | **Notifications** | Warn at, when a limit comes back, when a reading stops arriving |
 | Application | **Network and refresh** | Check every; proxy |
 | Accounts | one per account | unchanged |
+| Extensions | **Manage extensions**, then one per extension found | The folder, **Look again**, what was found, and every folder that couldn't be used with the reason. An extension's own pane is an account pane plus an **Extension** group: program, time limit, id. [../extensions.md](../extensions.md) |
 | (untitled, last) | Developer integrations, About | unchanged |
+
+Extensions have a section of their own rather than rows among the accounts: they are programs somebody added, not services Pulse ships, and the sidebar says which is which before any pane is opened. A switched-off extension's pane shows its access description above **Show in panel**, like a disabled primary provider's; **Manage extensions** rescans the folder when it opens, which runs nothing.
 
 Panel and Application sit **above** the accounts, for the reason Token spend does: under twenty-odd provider rows they were below the fold, and they are what Settings is opened for. Integrations and About are rarely visited and stay below. The window opens on **Appearance**, the first row (`SettingsNavigation.pane`, and the `pulse://settings` link). Search matches a pane by its title **or** by any of its rows' titles (`SettingsPane.searchTerms`) — keep that list in step when a row moves or is added. Rows were moved verbatim; their own rules below still hold. [../networking.md](../networking.md)
 

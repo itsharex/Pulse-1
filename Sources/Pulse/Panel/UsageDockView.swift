@@ -942,7 +942,7 @@ struct DockBerthShape: Shape {
 
 #Preview("Dock") {
     UsageDockView(
-        entries: Provider.allCases.map {
+        entries: Provider.builtIn.map {
             RailEntry(
                 usage: .unavailable($0, reason: .loading),
                 headline: nil,

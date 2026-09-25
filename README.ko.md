@@ -71,6 +71,7 @@ Pulse는 화면 가장자리에 깔끔하게 자리 잡는, 눈에 띄지 않는
 - **스물다섯 개 제공업체**: Claude Code, Codex, Kiro, Antigravity, Cursor, GitHub Copilot, Grok, Grok Bot, OpenCode Go, Kimi Code, Ollama Cloud, z.ai, Zhipu, MiniMax(국제 및 중국 본토), Volcengine, Command Code, DeepSeek, Devin, Xiaomi Coding Plan, sub2api, New API, V2EX, Qoder, StepFun.
 - **스크립트 가능**: `Pulse --json`이 마지막으로 읽은 값——플랜, 모든 한도, 초기화 시각, 숫자가 얼마나 오래됐는지——을 출력합니다. tmux, sketchybar, Raycast, 셸 프롬프트에 쓰세요. 캐시만 읽으므로 폴링 비용이 들지 않습니다.
 - **개발자 통합**: 설정에서 Raycast 확장과 바로 설정할 수 있는 tmux, sketchybar, 셸 스크립트를 내보냅니다. 계정 링크는 해당 패널을 바로 엽니다. [설정 가이드](Docs/integrations.md).
+- **확장**: 직접 만든 작은 프로그램으로 계정 하나의 사용량(사내 할당량 API 등)을 Pulse 링에 표시할 수 있습니다. 포크를 따로 관리할 필요가 없습니다. 켜기 전에는 실행되지 않고, Pulse가 인증 정보를 넘기지도 않습니다. [만드는 방법](Docs/extensions.md)(영문).
 - **연결 진단**: 실제 읽기 출처, 캐시 사용, 최근 검사와 대체 결과를 확인합니다. 상황에 맞는 작업으로 다시 연결, 다시 로그인, 자격 증명 수정을 할 수 있고, 계정 정보나 비밀 없는 진단 보고서를 복사할 수 있습니다.
 - **개인정보 우선**: Pulse는 여러분의 Mac에서, 여러분 자신의 로그인으로 동작합니다. 연결하는 곳은 세 가지뿐이며 여기 적은 것이 전부입니다 — 이미 사용 중인 제공업체, 토큰 지출 패널의 공개 모델 가격을 가져오는 [models.dev](https://models.dev), 그리고 앱 업데이트를 확인하는 GitHub/Sparkle. 제공업체 요청, 로그인 토큰 교환, models.dev에는 설정 › 네트워크 및 새로 고침에서 선택한 프록시가 사용되며, 수동 프록시는 지원되는 도우미 프로세스에도 전달됩니다. Sparkle 업데이트 확인은 항상 macOS 시스템 프록시 설정을 따릅니다.
 

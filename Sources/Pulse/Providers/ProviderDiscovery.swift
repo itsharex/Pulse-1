@@ -48,6 +48,10 @@ extension Provider {
         case .kimiCode, .ollamaCloud, .zai, .minimax, .minimaxCN, .copilot,
              .volcengine, .deepSeek, .xiaomiMiMo, .sub2api, .newAPI, .v2ex:
             return []
+        // Found by its manifest in the extensions folder, not by anything
+        // installed. See `ExtensionCatalog`.
+        case .pulseExtension:
+            return []
         }
     }
 }

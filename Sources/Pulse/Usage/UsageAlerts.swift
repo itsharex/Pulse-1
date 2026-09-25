@@ -393,7 +393,10 @@ struct AlertMemory: Codable, Sendable, Equatable {
              .ollamaSessionExpired, .ollamaPageChanged, .xiaomiSessionExpired,
              .qoderSessionExpired, .stepFunSessionExpired,
              .unreachable, .unreadableReply, .rateLimited, .serverError,
-             .codexServerFailed:
+             .codexServerFailed,
+             // An extension that answered before and has stopped: the same
+             // news as any route going down.
+             .extensionTimedOut, .extensionFailed, .extensionSignedOut:
             .failure
 
         // The provider replied. "No limits on this plan" and "your Cursor plan
@@ -426,6 +429,9 @@ struct AlertMemory: Codable, Sendable, Equatable {
              .ollamaSessionMissing, .xiaomiSessionMissing, .qoderSessionMissing, .stepFunSessionMissing,
              .apiKeyMissing, .volcengineCLIMissing,
              .volcengineSignInRequired,
+             // A program taken out of its folder is a setup change somebody
+             // made, not an outage.
+             .extensionMissing,
              // An app that was never installed or never signed in, which is
              // the same standing as a CLI that is not there: true until
              // somebody does something, and not an outage to announce.

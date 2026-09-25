@@ -143,7 +143,7 @@ final class UsageStore {
     /// Picks up a key that was just entered, or one that changed.
     func loadAPIKeys() {
         apiKeys = Dictionary(
-            uniqueKeysWithValues: Provider.allCases
+            uniqueKeysWithValues: Provider.builtIn
                 .filter { $0.keepsOwnCredential && settings.isEnabled(AccountKey($0)) }
                 .compactMap { provider in APIKeyStore.key(for: provider).map { (provider, $0) } }
         )
@@ -152,7 +152,7 @@ final class UsageStore {
         // one that still has nothing to show should say which of the two it is
         // rather than going on claiming to be loading. Only a placeholder is
         // rewritten — a reading that has actually been taken is left alone.
-        for provider in Provider.allCases where provider.keepsOwnCredential {
+        for provider in Provider.builtIn where provider.keepsOwnCredential {
             let account = AccountKey(provider)
             guard case .unavailable(let reason) = usage[account.id]?.state,
                   [.loading, .apiKeyMissing, .ollamaSessionMissing, .apiKeyRefused,
@@ -458,7 +458,13 @@ final class UsageStore {
         // Added accounts stay on the loop's own cadence: every one of them is
         // an agent whose transcripts this Mac can see, so the signals are not
         // blind to any of them.
-        let extras = settings.shownAccounts.filter { !$0.isPrimary }
+        let extras = settings.shownAccounts.filter { !$0.isPrimary && $0.provider != .pulseExtension }
+        // Extensions are read side by side rather than in that queue: each is
+        // a program with its own time limit, and one taking all of it must not
+        // make every other extension wait behind it.
+        let extensionServices = settings.shownAccounts
+            .compactMap(settings.pulseExtension(for:))
+            .map(ExtensionUsageService.init(pulseExtension:))
 
         Task { [codex, kiro, claudeCode, antigravity, cursor, grok, grokBot] in
             // Independent, so they run side by side rather than one waiting on
@@ -617,6 +623,18 @@ final class UsageStore {
                 guard pass == self.currentPass else { return }
                 fetchedExtras.append((account.id, await UsageCache.shared.reconciled(raw), raw))
             }
+            let extensionReadings = await withTaskGroup(of: ProviderUsage.self) { group in
+                for service in extensionServices {
+                    group.addTask { await service.fetch() }
+                }
+                var readings: [ProviderUsage] = []
+                for await reading in group { readings.append(reading) }
+                return readings
+            }
+            guard pass == self.currentPass else { return }
+            for raw in extensionReadings {
+                fetchedExtras.append((raw.id, await UsageCache.shared.reconciled(raw), raw))
+            }
 
 
             // **A disowned pass writes nothing.** It was given up on, another
@@ -716,10 +734,16 @@ final class UsageStore {
             enteredKey: key, address: settings.serverAddress(for: account)
         )
         let v2ex = V2EXUsageService(enteredKey: key)
+        let extensionService = settings.pulseExtension(for: account).map(ExtensionUsageService.init(pulseExtension:))
 
         Task { [codex, claudeCode, antigravity, cursor, grok, grokBot] in
             let raw: ProviderUsage
-            if !account.isPrimary {
+            if account.provider == .pulseExtension {
+                // Gone from the folder since it was listed: say so rather
+                // than leave the ring on a reading from a program that is not
+                // there any more.
+                raw = await extensionService?.fetch() ?? .unavailable(account, reason: .extensionMissing)
+            } else if !account.isPrimary {
                 raw = await Self.fetchAdded(account, claudeCode: claudeCode, codex: codex, grok: grok, grokBot: grokBot)
             } else {
             switch provider {
@@ -769,6 +793,9 @@ final class UsageStore {
                 raw = await qoder.fetch()
             case .stepFun:
                 raw = await stepFun.fetch()
+            // Every extension is a slot of its own, answered above.
+            case .pulseExtension:
+                raw = .unavailable(account, reason: .extensionMissing)
             }
             }
 
@@ -842,7 +869,7 @@ final class UsageStore {
         case .kiro, .antigravity, .cursor, .openCodeGo, .kimiCode, .ollamaCloud,
              .zai, .glmCoding, .minimax, .minimaxCN, .copilot, .volcengine,
              .commandCode, .deepSeek, .devin, .xiaomiMiMo, .sub2api, .newAPI,
-             .v2ex, .qoder, .stepFun:
+             .v2ex, .qoder, .stepFun, .pulseExtension:
             .unavailable(account, reason: .loading)
         }
     }

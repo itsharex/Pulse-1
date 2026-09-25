@@ -19,6 +19,7 @@ Maintained map. Change the topic file that owns a behaviour in the same patch as
 | [testing.md](testing.md) | What `swift test` covers, fixtures, why the gaps are gaps |
 | [json-output.md](json-output.md) | The `--json` contract for status lines and scripts |
 | [integrations.md](integrations.md) | Raycast, tmux, sketchybar, shell prompt setup and account links |
+| [extensions.md](extensions.md) | The extension contract: folder, manifest, how a program is run, what it prints |
 | [build-from-source.md](build-from-source.md) | Toolchain, `swift build`, `#Preview`, local run |
 | [releasing.md](releasing.md) | Tag, bundle, Sparkle, DMG, CI |
 | [providers/README.md](providers/README.md) | Per-provider routes, auth, cookies, extra accounts |

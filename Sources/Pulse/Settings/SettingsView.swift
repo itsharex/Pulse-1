@@ -154,11 +154,23 @@ struct SettingsView: View {
                     }
                 }
 
-                if !matchingAccounts.isEmpty {
+                if !matchingProviderAccounts.isEmpty {
                     Section(String.localized("Accounts")) {
                         // Same order as the rail: a sidebar that disagreed with
                         // the thing it configures is its own small confusion.
-                        ForEach(matchingAccounts) { account in
+                        ForEach(matchingProviderAccounts) { account in
+                            row(.account(account))
+                        }
+                    }
+                }
+
+                // Apart from the accounts, as programs somebody added rather
+                // than services Pulse ships: the list says which is which
+                // before any pane is opened.
+                if matches(.extensions) || !matchingExtensionAccounts.isEmpty {
+                    Section(String.localized("Extensions")) {
+                        if matches(.extensions) { row(.extensions) }
+                        ForEach(matchingExtensionAccounts) { account in
                             row(.account(account))
                         }
                     }
@@ -218,7 +230,7 @@ struct SettingsView: View {
             )
             .overlay {
                 if isSearching, matchingAccounts.isEmpty,
-                   !(SettingsPane.panel + [.spend] + SettingsPane.application + SettingsPane.trailing).contains(where: matches) {
+                   !(SettingsPane.panel + [.spend, .extensions] + SettingsPane.application + SettingsPane.trailing).contains(where: matches) {
                     Text(localized: "No matches")
                         .font(.system(size: 12))
                         .foregroundStyle(.secondary)
@@ -279,6 +291,8 @@ struct SettingsView: View {
                             }
                         case .about: about
                         case .integrations: DeveloperIntegrationsView(settings: settings)
+                        case .extensions:
+                            ExtensionsSettingsView(settings: settings) { navigation.pane = .account($0) }
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -368,6 +382,14 @@ struct SettingsView: View {
         return settings.orderedAccounts.filter {
             matches(title(.account($0))) || matches($0.provider.displayName)
         }
+    }
+
+    private var matchingProviderAccounts: [AccountKey] {
+        matchingAccounts.filter { $0.provider != .pulseExtension }
+    }
+
+    private var matchingExtensionAccounts: [AccountKey] {
+        matchingAccounts.filter { $0.provider == .pulseExtension }
     }
 
     /// By the pane's name, or by the name of any setting on it: with the
@@ -1335,7 +1357,7 @@ struct SettingsView: View {
             case .claudeCode, .codex, .kiro, .antigravity, .cursor, .openCodeGo,
                  .kimiCode, .zai, .glmCoding, .minimax, .minimaxCN, .copilot,
                  .grok, .grokBot, .volcengine, .commandCode, .deepSeek, .devin,
-                 .sub2api, .newAPI, .v2ex:
+                 .sub2api, .newAPI, .v2ex, .pulseExtension:
                 // Not session-based: `readSession` sends those to
                 // `readBrowserStorage` before it gets here.
                 return
@@ -1428,7 +1450,9 @@ struct SettingsView: View {
 
     private func accountPaneBody(_ account: AccountKey, _ provider: Provider) -> some View {
         VStack(alignment: .leading, spacing: 22) {
-            if !settings.isEnabled(account), account.isPrimary {
+            // An extension is never a first account, and what it will do
+            // when switched on is exactly what somebody should read first.
+            if !settings.isEnabled(account), account.isPrimary || provider == .pulseExtension {
                 Text(provider.monitoringAccessDescription)
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -1615,6 +1639,10 @@ struct SettingsView: View {
                         .labelsHidden()
                     }
                 }
+            }
+
+            if let pulseExtension = settings.pulseExtension(for: account) {
+                ExtensionProgramGroup(pulseExtension: pulseExtension)
             }
 
             if !settings.needsProviderSelection {
@@ -3139,6 +3167,9 @@ enum SettingsPane: Hashable {
     case spend
     case about
     case integrations
+    /// Where extensions live and which were found. Each one found is an
+    /// `.account` of its own; this is the list.
+    case extensions
 
     /// The sidebar's fixed rows, section by section. `panel` and
     /// `application` sit above the accounts; `trailing` below them.
@@ -3162,6 +3193,7 @@ enum SettingsPane: Hashable {
         case .account(let account): account.provider.displayName
         case .about: .localized("About")
         case .integrations: .localized("Developer integrations")
+        case .extensions: .localized("Manage extensions")
         }
     }
 
@@ -3179,6 +3211,7 @@ enum SettingsPane: Hashable {
         case .account: "square.stack.3d.up"
         case .about: "info.circle"
         case .integrations: "terminal"
+        case .extensions: "puzzlepiece.extension"
         }
     }
 
@@ -3206,6 +3239,8 @@ enum SettingsPane: Hashable {
             [.localized("Warn at"), .localized("When a limit comes back"), .localized("When a reading stops arriving")]
         case .network:
             [.localized("Check every"), .localized("Proxy")]
+        case .extensions:
+            [.localized("Extensions"), .localized("Look again")]
         case .account, .spend, .about, .integrations:
             []
         }

@@ -70,6 +70,8 @@ Claude's desktop Keychain request and status-line offer run only after the prima
 
 Upgrades preserve the saved enabled account ids, including extra-account-only rails. A provider new to `settings.offeredProviders` is **suggested once**, and only if presence-only discovery found it; existing providers continue monitoring while that chooser is open. Dismissal keeps the existing set. Undetected new providers remain available in Settings. All current providers are stamped as offered during restoration, so a declined upgrade offer does not recur.
 
+**Extensions** are found by `ExtensionCatalog.scan` at launch, before the saved choice is restored, so an extension's account id counts as known and its switch survives; a folder that is gone takes the switch with it on the next launch. They are never in the chooser or in an upgrade offer — `Provider.builtIn` leaves the type out — and a new one starts off. [extensions.md](extensions.md)
+
 **Legacy 1.0.0:** it wrote an offered list but no enabled list until the user edited one. Only an **absent** enabled key is restored from that historical offered list. An explicit empty array, malformed value or unknown-only list goes to the chooser. There is no path that enables all current providers as a recovery strategy.
 
 ## Login item

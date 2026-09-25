@@ -186,6 +186,14 @@ struct UsageWindow: Identifiable, Equatable, Codable, Sendable {
 
     var nextExpiry: Expiry?
 
+    /// A name the reporter gave this limit, used in place of the one built
+    /// from `kind`.
+    ///
+    /// **Extensions only.** A built-in provider's limits are named by Pulse,
+    /// in the reader's language; an extension's are named by the program,
+    /// which knows what they are and Pulse does not. Never translated.
+    var label: String?
+
     /// Spelled out because the hand-written `init(from:)` below suppresses the
     /// synthesised one. Same order and same defaults as before.
     init(
@@ -198,7 +206,8 @@ struct UsageWindow: Identifiable, Equatable, Codable, Sendable {
         reportsLength: Bool = true,
         estimate: Estimate? = nil,
         isExhausted: Bool = false,
-        nextExpiry: Expiry? = nil
+        nextExpiry: Expiry? = nil,
+        label: String? = nil
     ) {
         self.id = id
         self.kind = kind
@@ -210,6 +219,7 @@ struct UsageWindow: Identifiable, Equatable, Codable, Sendable {
         self.estimate = estimate
         self.isExhausted = isExhausted
         self.nextExpiry = nextExpiry
+        self.label = label
     }
 
     /// Decoded by hand for one reason: `estimate` replaced a stored
@@ -233,6 +243,7 @@ struct UsageWindow: Identifiable, Equatable, Codable, Sendable {
         reportsLength = try container.decodeIfPresent(Bool.self, forKey: .reportsLength) ?? true
         isExhausted = try container.decodeIfPresent(Bool.self, forKey: .isExhausted) ?? false
         nextExpiry = try container.decodeIfPresent(Expiry.self, forKey: .nextExpiry)
+        label = try container.decodeIfPresent(String.self, forKey: .label)
 
         if let estimate = try container.decodeIfPresent(Estimate.self, forKey: .estimate) {
             self.estimate = estimate
@@ -258,11 +269,12 @@ struct UsageWindow: Identifiable, Equatable, Codable, Sendable {
         try container.encodeIfPresent(estimate, forKey: .estimate)
         try container.encode(isExhausted, forKey: .isExhausted)
         try container.encodeIfPresent(nextExpiry, forKey: .nextExpiry)
+        try container.encodeIfPresent(label, forKey: .label)
     }
 
     private enum CodingKeys: String, CodingKey {
         case id, kind, scope, usedFraction, windowSeconds, resetsAt
-        case reportsLength, isExhausted, estimate, nextExpiry
+        case reportsLength, isExhausted, estimate, nextExpiry, label
         /// Written by 1.0.9 and earlier. Read, never written.
         case isEstimated
     }
@@ -315,6 +327,7 @@ struct UsageWindow: Identifiable, Equatable, Codable, Sendable {
     }
 
     var name: String {
+        if let label { return label }
         let base: String = switch kind {
         case .fiveHour: .localized("5-hour limit")
         case .weekly: .localized("Weekly limit")
@@ -606,6 +619,16 @@ struct ProviderUsage: Identifiable, Equatable, Sendable {
         case unreadableReply
         case rateLimited
         case serverError
+        /// An extension's folder is still listed but its program is not there,
+        /// or can no longer be run.
+        case extensionMissing
+        /// An extension's program ran past its time limit and was stopped.
+        case extensionTimedOut
+        /// An extension's program finished with an error, or printed nothing.
+        case extensionFailed
+        /// An extension says its own login has expired. Its own, not one Pulse
+        /// holds, so the remedy is wherever that program keeps it.
+        case extensionSignedOut
 
         var message: String {
             switch self {
@@ -659,6 +682,10 @@ struct ProviderUsage: Identifiable, Equatable, Sendable {
             case .unreadableReply: .localized("Couldn't read the reply.")
             case .rateLimited: .localized("Checking too often — easing off.")
             case .serverError: .localized("The service returned an error.")
+            case .extensionMissing: .localized("This extension's program can't be run. Check its folder.")
+            case .extensionTimedOut: .localized("The extension didn't answer in time.")
+            case .extensionFailed: .localized("The extension stopped with an error.")
+            case .extensionSignedOut: .localized("The extension says its login has expired.")
             }
         }
     }

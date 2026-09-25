@@ -104,7 +104,7 @@ private struct ProviderSetupRow: View {
 #Preview {
     ProviderSetupView(
         settings: AppSettings(enabledAccounts: []),
-        providers: Provider.allCases, isInitial: true,
+        providers: Provider.builtIn, isInitial: true,
         finish: { _ in }, dismiss: {}
     )
 }

@@ -216,12 +216,46 @@ final class AppSettings {
     }
 
     /// Every account there is: each provider's first, plus whatever has been
-    /// added to the two that allow it. Declaration order, before the user's
-    /// own order is applied.
+    /// added to the two that allow it, plus one per extension found. Declaration
+    /// order, before the user's own order is applied.
     var allAccounts: [AccountKey] {
-        Provider.allCases.flatMap { provider in
+        Provider.builtIn.flatMap { provider in
             [AccountKey(provider)] + extraAccounts.filter { $0.provider == provider }.map(\.key)
-        }
+        } + extensions.map(\.account)
+    }
+
+    /// The extensions the last scan of the extensions folder found usable, and
+    /// the folders it turned away. Nothing here is fetched until its account
+    /// is switched on, which is `enabledAccounts`' job as for any provider.
+    ///
+    /// **Scanned at launch and when asked, not watched.** A program being
+    /// copied in is a half-written folder for a moment, and a watcher would
+    /// list it broken and then fixed. Settings has a button for "look again".
+    private(set) var extensions: [PulseExtension] = []
+    private(set) var extensionProblems: [ExtensionCatalog.Problem] = []
+
+    /// Reads the extensions folder again and, if that changed anything, tells
+    /// whoever draws the rail.
+    func rescanExtensions() {
+        apply(ExtensionCatalog.scan())
+    }
+
+    /// Separate from `rescanExtensions` so a test can hand in a scan without a
+    /// folder on disk.
+    func apply(_ scan: ExtensionCatalog.Scan) {
+        guard scan.extensions != extensions || scan.problems != extensionProblems else { return }
+        let changedAccounts = scan.extensions.map(\.account) != extensions.map(\.account)
+        extensions = scan.extensions
+        extensionProblems = scan.problems
+        // Before the change is announced, for the reason `extraAccounts` gives.
+        PanelMetrics.makeRoom(for: railSlotCount)
+        if changedAccounts { onChange?() }
+    }
+
+    /// The extension behind an account, if it is one and it is still there.
+    func pulseExtension(for account: AccountKey) -> PulseExtension? {
+        guard account.provider == .pulseExtension else { return nil }
+        return extensions.first { $0.account == account }
     }
 
     /// Every account, in the user's order.
@@ -327,7 +361,12 @@ final class AppSettings {
     /// What to call an account. A provider's first one is just the provider;
     /// the rest carry a label so two subscriptions can be told apart.
     func label(for account: AccountKey) -> String {
-        extraAccounts.first { $0.key == account }?.label ?? account.provider.displayName
+        // The manifest's name. A removed extension's account is gone from
+        // every list, so the fallback is only ever read in passing.
+        if account.provider == .pulseExtension {
+            return pulseExtension(for: account)?.name ?? account.slot
+        }
+        return extraAccounts.first { $0.key == account }?.label ?? account.provider.displayName
     }
 
     /// Which accounts appear in the rail. Empty only until the initial choice
@@ -999,7 +1038,7 @@ final class AppSettings {
         stepFunSite: StepFunSite = .china,
         serverAddresses: [String: String] = [:],
         lowBalanceAlerts: [String: Double] = [:],
-        enabledAccounts: Set<String> = Set(Provider.allCases.map(\.rawValue)),
+        enabledAccounts: Set<String> = Set(Provider.builtIn.map(\.rawValue)),
         extraAccounts: [ExtraAccount] = [],
         providerOrder: [String] = [],
         language: AppLanguage = .system,
@@ -1272,9 +1311,12 @@ final class AppSettings {
 
         let extras = defaults.data(forKey: Key.extraAccounts)
             .flatMap { try? JSONDecoder().decode([ExtraAccount].self, from: $0) } ?? []
-        let known = Provider.allCases.flatMap { provider in
+        // Scanned here too: the folder is the only record of which extensions
+        // exist, and a manifest is a small file. Nothing is run.
+        let found = ExtensionCatalog.scan().extensions
+        let known = Provider.builtIn.flatMap { provider in
             [AccountKey(provider)] + extras.filter { $0.provider == provider }.map(\.key)
-        }
+        } + found.map(\.account)
 
         let enabled = Set(defaults.stringArray(forKey: ProviderSelection.enabledKey) ?? [])
         // Same resolution as `orderedAccounts`: stored order first, then
@@ -1292,7 +1334,10 @@ final class AppSettings {
             // command a status line runs every couple of seconds. Everywhere
             // else in the app tolerates duplicates (`label(for:)` takes the
             // first), so crashing here would be the only place that doesn't.
-            labels: Dictionary(extras.map { ($0.id, $0.label) }, uniquingKeysWith: { first, _ in first }),
+            labels: Dictionary(
+                extras.map { ($0.id, $0.label) } + found.map { ($0.account.id, $0.name) },
+                uniquingKeysWith: { first, _ in first }
+            ),
             pinnedWindows: defaults.dictionary(forKey: Key.pinnedWindows) as? [String: String] ?? [:]
         )
     }
@@ -1305,9 +1350,15 @@ final class AppSettings {
         let extras = (defaults.data(forKey: Key.extraAccounts))
             .flatMap { try? JSONDecoder().decode([ExtraAccount].self, from: $0) } ?? []
         let detected = Provider.installedOnThisMac()
+        // Before the stored choice is restored, which keeps only accounts it
+        // knows: an extension missing from this list would lose its switch on
+        // every launch.
+        let scan = ExtensionCatalog.scan()
         let selection = ProviderSelection.restore(
             in: defaults,
-            knownAccounts: Set(Provider.allCases.map(\.rawValue)).union(extras.map(\.id)),
+            knownAccounts: Set(Provider.builtIn.map(\.rawValue))
+                .union(extras.map(\.id))
+                .union(scan.extensions.map(\.account.id)),
             detected: detected
         )
 
@@ -1378,6 +1429,8 @@ final class AppSettings {
         )
         settings.detectedProviders = detected
         settings.suggestedProviders = selection.suggestedProviders
+        settings.extensions = scan.extensions
+        settings.extensionProblems = scan.problems
         settings.applyLanguage()
         NetworkSession.apply(settings.networkProxy)
         PanelMetrics.use(settings.panelSize)

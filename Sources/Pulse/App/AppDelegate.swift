@@ -83,7 +83,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         updateMenuBarItem()
 
         if settings.needsProviderSelection {
-            showProviderSelection(providers: Set(Provider.allCases), isInitial: true)
+            showProviderSelection(providers: Set(Provider.builtIn), isInitial: true)
         } else {
             startMonitoring()
             if !settings.suggestedProviders.isEmpty {
@@ -267,7 +267,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc private func chooseServices() {
         providerSetupWindow?.close()
-        showProviderSelection(providers: Set(Provider.allCases), isInitial: true)
+        showProviderSelection(providers: Set(Provider.builtIn), isInitial: true)
     }
 
     @objc private func openSettingsFromMenu() {

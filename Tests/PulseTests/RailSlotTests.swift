@@ -51,7 +51,7 @@ struct RailSlotTests {
 
         #expect(names == names.sorted { $0.localizedStandardCompare($1) == .orderedAscending })
         #expect(names.first == "Antigravity")
-        #expect(names.count == Provider.allCases.count)
+        #expect(names.count == Provider.builtIn.count)
     }
 
     /// An arrangement somebody made is theirs, and is not to be re-sorted

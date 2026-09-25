@@ -106,7 +106,7 @@ enum UsageSource: String, CaseIterable, Identifiable, Sendable {
             .localized("Use the endpoint when possible, the other route when not.")
         case (_, .openCodeGo), (_, .kimiCode), (_, .zai), (_, .glmCoding),
              (_, .minimax), (_, .minimaxCN), (_, .copilot), (_, .commandCode), (_, .deepSeek),
-             (_, .sub2api), (_, .newAPI), (_, .v2ex):
+             (_, .sub2api), (_, .newAPI), (_, .v2ex), (_, .pulseExtension):
             // Never shown either — one route, and it needs a key.
             .localized("Uses the key you entered.")
         case (.endpoint, .devin):
@@ -337,7 +337,7 @@ enum PanelMetrics {
     /// is worked out from it before SwiftUI lays anything out — and getting it
     /// wrong slices the end off the rail, which is exactly what happened the
     /// first time a seventh account existed.
-    nonisolated(unsafe) private static var storedCapacity = Provider.allCases.count
+    nonisolated(unsafe) private static var storedCapacity = Provider.builtIn.count
 
     static var scale: CGFloat { lock.withLock { stored } }
     static var spacing: CGFloat { lock.withLock { storedSpacing } }
