@@ -789,3 +789,6 @@
 
 /* DevPass */
 "An API key from llmgateway.io. Stored encrypted on this Mac." = "在 llmgateway.io 生成的 API key。加密保存在本机。";
+
+/* DeepInfra */
+"From deepinfra.com. Stored encrypted on this Mac." = "在 deepinfra.com 获取。加密保存在本机。";
