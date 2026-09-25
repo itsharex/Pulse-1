@@ -777,3 +777,6 @@
 
 /* Neuralwatt */
 "From portal.neuralwatt.com. Stored encrypted on this Mac." = "portal.neuralwatt.com で取得します。この Mac に暗号化して保存されます。";
+
+/* ClawRouter */
+"From clawrouter.openclaw.ai. Stored encrypted on this Mac." = "clawrouter.openclaw.ai で取得します。この Mac に暗号化して保存されます。";

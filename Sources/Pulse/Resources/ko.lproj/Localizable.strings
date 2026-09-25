@@ -777,3 +777,6 @@
 
 /* Neuralwatt */
 "From portal.neuralwatt.com. Stored encrypted on this Mac." = "portal.neuralwatt.com에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+
+/* ClawRouter */
+"From clawrouter.openclaw.ai. Stored encrypted on this Mac." = "clawrouter.openclaw.ai에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
