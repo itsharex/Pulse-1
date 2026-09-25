@@ -737,3 +737,8 @@
 "Browser session" = "Browser session";
 /* OpenAI API */
 "From platform.openai.com. Stored encrypted on this Mac." = "From platform.openai.com. Stored encrypted on this Mac.";
+
+/* JetBrains AI */
+"As current as the IDE last left it." = "As current as the IDE last left it.";
+"Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere." = "Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere.";
+"The quota your JetBrains IDE saved" = "The quota your JetBrains IDE saved";

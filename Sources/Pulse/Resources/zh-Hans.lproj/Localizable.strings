@@ -737,3 +737,8 @@
 "Browser session" = "浏览器登录信息";
 /* OpenAI API */
 "From platform.openai.com. Stored encrypted on this Mac." = "在 platform.openai.com 获取。加密保存在本机。";
+
+/* JetBrains AI */
+"As current as the IDE last left it." = "以 IDE 最后一次写入的内容为准。";
+"Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere." = "读取 JetBrains IDE 在本机保存的 AI Assistant 用量额度。不向任何地方发送数据。";
+"The quota your JetBrains IDE saved" = "JetBrains IDE 保存的用量额度";
