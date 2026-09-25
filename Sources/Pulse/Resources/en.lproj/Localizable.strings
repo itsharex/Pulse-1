@@ -727,3 +727,5 @@
 "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac.";
 
 /* Mistral */
+/* Factory */
+"From app.factory.ai. Stored encrypted on this Mac." = "From app.factory.ai. Stored encrypted on this Mac.";

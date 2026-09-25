@@ -727,3 +727,5 @@
 "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "app.kilo.ai에서 발급받습니다. 비워 두어도 되며, 그러면 Kilo CLI가 저장한 로그인을 Pulse가 씁니다. 이 Mac에 암호화되어 저장됩니다.";
 
 /* Mistral */
+/* Factory */
+"From app.factory.ai. Stored encrypted on this Mac." = "app.factory.ai에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";

@@ -727,3 +727,5 @@
 "From app.kilo.ai. Optional — Pulse can use the login the Kilo CLI saved. Stored encrypted on this Mac." = "在 app.kilo.ai 获取。可不填——Pulse 能用 Kilo CLI 已保存的登录。加密保存在本机。";
 
 /* Mistral */
+/* Factory */
+"From app.factory.ai. Stored encrypted on this Mac." = "在 app.factory.ai 获取。加密保存在本机。";
