@@ -797,3 +797,8 @@
 "An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "vercel.com で発行した AI Gateway の API キーです。この Mac に暗号化して保存されます。";
 /* Alibaba Coding Plan */
 "From the Coding Plan page in Model Studio. Stored encrypted on this Mac." = "Model Studio の Coding Plan ページで取得します。この Mac に暗号化して保存されます。";
+
+/* Alibaba Token Plan */
+"Bailian CLI" = "Bailian CLI";
+"Runs the Bailian CLI (bl) with its saved login. Pulse does not read or store its credentials." = "保存済みのログインで Bailian CLI（bl）を実行します。Pulse はその認証情報を読み取りも保存もしません。";
+"Uses the login the Bailian CLI already saved." = "Bailian CLI が既に保存しているログインを使います。";

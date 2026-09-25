@@ -797,3 +797,8 @@
 "An AI Gateway API key from vercel.com. Stored encrypted on this Mac." = "在 vercel.com 產生的 AI Gateway API 金鑰。加密儲存在本機。";
 /* Alibaba Coding Plan */
 "From the Coding Plan page in Model Studio. Stored encrypted on this Mac." = "在百鍊（Model Studio）的 Coding Plan 頁面取得。加密儲存在本機。";
+
+/* Alibaba Token Plan */
+"Bailian CLI" = "百鍊 CLI";
+"Runs the Bailian CLI (bl) with its saved login. Pulse does not read or store its credentials." = "啟動百鍊 CLI（bl），使用它已儲存的登入。Pulse 不讀取或儲存其憑證。";
+"Uses the login the Bailian CLI already saved." = "使用百鍊 CLI 已經存下的登入。";
