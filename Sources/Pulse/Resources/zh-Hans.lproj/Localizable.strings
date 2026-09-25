@@ -714,3 +714,6 @@
 
 /* ClinePass */
 "From app.cline.bot. Stored encrypted on this Mac." = "在 app.cline.bot 获取。加密保存在本机。";
+
+/* Amp */
+"From ampcode.com/settings. Stored encrypted on this Mac." = "在 ampcode.com/settings 获取。加密保存在本机。";

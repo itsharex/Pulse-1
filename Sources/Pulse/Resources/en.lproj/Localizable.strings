@@ -714,3 +714,6 @@
 
 /* ClinePass */
 "From app.cline.bot. Stored encrypted on this Mac." = "From app.cline.bot. Stored encrypted on this Mac.";
+
+/* Amp */
+"From ampcode.com/settings. Stored encrypted on this Mac." = "From ampcode.com/settings. Stored encrypted on this Mac.";
