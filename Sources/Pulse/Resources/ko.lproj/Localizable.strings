@@ -748,3 +748,5 @@
 
 /* IBM Bob */
 "From bob.ibm.com. Stored encrypted on this Mac." = "bob.ibm.com에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+/* Synthetic */
+"From synthetic.new. Stored encrypted on this Mac." = "synthetic.new에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";

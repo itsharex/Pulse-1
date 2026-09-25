@@ -748,3 +748,5 @@
 
 /* IBM Bob */
 "From bob.ibm.com. Stored encrypted on this Mac." = "From bob.ibm.com. Stored encrypted on this Mac.";
+/* Synthetic */
+"From synthetic.new. Stored encrypted on this Mac." = "From synthetic.new. Stored encrypted on this Mac.";
