@@ -296,17 +296,31 @@ final class AppSettings {
         return left.localizedStandardCompare(right) == .orderedAscending
     }
 
-    /// Moves an account one place up or down. Silently does nothing at the
-    /// ends, so the buttons can simply be disabled there.
+    /// Moves an account one place up or down **among the shown ones**.
+    /// Silently does nothing at the ends, so the buttons can simply be
+    /// disabled there.
+    ///
+    /// Among the shown ones because that is the only list the Order group
+    /// draws: with seventy-odd providers, listing the switched-off ones made
+    /// it a list of things that are not on the rail. A move that stepped over
+    /// one of those would change nothing anybody can see.
     func move(_ account: AccountKey, by offset: Int) {
-        var order = orderedAccounts
+        var shown = shownAccounts
         guard
-            let from = order.firstIndex(of: account),
-            order.indices.contains(from + offset)
+            let from = shown.firstIndex(of: account),
+            shown.indices.contains(from + offset)
         else { return }
 
-        order.swapAt(from, from + offset)
-        providerOrder = order.map(\.id)
+        shown.swapAt(from, from + offset)
+        store(shownOrder: shown)
+    }
+
+    /// The shown accounts in the order given, then everything else in the
+    /// order it already had. What is switched off keeps its place relative to
+    /// its own kind, and comes back at the end of the rail when it is switched
+    /// on again.
+    private func store(shownOrder shown: [AccountKey]) {
+        providerOrder = (shown + orderedAccounts.filter { !shown.contains($0) }).map(\.id)
     }
 
     /// Whether the rail is in an order somebody chose, rather than the one it
@@ -347,15 +361,15 @@ final class AppSettings {
     func move(_ account: AccountKey, onto target: AccountKey) {
         guard account != target else { return }
 
-        var order = orderedAccounts
+        var shown = shownAccounts
         guard
-            let from = order.firstIndex(of: account),
-            let to = order.firstIndex(of: target)
+            let from = shown.firstIndex(of: account),
+            let to = shown.firstIndex(of: target)
         else { return }
 
-        order.remove(at: from)
-        order.insert(account, at: min(to, order.count))
-        providerOrder = order.map(\.id)
+        shown.remove(at: from)
+        shown.insert(account, at: min(to, shown.count))
+        store(shownOrder: shown)
     }
 
     /// What to call an account. A provider's first one is just the provider;

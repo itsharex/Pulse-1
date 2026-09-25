@@ -829,15 +829,16 @@ struct SettingsView: View {
                 // precise way to move one place, they are the only way that
                 // works from the keyboard, and they carry the accessibility
                 // labels — drag and drop has none to give.
-                ForEach(Array(settings.orderedAccounts.enumerated()), id: \.element) { index, account in
+                //
+                // **Only what the rail draws.** Every switched-off provider
+                // used to be listed too, marked "Not shown", which with
+                // seventy-odd of them buried the few rings being arranged.
+                // Something switched on later arrives at the end.
+                ForEach(Array(settings.shownAccounts.enumerated()), id: \.element) { index, account in
                     if index > 0 { SettingsRowDivider() }
 
                     SettingsRow(
                         settings.label(for: account),
-                        // Moving something the rail isn't drawing looks like
-                        // the arrow did nothing; saying so is kinder than
-                        // hiding the row and renumbering everything.
-                        subtitle: settings.isEnabled(account) ? nil : String.localized("Not shown"),
                         icon: account.provider.iconResource
                     ) {
                         HStack(spacing: 4) {
@@ -854,7 +855,7 @@ struct SettingsView: View {
                             } label: {
                                 Image(systemName: "chevron.down")
                             }
-                            .disabled(index == settings.orderedAccounts.count - 1)
+                            .disabled(index == settings.shownAccounts.count - 1)
                             .accessibilityLabel(String.localized("Move \(settings.label(for: account)) down"))
                         }
                         .buttonStyle(.borderless)
@@ -879,7 +880,7 @@ struct SettingsView: View {
                     .dropDestination(for: String.self) { ids, _ in
                         dropTarget = nil
                         guard let dragged = ids.first.flatMap(AccountKey.init(id:)),
-                              settings.orderedAccounts.contains(dragged)
+                              settings.shownAccounts.contains(dragged)
                         else { return false }
 
                         settings.move(dragged, onto: account)
