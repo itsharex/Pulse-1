@@ -742,3 +742,6 @@
 "As current as the IDE last left it." = "As current as the IDE last left it.";
 "Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere." = "Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere.";
 "The quota your JetBrains IDE saved" = "The quota your JetBrains IDE saved";
+
+/* Warp */
+"From Warp's settings, under API Keys. Stored encrypted on this Mac." = "From Warp's settings, under API Keys. Stored encrypted on this Mac.";

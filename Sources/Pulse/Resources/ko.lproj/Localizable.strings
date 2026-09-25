@@ -742,3 +742,6 @@
 "As current as the IDE last left it." = "IDE가 마지막으로 기록한 시점의 정보입니다.";
 "Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere." = "JetBrains IDE가 이 Mac에 저장해 둔 AI Assistant 사용량 한도를 읽습니다. 어디로도 전송하지 않습니다.";
 "The quota your JetBrains IDE saved" = "JetBrains IDE가 저장한 사용량 한도";
+
+/* Warp */
+"From Warp's settings, under API Keys. Stored encrypted on this Mac." = "Warp 설정의 API Keys에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";

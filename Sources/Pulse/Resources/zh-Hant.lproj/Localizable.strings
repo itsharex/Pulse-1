@@ -742,3 +742,6 @@
 "As current as the IDE last left it." = "以 IDE 最後一次寫入的內容為準。";
 "Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere." = "讀取 JetBrains IDE 在本機儲存的 AI Assistant 用量額度。不會傳送資料到任何地方。";
 "The quota your JetBrains IDE saved" = "JetBrains IDE 儲存的用量額度";
+
+/* Warp */
+"From Warp's settings, under API Keys. Stored encrypted on this Mac." = "在 Warp 設定的 API Keys 中取得。加密儲存在本機。";

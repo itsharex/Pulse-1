@@ -742,3 +742,6 @@
 "As current as the IDE last left it." = "IDE が最後に書き込んだ時点の内容です。";
 "Reads the AI Assistant quota your JetBrains IDE saves on this Mac. Nothing is sent anywhere." = "JetBrains IDE がこの Mac に保存している AI Assistant の利用枠を読み取ります。どこにも送信しません。";
 "The quota your JetBrains IDE saved" = "JetBrains IDE が保存した利用枠";
+
+/* Warp */
+"From Warp's settings, under API Keys. Stored encrypted on this Mac." = "Warp の設定の「API Keys」で取得します。この Mac に暗号化して保存されます。";
