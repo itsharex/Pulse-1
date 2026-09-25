@@ -813,3 +813,7 @@
 
 /* Moonshot */
 "From the Kimi Open Platform console, international or China. Stored encrypted on this Mac." = "在 Kimi 开放平台控制台（国际站或中国站）获取。加密保存在本机。";
+
+/* Codebuff */
+"Uses a key entered in Settings, or reads the login the codebuff CLI saved in ~/.config/manicode. No Keychain prompt." = "使用在设置里填入的 key，或读取 codebuff CLI 保存在 ~/.config/manicode 里的登录信息。不弹钥匙串。";
+"From codebuff.com. Optional — Pulse can use the login the codebuff CLI saved. Stored encrypted on this Mac." = "在 codebuff.com 获取。可不填——Pulse 能用 codebuff CLI 已保存的登录。加密保存在本机。";
