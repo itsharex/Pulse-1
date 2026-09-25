@@ -717,3 +717,7 @@
 
 /* Amp */
 "From ampcode.com/settings. Stored encrypted on this Mac." = "ampcode.com/settings에서 발급받습니다. 이 Mac에 암호화되어 저장됩니다.";
+/* Gemini */
+"Reads the login saved in ~/.gemini/oauth_creds.json. No Keychain prompt." = "~/.gemini/oauth_creds.json에 저장된 로그인을 읽습니다. 키체인 확인 창은 표시되지 않습니다.";
+"Gemini CLI's own login" = "Gemini CLI 자체 로그인";
+"Uses the login Gemini CLI already saved. Using Gemini CLI renews it." = "Gemini CLI가 이미 저장해 둔 로그인을 씁니다. Gemini CLI를 사용하면 갱신됩니다.";
